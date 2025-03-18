@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,12 +9,7 @@ import {
 } from "@/components/ui/card";
 import { DashboardItem } from "@/components/DashboardItem";
 
-export const metadata: Metadata = {
-  title: "Dashboard - Math Olympiad 2025",
-  description: "Manage your Math Olympiad 2025 registrations",
-};
-
-export default function DashboardPage() {
+export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>

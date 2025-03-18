@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import type React from "react";
@@ -6,6 +7,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { setCookie, deleteCookie, getCookie } from "cookies-next";
 import api from "@/config/axiosConfig";
+import { useLayout } from "@/hooks/zustand/layout";
 
 type User = {
   id: string;
@@ -32,8 +34,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const { setIsSuccess, setError } = useLayout();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+
+  const token = getCookie("_CToken");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
 
   const getMe = async () => {
     const token = getCookie("CBO_Token");
@@ -66,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           });
         }
       } catch (error) {
-        console.log(error);
+        console.log("errir", error);
       }
     }
     setIsLoading(false);
@@ -84,35 +92,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         password,
       });
       setCookie("CBO_Token", res.data.data.token, { maxAge: 60 * 60 * 24 * 1 });
-      if (res.data.data.user.type === "Admin") {
-        setUser({
-          id: res.data.data.user.id,
-          name: res.data.data.user.name,
-          email: res.data.data.user.email,
-          phone: res.data.data.user.phone,
-          type: res.data.data.user.type,
-          regionId: res.data.data.user.region.id,
-        });
-      } else {
-        setUser({
-          id: res.data.data.id,
-          name: res.data.data.name,
-          email: res.data.data.email,
-          phone: res.data.data.phone,
-          type: res.data.data.type,
-          regionId: res.data.data.user.region.id,
-          schoolName: res.data.data.user.school.name,
-          schoolId: res.data.data.user.school.id,
-          degreeId: res.data.data.user.school.degree.id,
-          degreeName: res.data.data.user.school.degree.name,
-          registerPrice: res.data.data.user.school.degree.register_price,
-        });
-      }
+      setIsSuccess(true, "Login berhasil");
 
       // Redirect to dashboard
       router.push("/dashboard");
-    } catch (error) {
-      console.error("Login failed:", error);
+    } catch (error: any) {
+      console.log("ini", error);
+
+      if (error.response.data.status_code === 404) {
+        setError(true, "Akun tidak ditemukan");
+      }
+      if (error.response.data.status_code === 422) {
+        setError(true, "Akun tidak ditemukan");
+        setError(true, "Password salah");
+      }
+
       throw error;
     } finally {
       setIsLoading(false);

@@ -60,7 +60,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          <p>© 2025 Math Olympiad. All rights reserved.</p>
+          <p>© 2025 Olmat Uinsa created by <Link href={'https://mcrama.vercel.app/'} target="_blank" >Mc Rama</Link>. All rights reserved.</p>
         </div>
       </div>
     </footer>

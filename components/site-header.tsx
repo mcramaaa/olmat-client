@@ -1,12 +1,15 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useState } from "react"
-import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/routes/router";
+import { useAuth } from "@/lib/auth";
 
 export function SiteHeader() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white">
@@ -16,7 +19,10 @@ export function SiteHeader() {
         </Link>
 
         {/* Mobile menu button */}
-        <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button
+          className="md:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
           {isMenuOpen ? <X /> : <Menu />}
         </button>
 
@@ -31,8 +37,16 @@ export function SiteHeader() {
           <Link href="/contact" className="text-sm font-medium hover:underline">
             Contact
           </Link>
-          <Button asChild variant="default" className="bg-[#0f172a] hover:bg-[#1e293b]">
-            <Link href="/login">Login</Link>
+          <Button
+            asChild
+            variant="default"
+            className="bg-[#0f172a] hover:bg-[#1e293b]"
+          >
+            {user ? (
+              <Link href={ROUTES.DASHBOARD.DEFAULT}>Dashboard</Link>
+            ) : (
+              <Link href={ROUTES.LOGIN}>Login</Link>
+            )}
           </Button>
         </nav>
 
@@ -40,10 +54,18 @@ export function SiteHeader() {
         {isMenuOpen && (
           <div className="absolute top-16 left-0 right-0 bg-white border-b md:hidden">
             <nav className="flex flex-col p-4 space-y-3">
-              <Link href="/" className="text-sm font-medium hover:underline" onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href="/"
+                className="text-sm font-medium hover:underline"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Home
               </Link>
-              <Link href="/about" className="text-sm font-medium hover:underline" onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href="/about"
+                className="text-sm font-medium hover:underline"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 About
               </Link>
               <Link
@@ -66,6 +88,5 @@ export function SiteHeader() {
         )}
       </div>
     </header>
-  )
+  );
 }
-

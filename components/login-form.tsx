@@ -18,7 +18,6 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/lib/auth";
-import { useLayout } from "@/hooks/zustand/layout";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -32,7 +31,6 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const { login } = useAuth();
-  const { setIsSuccess, setError } = useLayout();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginFormValues>({
@@ -49,19 +47,8 @@ export function LoginForm() {
 
     try {
       await login(data.email, data.password);
-      setIsSuccess(true, "Login successful");
-      // toast({
-      //   title: "Login successful",
-      //   description: "You have been logged in successfully.",
-      // });
     } catch (error) {
-      console.log(error);
-      setError(true, "Login failed");
-      // toast({
-      //   title: "Login failed",
-      //   description: "Please check your credentials and try again.",
-      //   variant: "destructive",
-      // });
+      throw error;
     } finally {
       setIsLoading(false);
     }

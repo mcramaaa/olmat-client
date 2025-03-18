@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Card,
@@ -9,8 +11,13 @@ import {
 import { CreditCard, UserCheck, Users } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { useAuth } from "@/lib/auth";
+import { ROUTES } from "@/routes/router";
+// import api from "@/config/axiosConfig";
 
 export function DashboardItem() {
+  const { user } = useAuth();
+
   return (
     <div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -20,12 +27,12 @@ export function DashboardItem() {
             <UserCheck className="w-5 h-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">Nama</div>
-            <p className="text-sm text-muted-foreground">SMA Nama Sekolah</p>
+            <div className="text-3xl font-bold">{user?.name}</div>
+            <p className="text-sm text-muted-foreground">{user?.schoolName}</p>
           </CardContent>
           <CardFooter>
-            <Button asChild className="w-full">
-              <Link href="/participants/register">Register More</Link>
+            <Button asChild className="w-full" variant={"outline"}>
+              <Link href={ROUTES.DASHBOARD.ACCOUNT}>Kelola Akun</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -39,7 +46,7 @@ export function DashboardItem() {
           <CardContent>
             <div className="text-3xl font-bold">5</div>
             <p className="text-xs text-muted-foreground">
-              Out of 11 maximum participants
+              Out of 11 maximum participants sek
             </p>
           </CardContent>
           <CardFooter>

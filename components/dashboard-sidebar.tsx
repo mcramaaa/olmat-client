@@ -60,10 +60,25 @@ export function DashboardSidebar({
   const sidebarContent = (
     <div className="flex flex-col h-full">
       <div className="px-3 py-4">
-        <div className="flex items-center px-2 mb-8">
-          <Link href="/" className="flex items-center">
+        <div className="flex items-center px-2">
+          {/* <Link href="/" className="flex items-center">
             <span className="text-xl font-bold">Math Olympiad</span>
-          </Link>
+          </Link> */}
+          <div className="p-4 border-b mb-4 pb-4">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
+                {user?.name?.charAt(0) || "U"}
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">
+                  {user?.name || "User"}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {user?.email || "user@example.com"}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="space-y-1">
           <Link href="/dashboard" passHref>
@@ -172,19 +187,6 @@ export function DashboardSidebar({
             <LogOut className="w-4 h-4 mr-2" />
             Logout
           </Button>
-        </div>
-      </div>
-      <div className="p-4 mt-auto border-t">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
-            {user?.name?.charAt(0) || "U"}
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium">{user?.name || "User"}</span>
-            <span className="text-xs text-muted-foreground">
-              {user?.email || "user@example.com"}
-            </span>
-          </div>
         </div>
       </div>
     </div>
