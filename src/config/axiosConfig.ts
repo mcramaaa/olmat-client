@@ -1,98 +1,66 @@
-import axios from "axios";
-import { getCookie } from "cookies-next";
+import axios, { AxiosInstance } from "axios";
+import { CookieValueTypes, getCookie } from "cookies-next";
+import { cookies } from "next/headers";
 
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_HOST_API,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+const isServer = typeof window === "undefined";
 
-const token = getCookie("CBO_Token");
-// Set the auth token for all requests if it exists
-if (token) {
-  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-}
+// API FOR CLIENT AND SERVER
+export function apiAxios(): AxiosInstance {
+  const api = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_HOST_API,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-// Add a response interceptor for handling token expiration
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // Handle 401 Unauthorized errors (token expired)
-    if (error.response && error.response.status === 401) {
-      // Redirect to login or refresh token
-      window.location.href = "/login";
+  // Add request interceptor to add auth token
+  api.interceptors.request.use(
+    async (config) => {
+      // Get token based on environment
+      let token: string | undefined;
+
+      if (isServer) {
+        // Server-side
+        try {
+          // Need to await cookies() as it returns a Promise
+          const cookieStore = await cookies();
+          token = cookieStore.get("CBO_Token")?.value;
+        } catch (error) {
+          // Handle error when cookies() is called in an environment where it's not available
+          console.error("Error accessing cookies on server:", error);
+        }
+      } else {
+        // Client-side
+        const cookie = getCookie("CBO_Token") as CookieValueTypes;
+
+        token = cookie;
+      }
+
+      // Add auth header if token exists
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  // Add response interceptor for error handling
+  api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      // Handle 401 errors on client side
+      if (!isServer && error.response?.status === 401) {
+        // Redirect to login page
+        window.location.href = "/login";
+      }
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
-  }
-);
+  );
 
-export default api;
-
-// const isServer = typeof window === "undefined";
-
-// /**
-//  * Creates an axios instance that works in both client and server environments
-//  */
-// export function createAxiosInstance(): AxiosInstance {
-//   const instance = axios.create({
-//     baseURL: process.env.NEXT_PUBLIC_HOST_API,
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-
-//   // Add request interceptor to add auth token
-//   instance.interceptors.request.use(
-//     async (config) => {
-//       // Get token based on environment
-//       let token: string | undefined;
-
-//       if (isServer) {
-//         // Server-side: Use next/headers
-//         try {
-//           // Need to await cookies() as it returns a Promise
-//           const cookieStore = await cookies();
-//           token = cookieStore.get("CBO_Token")?.value;
-//         } catch (error) {
-//           // Handle error when cookies() is called in an environment where it's not available
-//           console.error("Error accessing cookies on server:", error);
-//         }
-//       } else {
-//         // Client-side: Use document.cookie
-//         const cookieValue = document.cookie
-//           .split("; ")
-//           .find((row) => row.startsWith("CBO_Token="))
-//           ?.split("=")[1];
-
-//         token = cookieValue;
-//       }
-
-//       // Add auth header if token exists
-//       if (token && config.headers) {
-//         config.headers.Authorization = `Bearer ${token}`;
-//       }
-
-//       return config;
-//     },
-//     (error) => Promise.reject(error)
-//   );
-
-//   // Add response interceptor for error handling
-//   instance.interceptors.response.use(
-//     (response) => response,
-//     (error) => {
-//       // Handle 401 errors on client side
-//       if (!isServer && error.response?.status === 401) {
-//         // Redirect to login page
-//         window.location.href = "/login";
-//       }
-//       return Promise.reject(error);
-//     }
-//   );
-
-//   return instance;
-// }
+  return api;
+}
 
 // // Create a singleton instance
 // let axiosInstance: AxiosInstance;

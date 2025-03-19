@@ -1,10 +1,11 @@
-import type { Metadata } from "next"
-import { ParticipantRegistrationForm } from "@/components/participant-registration-form"
+import type { Metadata } from "next";
+import { ParticipantRegistrationForm } from "../_components/participant-registration-form";
 
 export const metadata: Metadata = {
   title: "Register Participants - Math Olympiad 2025",
-  description: "Register participants for the International Mathematics Olympiad 2025",
-}
+  description:
+    "Register participants for the International Mathematics Olympiad 2025",
+};
 
 export default function RegisterParticipantsPage() {
   return (
@@ -13,13 +14,13 @@ export default function RegisterParticipantsPage() {
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Participant Registration</h1>
           <p className="text-gray-500">
-            Register up to 11 participants for the International Mathematics Olympiad 2025
+            Register up to 11 participants for the International Mathematics
+            Olympiad 2025
           </p>
         </div>
 
         <ParticipantRegistrationForm />
       </div>
     </div>
-  )
+  );
 }
-

@@ -25,6 +25,7 @@ import {
 import { cn } from "@/src/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/src/components/ui/sheet";
 import { ScrollArea } from "@/src/components/ui/scroll-area";
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 
 export function DashboardSidebar({
   className,
@@ -204,6 +205,10 @@ export function DashboardSidebar({
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-[280px]">
+            <DialogTitle className="hidden">Navigation</DialogTitle>
+            <DialogDescription className="sr-only hidden">
+              This sidebar contains navigation links for the dashboard.
+            </DialogDescription>
             <ScrollArea className="h-full">{sidebarContent}</ScrollArea>
           </SheetContent>
         </Sheet>

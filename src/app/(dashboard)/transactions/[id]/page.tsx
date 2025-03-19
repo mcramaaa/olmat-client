@@ -18,8 +18,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
-import { DownloadReceiptButton } from "@/src/components/download-receipt-button";
-import { PaymentQRCode } from "@/src/components/payment-qr-code";
+import { DownloadReceiptButton } from "@/src/app/(dashboard)/transactions/_components/download-receipt-button";
+import { PaymentQRCode } from "@/src/app/(dashboard)/transactions/_components/payment-qr-code";
 
 export const metadata: Metadata = {
   title: "Transaction Details - Math Olympiad 2025",

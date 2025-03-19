@@ -6,4 +6,6 @@ export interface IPayment {
   totalAmount: number;
   participantAmount: number;
   status: string;
+  expiredAt: string;
+  fee: number;
 }
