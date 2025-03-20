@@ -46,7 +46,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const getMe = useCallback(async () => {
     const res = await getMeAction();
-    console.log(res);
     if (res.user) {
       if (res.user.type === "Admin") {
         setUser({
@@ -82,13 +81,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     const res: any = await loginAction(email, password);
-    console.log("Logein res", res.data.status_code);
     if (res.data.status_code === 200) {
       setCookie("CBO_Token", res.data.data.token, {
         maxAge: 60 * 60 * 24 * 1,
       });
       setIsSuccess(true, "Login Berhasil");
-      console.log(res.data);
       router.push("/dashboard");
     } else {
       if (res.data.status_code === 404) {

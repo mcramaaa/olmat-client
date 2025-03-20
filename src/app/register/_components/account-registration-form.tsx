@@ -47,7 +47,12 @@ const accountSchema = z
 
 type AccountFormValues = z.infer<typeof accountSchema>;
 
-export function AccountRegistrationForm() {
+interface IProps {
+  province: { id: string; name: string }[];
+}
+
+export function AccountRegistrationForm(props: IProps) {
+  console.log("props prov", props.province);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -98,14 +103,18 @@ export function AccountRegistrationForm() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="jakarta">Jakarta</SelectItem>
-                        <SelectItem value="west_java">West Java</SelectItem>
+                        {props.province.map((data, i) => (
+                          <SelectItem key={i} value={data.id}>
+                            {data.name}
+                          </SelectItem>
+                        ))}
+                        {/* <SelectItem value="west_java">West Java</SelectItem>
                         <SelectItem value="east_java">East Java</SelectItem>
                         <SelectItem value="central_java">
                           Central Java
                         </SelectItem>
                         <SelectItem value="yogyakarta">Yogyakarta</SelectItem>
-                        <SelectItem value="bali">Bali</SelectItem>
+                        <SelectItem value="bali">Bali</SelectItem> */}
                         {/* Add more provinces as needed */}
                       </SelectContent>
                     </Select>

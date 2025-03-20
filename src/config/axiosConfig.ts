@@ -13,6 +13,8 @@ export function apiAxios(): AxiosInstance {
     },
   });
 
+  console.log("is server", isServer);
+
   // Add request interceptor to add auth token
   api.interceptors.request.use(
     async (config) => {
