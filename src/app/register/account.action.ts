@@ -1,38 +1,8 @@
+// account.action.ts
 "use server";
 
 import { apiServer } from "@/src/config/axiosServer";
 import { AxiosError } from "axios";
-
-// export async function getProvinceAction(): Promise<{
-//   data: any;
-//   error: AxiosError | null;
-// }> {
-//   const api = apiServer();
-//   try {
-//     const res = await api.get("/location-api/province");
-//     return { data: res.data, error: null };
-//   } catch (error) {
-//     return { data: null, error: error as AxiosError };
-//   }
-// }
-
-// export async function getCityAction(city: string): Promise<{
-//   data: any;
-//   error: AxiosError | null;
-// }> {
-//   const api = apiServer();
-//   try {
-//     const res = await api.get(`/location-api/province/${city}`);
-//     return { data: res.data, error: null };
-//   } catch (error) {
-//     return { data: null, error: error as AxiosError };
-//   }
-// }
-
-// Step 1: Enhance your server action file (account.action.ts)
-
-// account.action.ts
-
 import { z } from "zod";
 
 // Schema definition remains the same as your original code

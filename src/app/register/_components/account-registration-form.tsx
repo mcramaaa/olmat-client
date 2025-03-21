@@ -84,7 +84,8 @@ export function AccountRegistrationForm(props: IProps) {
   const selectedProvince = form.watch("province");
   const selectedCity = form.watch("city");
 
-  // Fetch cities when province changes
+  console.log("prov", selectedProvince);
+
   useEffect(() => {
     async function fetchCities() {
       if (!selectedProvince) {
@@ -106,14 +107,13 @@ export function AccountRegistrationForm(props: IProps) {
         }
       } catch (error) {
         console.error("Error fetching cities:", error);
-        setCities([]);
+        // setCities([]);
       }
     }
 
     fetchCities();
   }, [selectedProvince]);
 
-  // Fetch subdistricts when city changes
   useEffect(() => {
     async function fetchSubdistricts() {
       if (!selectedCity) {
@@ -156,14 +156,11 @@ export function AccountRegistrationForm(props: IProps) {
     setServerErrors(null);
 
     try {
-      // Call the server action with form data
       const result = await submitRegistrationAction(data);
 
       if (result.success) {
-        // Redirect on success
         router.push("/register/success?type=account");
       } else {
-        // Handle validation errors
         if (result.errors) {
           // Set form errors
           Object.entries(result.errors).forEach(([field, errors]) => {
@@ -193,7 +190,7 @@ export function AccountRegistrationForm(props: IProps) {
     <Card>
       <CardContent className="pt-6">
         {serverErrors && (
-          <div className="px-4 py-3 mb-4 text-red-700 border border-red-200 rounded bg-red-50">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
             {serverErrors}
           </div>
         )}
