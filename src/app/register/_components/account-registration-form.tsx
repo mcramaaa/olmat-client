@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,13 +16,12 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { Card, CardContent } from "@/src/components/ui/card";
+import { SearchableSelect } from "@/src/components/ui/searchabel-select";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/src/components/ui/select";
+  getCityAction,
+  getSubdistrictAction,
+  submitRegistrationAction,
+} from "../account.action";
 
 const accountSchema = z
   .object({
@@ -52,9 +51,20 @@ interface IProps {
 }
 
 export function AccountRegistrationForm(props: IProps) {
-  console.log("props prov", props.province);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [cities, setCities] = useState<{ label: string; value: string }[]>([]);
+  const [subdistricts, setSubdistricts] = useState<
+    { label: string; value: string }[]
+  >([]);
+  const [serverErrors, setServerErrors] = useState<any>(null);
+
+  const provOptions = props.province
+    .map((item) => ({
+      label: item.name,
+      value: item.id,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountSchema),
@@ -71,21 +81,128 @@ export function AccountRegistrationForm(props: IProps) {
     },
   });
 
-  function onSubmit(data: AccountFormValues) {
-    setIsLoading(true);
+  const selectedProvince = form.watch("province");
+  const selectedCity = form.watch("city");
 
-    // In a real application, you would send this data to your backend
-    setTimeout(() => {
+  // Fetch cities when province changes
+  useEffect(() => {
+    async function fetchCities() {
+      if (!selectedProvince) {
+        setCities([]);
+        return;
+      }
+
+      try {
+        const response = await getCityAction(selectedProvince);
+        if (response.data && Array.isArray(response.data)) {
+          const cityOptions = response.data
+            .map((city: any) => ({
+              label: city.name,
+              value: city.id,
+            }))
+            .sort((a: any, b: any) => a.label.localeCompare(b.label));
+
+          setCities(cityOptions);
+        }
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+        setCities([]);
+      }
+    }
+
+    fetchCities();
+  }, [selectedProvince]);
+
+  // Fetch subdistricts when city changes
+  useEffect(() => {
+    async function fetchSubdistricts() {
+      if (!selectedCity) {
+        setSubdistricts([]);
+        return;
+      }
+
+      try {
+        const response = await getSubdistrictAction(selectedCity);
+        if (response.data && Array.isArray(response.data)) {
+          const subdistrictOptions = response.data
+            .map((subdistrict: any) => ({
+              label: subdistrict.name,
+              value: subdistrict.id,
+            }))
+            .sort((a: any, b: any) => a.label.localeCompare(b.label));
+
+          setSubdistricts(subdistrictOptions);
+        }
+      } catch (error) {
+        console.error("Error fetching subdistricts:", error);
+        setSubdistricts([]);
+      }
+    }
+
+    fetchSubdistricts();
+  }, [selectedCity]);
+
+  // Reset city when province changes
+  useEffect(() => {
+    if (selectedProvince && form.getValues("city")) {
+      form.setValue("city", "");
+      form.setValue("subdistrict", "");
+    }
+  }, [selectedProvince, form]);
+
+  // Handle form submission
+  async function onSubmitData(data: AccountFormValues) {
+    setIsLoading(true);
+    setServerErrors(null);
+
+    try {
+      // Call the server action with form data
+      const result = await submitRegistrationAction(data);
+
+      if (result.success) {
+        // Redirect on success
+        router.push("/register/success?type=account");
+      } else {
+        // Handle validation errors
+        if (result.errors) {
+          // Set form errors
+          Object.entries(result.errors).forEach(([field, errors]) => {
+            if (errors && errors.length > 0) {
+              form.setError(field as any, {
+                type: "server",
+                message: errors[0],
+              });
+            }
+          });
+        }
+
+        // Handle API errors
+        if (result.message) {
+          setServerErrors(result.message);
+        }
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      setServerErrors("An unexpected error occurred. Please try again.");
+    } finally {
       setIsLoading(false);
-      router.push("/register/success?type=account");
-    }, 1000);
+    }
   }
 
   return (
     <Card>
       <CardContent className="pt-6">
+        {serverErrors && (
+          <div className="px-4 py-3 mb-4 text-red-700 border border-red-200 rounded bg-red-50">
+            {serverErrors}
+          </div>
+        )}
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmitData)}
+            className="space-y-4"
+          >
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -93,31 +210,15 @@ export function AccountRegistrationForm(props: IProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Province</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select province" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {props.province.map((data, i) => (
-                          <SelectItem key={i} value={data.id}>
-                            {data.name}
-                          </SelectItem>
-                        ))}
-                        {/* <SelectItem value="west_java">West Java</SelectItem>
-                        <SelectItem value="east_java">East Java</SelectItem>
-                        <SelectItem value="central_java">
-                          Central Java
-                        </SelectItem>
-                        <SelectItem value="yogyakarta">Yogyakarta</SelectItem>
-                        <SelectItem value="bali">Bali</SelectItem> */}
-                        {/* Add more provinces as needed */}
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <SearchableSelect
+                        className="text-sm"
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        options={provOptions}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -130,15 +231,19 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter city" {...field} />
+                      <SearchableSelect
+                        className="text-sm"
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        options={cities}
+                        disabled={!selectedProvince || isLoading}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="subdistrict"
@@ -146,7 +251,13 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Subdistrict</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter subdistrict" {...field} />
+                      <SearchableSelect
+                        className="text-sm"
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        options={subdistricts}
+                        disabled={!selectedCity || isLoading}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,29 +271,27 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>School Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter school name" {...field} />
+                      <Input {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
 
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your full name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="fullName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled={isLoading} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="email"
@@ -190,11 +299,7 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="your.email@example.com"
-                        {...field}
-                      />
+                      <Input type="email" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -206,17 +311,15 @@ export function AccountRegistrationForm(props: IProps) {
                 name="whatsapp"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>WhatsApp Number</FormLabel>
+                    <FormLabel>WhatsApp</FormLabel>
                     <FormControl>
-                      <Input placeholder="+62 8xx xxxx xxxx" {...field} />
+                      <Input {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="password"
@@ -224,11 +327,7 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        {...field}
-                      />
+                      <Input type="password" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -242,11 +341,7 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        {...field}
-                      />
+                      <Input type="password" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -254,9 +349,11 @@ export function AccountRegistrationForm(props: IProps) {
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating Account..." : "Create Account"}
-            </Button>
+            <div className="flex justify-end">
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Submitting..." : "Register Account"}
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>

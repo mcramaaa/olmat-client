@@ -1,17 +1,139 @@
 "use server";
 
-import { apiAxios } from "@/src/config/axiosConfig";
+import { apiServer } from "@/src/config/axiosServer";
 import { AxiosError } from "axios";
 
-export async function getProvince(): Promise<{
+// export async function getProvinceAction(): Promise<{
+//   data: any;
+//   error: AxiosError | null;
+// }> {
+//   const api = apiServer();
+//   try {
+//     const res = await api.get("/location-api/province");
+//     return { data: res.data, error: null };
+//   } catch (error) {
+//     return { data: null, error: error as AxiosError };
+//   }
+// }
+
+// export async function getCityAction(city: string): Promise<{
+//   data: any;
+//   error: AxiosError | null;
+// }> {
+//   const api = apiServer();
+//   try {
+//     const res = await api.get(`/location-api/province/${city}`);
+//     return { data: res.data, error: null };
+//   } catch (error) {
+//     return { data: null, error: error as AxiosError };
+//   }
+// }
+
+// Step 1: Enhance your server action file (account.action.ts)
+
+// account.action.ts
+
+import { z } from "zod";
+
+// Schema definition remains the same as your original code
+const accountSchema = z
+  .object({
+    province: z.string().min(1, { message: "Province is required" }),
+    city: z.string().min(1, { message: "City is required" }),
+    subdistrict: z.string().min(1, { message: "Subdistrict is required" }),
+    schoolName: z.string().min(1, { message: "School name is required" }),
+    fullName: z.string().min(1, { message: "Full name is required" }),
+    email: z.string().email({ message: "Please enter a valid email address" }),
+    whatsapp: z.string().min(1, { message: "WhatsApp number is required" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Confirm password is required" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+// Your existing API call functions
+export async function getProvinceAction(): Promise<{
   data: any;
   error: AxiosError | null;
 }> {
-  const api = apiAxios();
+  const api = apiServer();
   try {
     const res = await api.get("/location-api/province");
     return { data: res.data, error: null };
   } catch (error) {
     return { data: null, error: error as AxiosError };
+  }
+}
+
+export async function getCityAction(provinceId: string): Promise<{
+  data: any;
+  error: AxiosError | null;
+}> {
+  const api = apiServer();
+  try {
+    const res = await api.get(`/location-api/province/${provinceId}`);
+    return { data: res.data, error: null };
+  } catch (error) {
+    return { data: null, error: error as AxiosError };
+  }
+}
+
+export async function getSubdistrictAction(cityId: string): Promise<{
+  data: any;
+  error: AxiosError | null;
+}> {
+  const api = apiServer();
+  try {
+    const res = await api.get(`/location-api/city/${cityId}`);
+    return { data: res.data, error: null };
+  } catch (error) {
+    return { data: null, error: error as AxiosError };
+  }
+}
+
+// New server action to handle form submission
+export async function submitRegistrationAction(
+  data: z.infer<typeof accountSchema>
+) {
+  // Server-side validation
+  const validationResult = accountSchema.safeParse(data);
+
+  if (!validationResult.success) {
+    return {
+      success: false,
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  const validatedData = validationResult.data;
+
+  // Remove confirmPassword before sending to API
+  const { ...apiData } = validatedData;
+
+  // Send to API
+  const api = apiServer();
+  try {
+    const response = await api.post("/auth/register", apiData);
+
+    // If successful, return success
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    const axiosError = error as AxiosError<any>;
+    const errorMessage =
+      axiosError.response?.data?.message || "Registration failed";
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
   }
 }

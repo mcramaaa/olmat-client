@@ -8,18 +8,26 @@ import {
 } from "@/src/components/ui/tabs";
 import { AccountRegistrationForm } from "./_components/account-registration-form";
 import { SchoolRegistrationForm } from "./_components/school-registration-form";
-import { getProvince } from "./account.action";
+import { getProvinceAction } from "./account.action";
 
 export const metadata: Metadata = {
   title: "Register - Math Olympiad 2025",
   description: "Register for the International Mathematics Olympiad 2025",
 };
 
-export default async function RegisterPage() {
-  const resProvince = await getProvince();
+interface IProps {
+  searchParams: {
+    sec?: string;
+  };
+}
+
+export default async function RegisterPage({ searchParams }: IProps) {
+  const resProvince = await getProvinceAction();
+  const { sec } = await searchParams;
+  console.log(sec);
   return (
-    <div className="container px-4 md:px-6 py-12">
-      <div className="mx-auto max-w-3xl space-y-6">
+    <div className="container px-4 py-12 md:px-6">
+      <div className="max-w-3xl mx-auto space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Registration</h1>
           <p className="text-gray-500">
@@ -27,7 +35,7 @@ export default async function RegisterPage() {
           </p>
         </div>
 
-        <Tabs defaultValue="account" className="w-full">
+        <Tabs defaultValue={sec ? `${sec}` : "account"} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="account">Account Registration</TabsTrigger>
             <TabsTrigger value="school">School Registration</TabsTrigger>
@@ -35,7 +43,7 @@ export default async function RegisterPage() {
 
           <TabsContent value="account" className="mt-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">
+              <h2 className="mb-2 text-xl font-semibold">
                 Account Registration
               </h2>
               <p className="text-gray-500">
@@ -48,7 +56,7 @@ export default async function RegisterPage() {
 
           <TabsContent value="school" className="mt-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">
+              <h2 className="mb-2 text-xl font-semibold">
                 School Registration
               </h2>
               <p className="text-gray-500">
@@ -59,12 +67,12 @@ export default async function RegisterPage() {
           </TabsContent>
         </Tabs>
 
-        <div className="text-center mt-8">
+        <div className="mt-8 text-center">
           <p className="text-gray-500">
             Already have an account?{" "}
             <Link
               href="/login"
-              className="text-primary font-medium hover:underline"
+              className="font-medium text-primary hover:underline"
             >
               Login
             </Link>{" "}
