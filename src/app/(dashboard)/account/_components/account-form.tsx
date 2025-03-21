@@ -57,7 +57,6 @@ export function AccountForm() {
   function onSubmit(data: AccountFormValues) {
     setIsLoading(true);
 
-    // In a real application, you would send this data to your backend
     setTimeout(() => {
       setIsLoading(false);
       setIsSuccess(true, "Account information updated successfully");

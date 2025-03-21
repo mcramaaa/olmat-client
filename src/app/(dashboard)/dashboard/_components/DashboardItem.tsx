@@ -15,7 +15,6 @@ import { CreditCard, LayoutDashboard, UserCheck, Users } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-// import api from "@/config/axiosConfig";
 interface IProps {
   data: any;
 }

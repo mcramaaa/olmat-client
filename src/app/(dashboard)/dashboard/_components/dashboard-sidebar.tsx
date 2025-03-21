@@ -37,19 +37,13 @@ export function DashboardSidebar({
   const [participantsOpen, setParticipantsOpen] = useState(true);
   const [transactionsOpen, setTransactionsOpen] = useState(true);
 
-  // Check if we're on mobile
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
-    // Initial check
     checkIfMobile();
-
-    // Add event listener
     window.addEventListener("resize", checkIfMobile);
 
-    // Cleanup
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 

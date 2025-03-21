@@ -1,203 +1,208 @@
 "use client";
 
 import * as React from "react";
-import { Search } from "lucide-react";
+import * as SelectPrimitive from "@radix-ui/react-select";
+import { Check, ChevronDown, ChevronUp, Search } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 
-export type Option = {
-  value: string;
-  label: string;
-};
+const Select = SelectPrimitive.Root;
 
-interface SearchableSelectProps
-  extends Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    "value" | "onChange"
-  > {
-  options: Option[];
-  value: string;
-  onValueChange: (value: string) => void;
-  placeholder?: string;
-  className?: string;
+const SelectGroup = SelectPrimitive.Group;
+
+const SelectValue = SelectPrimitive.Value;
+
+const SelectTrigger = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      "flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background data-[placeholder]:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      className
+    )}
+    {...props}
+  >
+    {children}
+    <SelectPrimitive.Icon asChild>
+      <ChevronDown className="w-4 h-4 opacity-50" />
+    </SelectPrimitive.Icon>
+  </SelectPrimitive.Trigger>
+));
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
+
+const SelectScrollUpButton = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.ScrollUpButton
+    ref={ref}
+    className={cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    )}
+    {...props}
+  >
+    <ChevronUp className="w-4 h-4" />
+  </SelectPrimitive.ScrollUpButton>
+));
+SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
+
+const SelectScrollDownButton = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.ScrollDownButton
+    ref={ref}
+    className={cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    )}
+    {...props}
+  >
+    <ChevronDown className="w-4 h-4" />
+  </SelectPrimitive.ScrollDownButton>
+));
+SelectScrollDownButton.displayName =
+  SelectPrimitive.ScrollDownButton.displayName;
+
+interface SelectContentProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {
+  searchable?: boolean;
+  onSearch?: (value: string) => void;
 }
 
-export function SearchableSelect({
-  options,
-  value,
-  onValueChange,
-  placeholder = "Search...",
-  className,
-  disabled = false,
-  onBlur,
-  name,
-  ...props
-}: SearchableSelectProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [highlightedIndex, setHighlightedIndex] = React.useState(0);
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const listboxRef = React.useRef<HTMLDivElement>(null);
+const SelectContent = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Content>,
+  SelectContentProps
+>(
+  (
+    {
+      className,
+      children,
+      position = "popper",
+      searchable,
+      onSearch,
+      ...props
+    },
+    ref
+  ) => {
+    const [searchValue, setSearchValue] = React.useState("");
 
-  // Get the selected option label for display
-  const selectedLabel = React.useMemo(() => {
-    const selectedOption = options.find((option) => option.value === value);
-    return selectedOption ? selectedOption.label : "";
-  }, [options, value]);
-
-  // Update search query when selected value changes
-  React.useEffect(() => {
-    if (value && selectedLabel) {
-      setSearchQuery(selectedLabel);
-    }
-  }, [value, selectedLabel]);
-
-  // Filter options based on search query
-  const filteredOptions = React.useMemo(() => {
-    if (!searchQuery) return options;
-
-    return options.filter((option) =>
-      option.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [options, searchQuery]);
-
-  // Reset highlighted index when filtered options change
-  React.useEffect(() => {
-    setHighlightedIndex(0);
-  }, [filteredOptions.length]);
-
-  // Handle keyboard navigation
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen) {
-      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        setIsOpen(true);
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setSearchValue(value);
+      if (onSearch) {
+        onSearch(value);
       }
-      return;
-    }
+    };
 
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        setHighlightedIndex((prev) =>
-          prev < filteredOptions.length - 1 ? prev + 1 : prev
-        );
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : 0));
-        break;
-      case "Enter":
-        e.preventDefault();
-        if (filteredOptions.length > 0) {
-          const selectedOption = filteredOptions[highlightedIndex];
-          onValueChange(selectedOption.value);
-          setIsOpen(false);
-        }
-        break;
-      case "Escape":
-        e.preventDefault();
-        setIsOpen(false);
-        break;
-    }
-  };
-
-  // Handle custom blur event for form integration
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    // Small delay to allow click events on options to fire first
-    setTimeout(() => {
-      setIsOpen(false);
-
-      // If there's a value but no matching search, reset to the selected value
-      if (searchQuery && searchQuery !== selectedLabel) {
-        if (value) {
-          setSearchQuery(selectedLabel);
-        } else {
-          setSearchQuery("");
-        }
-      }
-
-      // Call the provided onBlur handler
-      if (onBlur) {
-        onBlur(e);
-      }
-    }, 100);
-  };
-
-  // Scroll highlighted option into view
-  React.useEffect(() => {
-    if (isOpen && listboxRef.current) {
-      const highlightedElement = listboxRef.current.querySelector(
-        `[data-highlighted="true"]`
-      );
-      if (highlightedElement) {
-        highlightedElement.scrollIntoView({ block: "nearest" });
-      }
-    }
-  }, [highlightedIndex, isOpen]);
-
-  return (
-    <div className={cn("relative w-full", className)}>
-      <div className="relative">
-        <input
-          ref={inputRef}
-          type="text"
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            setIsOpen(true);
-            // If search is cleared, also clear the value
-            if (!e.target.value) {
-              onValueChange("");
-            }
-          }}
-          onFocus={() => setIsOpen(true)}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-          placeholder={placeholder}
-          disabled={disabled}
-          name={name}
-          className="w-full h-10 px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-          role="combobox"
-          aria-expanded={isOpen}
-          aria-controls="searchable-select-listbox"
-          aria-autocomplete="list"
+    return (
+      <SelectPrimitive.Portal>
+        <SelectPrimitive.Content
+          ref={ref}
+          className={cn(
+            "relative z-50 max-h-[--radix-select-content-available-height] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-select-content-transform-origin]",
+            position === "popper" &&
+              "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+            className
+          )}
+          position={position}
           {...props}
-        />
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-          <Search className="w-4 h-4 text-gray-400" />
-        </div>
-      </div>
-
-      {isOpen && filteredOptions.length > 0 && (
-        <div
-          ref={listboxRef}
-          id="searchable-select-listbox"
-          role="listbox"
-          className="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-lg max-h-60"
         >
-          {filteredOptions.map((option, index) => (
-            <div
-              key={option.value}
-              role="option"
-              aria-selected={value === option.value}
-              data-highlighted={index === highlightedIndex}
-              className={cn(
-                "px-3 py-2 cursor-pointer",
-                index === highlightedIndex && "bg-gray-100",
-                value === option.value && "font-medium"
-              )}
-              onClick={() => {
-                onValueChange(option.value);
-                setSearchQuery(option.label);
-                setIsOpen(false);
-              }}
-              onMouseEnter={() => setHighlightedIndex(index)}
-            >
-              {option.label}
+          <SelectScrollUpButton />
+          {searchable && (
+            <div className="sticky top-0 p-1 bg-popover">
+              <div className="flex items-center border border-input rounded-md px-2 h-8">
+                <Search className="w-4 h-4 mr-2 opacity-50" />
+                <input
+                  className="flex-1 bg-transparent outline-none text-sm"
+                  placeholder="Search..."
+                  value={searchValue}
+                  onChange={handleSearchChange}
+                  onClick={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => {
+                    // Prevent select from closing when typing
+                    if (e.key !== "Escape" && e.key !== "Enter") {
+                      e.stopPropagation();
+                    }
+                  }}
+                />
+              </div>
             </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
+          )}
+          <SelectPrimitive.Viewport
+            className={cn(
+              "p-1",
+              position === "popper" &&
+                "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+            )}
+          >
+            {children}
+          </SelectPrimitive.Viewport>
+          <SelectScrollDownButton />
+        </SelectPrimitive.Content>
+      </SelectPrimitive.Portal>
+    );
+  }
+);
+SelectContent.displayName = SelectPrimitive.Content.displayName;
+
+const SelectLabel = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Label
+    ref={ref}
+    className={cn("px-2 py-1.5 text-sm font-semibold", className)}
+    {...props}
+  />
+));
+SelectLabel.displayName = SelectPrimitive.Label.displayName;
+
+const SelectItem = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    )}
+    {...props}
+  >
+    <span className="absolute right-2 flex h-3.5 w-3.5 items-center justify-center">
+      <SelectPrimitive.ItemIndicator>
+        <Check className="w-4 h-4" />
+      </SelectPrimitive.ItemIndicator>
+    </span>
+    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+  </SelectPrimitive.Item>
+));
+SelectItem.displayName = SelectPrimitive.Item.displayName;
+
+const SelectSeparator = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    {...props}
+  />
+));
+SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
+
+export {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
+};

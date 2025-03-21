@@ -16,19 +16,20 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { Card, CardContent } from "@/src/components/ui/card";
-import { SearchableSelect } from "@/src/components/ui/searchabel-select";
 import {
   getCityAction,
+  getSchoolAction,
   getSubdistrictAction,
   submitRegistrationAction,
 } from "../account.action";
+import { ReusableCombobox } from "@/src/components/ui/reusable-combobox";
 
 const accountSchema = z
   .object({
     province: z.string().min(1, { message: "Province is required" }),
     city: z.string().min(1, { message: "City is required" }),
     subdistrict: z.string().min(1, { message: "Subdistrict is required" }),
-    schoolName: z.string().min(1, { message: "School name is required" }),
+    school: z.string().min(1, { message: "School name is required" }),
     fullName: z.string().min(1, { message: "Full name is required" }),
     email: z.string().email({ message: "Please enter a valid email address" }),
     whatsapp: z.string().min(1, { message: "WhatsApp number is required" }),
@@ -57,6 +58,7 @@ export function AccountRegistrationForm(props: IProps) {
   const [subdistricts, setSubdistricts] = useState<
     { label: string; value: string }[]
   >([]);
+  const [school, setSchool] = useState<{ label: string; value: string }[]>([]);
   const [serverErrors, setServerErrors] = useState<any>(null);
 
   const provOptions = props.province
@@ -72,7 +74,7 @@ export function AccountRegistrationForm(props: IProps) {
       province: "",
       city: "",
       subdistrict: "",
-      schoolName: "",
+      school: "",
       fullName: "",
       email: "",
       whatsapp: "",
@@ -80,14 +82,19 @@ export function AccountRegistrationForm(props: IProps) {
       confirmPassword: "",
     },
   });
+  console.log("school", school);
 
   const selectedProvince = form.watch("province");
   const selectedCity = form.watch("city");
+  const selectedSubdistrict = form.watch("subdistrict");
+  const selectedSchool = form.getValues("school");
+  console.log("pick school", selectedSchool);
+  console.log("school", school);
 
   console.log("prov", selectedProvince);
 
   useEffect(() => {
-    async function fetchCities() {
+    async function getCity() {
       if (!selectedProvince) {
         setCities([]);
         return;
@@ -111,11 +118,11 @@ export function AccountRegistrationForm(props: IProps) {
       }
     }
 
-    fetchCities();
+    getCity();
   }, [selectedProvince]);
 
   useEffect(() => {
-    async function fetchSubdistricts() {
+    async function getSubdistrict() {
       if (!selectedCity) {
         setSubdistricts([]);
         return;
@@ -139,10 +146,38 @@ export function AccountRegistrationForm(props: IProps) {
       }
     }
 
-    fetchSubdistricts();
+    getSubdistrict();
   }, [selectedCity]);
 
-  // Reset city when province changes
+  useEffect(() => {
+    async function getSchool() {
+      if (!selectedSubdistrict) {
+        setSchool([]);
+        return;
+      }
+
+      try {
+        const response = await getSchoolAction(selectedSubdistrict);
+        if (response.data && Array.isArray(response.data)) {
+          const schoolOptions = response.data
+            .map((school: any) => ({
+              label: school.name,
+              value: school.id,
+            }))
+            .sort((a: any, b: any) => a.label.localeCompare(b.label));
+
+          setSchool(schoolOptions);
+        }
+      } catch (error) {
+        console.error("Error fetching subdistricts:", error);
+        setSchool([]);
+      }
+    }
+
+    getSchool();
+  }, [selectedSubdistrict]);
+
+  // Reset Value while data change
   useEffect(() => {
     if (selectedProvince && form.getValues("city")) {
       form.setValue("city", "");
@@ -150,7 +185,7 @@ export function AccountRegistrationForm(props: IProps) {
     }
   }, [selectedProvince, form]);
 
-  // Handle form submission
+  // Submit data
   async function onSubmitData(data: AccountFormValues) {
     setIsLoading(true);
     setServerErrors(null);
@@ -208,12 +243,12 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Province</FormLabel>
                     <FormControl>
-                      <SearchableSelect
+                      <ReusableCombobox
+                        placeholder="Pilih Provinsi"
                         className="text-sm"
-                        onValueChange={field.onChange}
+                        onChange={field.onChange}
                         value={field.value}
                         options={provOptions}
-                        disabled={isLoading}
                       />
                     </FormControl>
                     <FormMessage />
@@ -228,9 +263,10 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <FormControl>
-                      <SearchableSelect
+                      <ReusableCombobox
+                        placeholder="Pilih Kota"
                         className="text-sm"
-                        onValueChange={field.onChange}
+                        onChange={field.onChange}
                         value={field.value}
                         options={cities}
                         disabled={!selectedProvince || isLoading}
@@ -240,7 +276,9 @@ export function AccountRegistrationForm(props: IProps) {
                   </FormItem>
                 )}
               />
+            </div>
 
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="subdistrict"
@@ -248,9 +286,10 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Subdistrict</FormLabel>
                     <FormControl>
-                      <SearchableSelect
+                      <ReusableCombobox
+                        placeholder="Pilih Kecamatan"
                         className="text-sm"
-                        onValueChange={field.onChange}
+                        onChange={field.onChange}
                         value={field.value}
                         options={subdistricts}
                         disabled={!selectedCity || isLoading}
@@ -263,32 +302,44 @@ export function AccountRegistrationForm(props: IProps) {
 
               <FormField
                 control={form.control}
-                name="schoolName"
+                name="school"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>School Name</FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} />
+                      <ReusableCombobox
+                        placeholder="Pilih Sekolah"
+                        className="text-sm"
+                        onChange={field.onChange}
+                        value={field.value}
+                        options={school}
+                        disabled={!selectedSubdistrict || isLoading}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+            </div>
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isLoading}
+                      placeholder="Masukkan nama lengkap"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="fullName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} disabled={isLoading} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="email"
@@ -310,13 +361,18 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>WhatsApp</FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} />
+                      <Input
+                        {...field}
+                        disabled={isLoading}
+                        placeholder="Masukkan nomor whatsapp"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
+            </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="password"
@@ -324,7 +380,12 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" {...field} disabled={isLoading} />
+                      <Input
+                        type="password"
+                        {...field}
+                        disabled={isLoading}
+                        placeholder="Masukkan Passoword"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -338,14 +399,18 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input type="password" {...field} disabled={isLoading} />
+                      <Input
+                        type="password"
+                        {...field}
+                        disabled={isLoading}
+                        placeholder="Masukkan konfirmasi Passoword"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
             <div className="flex justify-end">
               <Button type="submit" disabled={isLoading}>
                 {isLoading ? "Submitting..." : "Register Account"}

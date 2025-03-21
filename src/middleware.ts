@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// List of paths that require authentication
+// Protected Path
 const protectedPaths = [
   "/dashboard",
   "/participants",
@@ -10,31 +10,25 @@ const protectedPaths = [
   "/account",
 ];
 
-// List of paths that are accessible to everyone
 // const publicPaths = ["/", "/login", "/register", "/about", "/contact"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Check if the path is protected
   const isProtectedPath = protectedPaths.some(
     (path) => pathname === path || pathname.startsWith(`${path}/`)
   );
 
-  // Check if the path is public
   // const isPublicPath = publicPaths.some((path) => pathname === path || pathname.startsWith(`${path}/`))
 
-  // Get the authentication token from cookies
   const authToken = request.cookies.get("CBO_Token")?.value;
 
-  // If the path is protected and the user is not authenticated, redirect to login
   if (isProtectedPath && !authToken) {
     const url = new URL("/login", request.url);
     url.searchParams.set("callbackUrl", encodeURI(pathname));
     return NextResponse.redirect(url);
   }
 
-  // If the user is authenticated and trying to access login/register, redirect to dashboard
   if ((pathname === "/login" || pathname === "/register") && authToken) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
@@ -43,7 +37,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // matcher: "/:path*",
   matcher: [
     /*
      * Match all request paths except for the ones starting with:

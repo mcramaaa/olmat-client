@@ -1,7 +1,7 @@
 // account.action.ts
 "use server";
 
-import { apiServer } from "@/src/config/axiosServer";
+import api from "@/src/config/axiosServer";
 import { AxiosError } from "axios";
 import { z } from "zod";
 
@@ -11,7 +11,7 @@ const accountSchema = z
     province: z.string().min(1, { message: "Province is required" }),
     city: z.string().min(1, { message: "City is required" }),
     subdistrict: z.string().min(1, { message: "Subdistrict is required" }),
-    schoolName: z.string().min(1, { message: "School name is required" }),
+    school: z.string().min(1, { message: "School name is required" }),
     fullName: z.string().min(1, { message: "Full name is required" }),
     email: z.string().email({ message: "Please enter a valid email address" }),
     whatsapp: z.string().min(1, { message: "WhatsApp number is required" }),
@@ -32,7 +32,7 @@ export async function getProvinceAction(): Promise<{
   data: any;
   error: AxiosError | null;
 }> {
-  const api = apiServer();
+  // const api = apiServer();
   try {
     const res = await api.get("/location-api/province");
     return { data: res.data, error: null };
@@ -45,9 +45,8 @@ export async function getCityAction(provinceId: string): Promise<{
   data: any;
   error: AxiosError | null;
 }> {
-  const api = apiServer();
   try {
-    const res = await api.get(`/location-api/province/${provinceId}`);
+    const res = await api.get(`/location-api/city/${provinceId}`);
     return { data: res.data, error: null };
   } catch (error) {
     return { data: null, error: error as AxiosError };
@@ -58,9 +57,20 @@ export async function getSubdistrictAction(cityId: string): Promise<{
   data: any;
   error: AxiosError | null;
 }> {
-  const api = apiServer();
   try {
-    const res = await api.get(`/location-api/city/${cityId}`);
+    const res = await api.get(`/location-api/subdistrict/${cityId}`);
+    return { data: res.data, error: null };
+  } catch (error) {
+    return { data: null, error: error as AxiosError };
+  }
+}
+
+export async function getSchoolAction(subId: string): Promise<{
+  data: any;
+  error: AxiosError | null;
+}> {
+  try {
+    const res = await api.get(`/location-api/school/${subId}`);
     return { data: res.data, error: null };
   } catch (error) {
     return { data: null, error: error as AxiosError };
@@ -84,10 +94,12 @@ export async function submitRegistrationAction(
   const validatedData = validationResult.data;
 
   // Remove confirmPassword before sending to API
-  const { ...apiData } = validatedData;
+  const apiData = Object.fromEntries(
+    Object.entries(validatedData).filter(([key]) => key !== "confirmPassword")
+  );
 
   // Send to API
-  const api = apiServer();
+
   try {
     const response = await api.post("/auth/register", apiData);
 

@@ -1,13 +1,12 @@
 "use server";
 
-import { apiServer } from "@/src/config/axiosServer";
+import api from "@/src/config/axiosServer";
 import { AxiosError } from "axios";
 
 export async function getDashboardAction(): Promise<{
   data: any;
   error: AxiosError | null;
 }> {
-  const api = apiServer();
   try {
     const res = await api.get("/dashboard");
     return { data: res.data, error: null };

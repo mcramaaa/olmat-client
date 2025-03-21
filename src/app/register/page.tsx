@@ -24,7 +24,6 @@ interface IProps {
 export default async function RegisterPage({ searchParams }: IProps) {
   const resProvince = await getProvinceAction();
   const { sec } = await searchParams;
-  console.log(sec);
   return (
     <div className="container px-4 py-12 md:px-6">
       <div className="max-w-3xl mx-auto space-y-6">
