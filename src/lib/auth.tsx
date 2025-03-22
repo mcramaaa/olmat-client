@@ -12,7 +12,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { setCookie, deleteCookie } from "cookies-next";
-import { useLayout } from "@/src/hooks/zustand/layout";
+import { useLayout } from "@/hooks/zustand/layout";
 import { getMeAction, loginAction } from "./auth.action";
 
 type User = {

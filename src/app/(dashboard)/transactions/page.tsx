@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Button } from "@/src/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/src/components/ui/card";
-import { Input } from "@/src/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -15,14 +10,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/src/components/ui/table";
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
+} from "@/components/ui/select";
 import { Search, Filter } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -71,7 +66,7 @@ export default function TransactionsPage() {
           <CardTitle>Transaction History</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="flex flex-col gap-4 mb-6 md:flex-row">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input placeholder="Search transactions..." className="pl-8" />
@@ -89,12 +84,12 @@ export default function TransactionsPage() {
                 </SelectContent>
               </Select>
               <Button variant="outline" size="icon">
-                <Filter className="h-4 w-4" />
+                <Filter className="w-4 h-4" />
               </Button>
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="border rounded-md">
             <Table>
               <TableHeader>
                 <TableRow>

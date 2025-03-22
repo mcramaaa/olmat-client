@@ -1,6 +1,6 @@
 "use server";
 
-import api from "@/src/config/axiosServer";
+import api from "@/config/axiosServer";
 import { AxiosError } from "axios";
 
 export async function getDashboardAction(): Promise<{

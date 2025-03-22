@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
-import { cn } from "@/src/lib/utils";
-import { Button } from "@/src/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,12 +12,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/src/components/ui/command";
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/src/components/ui/popover";
+} from "@/components/ui/popover";
 
 export type ComboboxOption = {
   value: string;
@@ -71,7 +71,7 @@ export function ReusableCombobox({
             {value
               ? options.find((option) => option.value === value)?.label
               : placeholder}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
           </Button>
         </PopoverTrigger>
         <PopoverContent
@@ -87,12 +87,9 @@ export function ReusableCombobox({
                 {options.map((option) => (
                   <CommandItem
                     key={option.value}
-                    value={option.label.toLowerCase()} // gunakan label untuk pencarian
-                    onSelect={(currentValue) => {
-                      const selected = options.find(
-                        (option) => option.label.toLowerCase() === currentValue
-                      );
-                      onChange(selected?.value || "");
+                    value={option.label} // gunakan label untuk pencarian
+                    onSelect={() => {
+                      onChange(option.value);
                       setOpen(false);
                     }}
                   >

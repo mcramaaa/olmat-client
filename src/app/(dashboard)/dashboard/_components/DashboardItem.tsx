@@ -1,16 +1,16 @@
 "use client";
 
-import { ROUTES } from "@/routes/router";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
-import { IDashboard } from "@/src/interfaces/IDashboard";
-import { useAuth } from "@/src/lib/auth";
+} from "@/components/ui/card";
+import { IDashboard } from "@/interfaces/IDashboard";
+import { useAuth } from "@/lib/auth";
+import { ROUTES } from "@/routes/router";
 import { CreditCard, LayoutDashboard, UserCheck, Users } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -38,7 +38,7 @@ export function DashboardItem({ data }: IProps) {
   return (
     <>
       <div>
-        <h1 className="text-3xl flex gap-2 items-center font-bold tracking-tight">
+        <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">
           <LayoutDashboard />
           Dashboard
         </h1>
@@ -112,7 +112,7 @@ export function DashboardItem({ data }: IProps) {
                   Paid
                 </div>
               </div>
-              <div className="flex text-xs items-center gap-1 font-bold">
+              <div className="flex items-center gap-1 text-xs font-bold">
                 {dashData.successPayment}
                 <p className="font-normal text-muted-foreground"> dari </p>
                 {dashData.pendingPayment}

@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/routes/router";
-import { useAuth } from "@/src/lib/auth";
+import { useAuth } from "@/lib/auth";
 
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

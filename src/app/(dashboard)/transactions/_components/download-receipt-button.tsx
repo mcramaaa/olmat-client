@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { jsPDF } from "jspdf";
-import { useLayout } from "@/src/hooks/zustand/layout";
+import { useLayout } from "@/hooks/zustand/layout";
 
 interface DownloadReceiptButtonProps {
   paymentId: string;

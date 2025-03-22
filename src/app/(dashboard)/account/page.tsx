@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,17 +7,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/src/components/ui/tabs";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { AccountForm } from "./_components/account-form";
-import { PasswordForm } from "@/src/components/password-form";
+import { PasswordForm } from "@/components/password-form";
 
 export const metadata: Metadata = {
   title: "Account - Math Olympiad 2025",
@@ -91,7 +86,7 @@ export default function AccountPage() {
                     <Input
                       id="email-notifications"
                       type="checkbox"
-                      className="h-4 w-4"
+                      className="w-4 h-4"
                       defaultChecked
                     />
                   </div>
@@ -111,7 +106,7 @@ export default function AccountPage() {
                     <Input
                       id="registration-updates"
                       type="checkbox"
-                      className="h-4 w-4"
+                      className="w-4 h-4"
                       defaultChecked
                     />
                   </div>
@@ -131,7 +126,7 @@ export default function AccountPage() {
                     <Input
                       id="competition-reminders"
                       type="checkbox"
-                      className="h-4 w-4"
+                      className="w-4 h-4"
                       defaultChecked
                     />
                   </div>
@@ -151,7 +146,7 @@ export default function AccountPage() {
                     <Input
                       id="marketing-emails"
                       type="checkbox"
-                      className="h-4 w-4"
+                      className="w-4 h-4"
                     />
                   </div>
                 </div>

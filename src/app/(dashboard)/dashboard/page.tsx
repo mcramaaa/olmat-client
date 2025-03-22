@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
+} from "@/components/ui/card";
 import { DashboardItem } from "./_components/DashboardItem";
 import { getDashboardAction } from "./dasboard.action";
 import { FastForward } from "lucide-react";
@@ -45,7 +45,7 @@ export default async function DashboardPage() {
     <div className="space-y-8">
       <DashboardItem data={res.data} />
 
-      <h2 className="mt-10 text-2xl flex items-center gap-2 font-bold tracking-tight">
+      <h2 className="flex items-center gap-2 mt-10 text-2xl font-bold tracking-tight">
         <FastForward />
         Akses Cepat
       </h2>

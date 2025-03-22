@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
+} from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import {
   Table,
@@ -17,9 +17,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/src/components/ui/table";
-import { DownloadReceiptButton } from "@/src/app/(dashboard)/transactions/_components/download-receipt-button";
-import { PaymentQRCode } from "@/src/app/(dashboard)/transactions/_components/payment-qr-code";
+} from "@/components/ui/table";
+import { DownloadReceiptButton } from "@/app/(dashboard)/transactions/_components/download-receipt-button";
+import { PaymentQRCode } from "@/app/(dashboard)/transactions/_components/payment-qr-code";
 
 export const metadata: Metadata = {
   title: "Transaction Details - Math Olympiad 2025",

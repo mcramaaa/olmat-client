@@ -5,8 +5,8 @@ import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -14,10 +14,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Card, CardContent } from "@/src/components/ui/card";
-import { Checkbox } from "@/src/components/ui/checkbox";
-import { useAuth } from "@/src/lib/auth";
+} from "@/components/ui/form";
+import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useAuth } from "@/lib/auth";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),

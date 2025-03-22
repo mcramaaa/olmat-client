@@ -1,6 +1,6 @@
 import type React from "react";
 
-import "@/src/app/globals.css";
+import "@/app/globals.css";
 import { ThemeProvider } from "../components/theme-provider";
 import { AuthProvider } from "../lib/auth";
 import { SiteHeader } from "../components/site-header";

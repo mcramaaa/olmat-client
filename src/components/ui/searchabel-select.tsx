@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp, Search } from "lucide-react";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/lib/utils";
 
 const Select = SelectPrimitive.Root;
 
@@ -113,10 +113,10 @@ const SelectContent = React.forwardRef<
           <SelectScrollUpButton />
           {searchable && (
             <div className="sticky top-0 p-1 bg-popover">
-              <div className="flex items-center border border-input rounded-md px-2 h-8">
+              <div className="flex items-center h-8 px-2 border rounded-md border-input">
                 <Search className="w-4 h-4 mr-2 opacity-50" />
                 <input
-                  className="flex-1 bg-transparent outline-none text-sm"
+                  className="flex-1 text-sm bg-transparent outline-none"
                   placeholder="Search..."
                   value={searchValue}
                   onChange={handleSearchChange}

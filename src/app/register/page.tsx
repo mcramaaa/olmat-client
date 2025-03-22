@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/src/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AccountRegistrationForm } from "./_components/account-registration-form";
 import { SchoolRegistrationForm } from "./_components/school-registration-form";
 import { getProvinceAction } from "./account.action";

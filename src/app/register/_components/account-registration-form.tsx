@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -14,15 +14,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Card, CardContent } from "@/src/components/ui/card";
+} from "@/components/ui/form";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   getCityAction,
   getSchoolAction,
   getSubdistrictAction,
   submitRegistrationAction,
 } from "../account.action";
-import { ReusableCombobox } from "@/src/components/ui/reusable-combobox";
+import { ReusableCombobox } from "@/components/ui/reusable-combobox";
+import { Frown } from "lucide-react";
+import { useLayout } from "@/hooks/zustand/layout";
+import { setCookie } from "cookies-next";
 
 const accountSchema = z
   .object({
@@ -53,12 +56,15 @@ interface IProps {
 
 export function AccountRegistrationForm(props: IProps) {
   const router = useRouter();
+  const { setIsSuccess } = useLayout();
   const [isLoading, setIsLoading] = useState(false);
   const [cities, setCities] = useState<{ label: string; value: string }[]>([]);
   const [subdistricts, setSubdistricts] = useState<
     { label: string; value: string }[]
   >([]);
   const [school, setSchool] = useState<{ label: string; value: string }[]>([]);
+  const [isSchool, setIsSchool] = useState<string>();
+
   const [serverErrors, setServerErrors] = useState<any>(null);
 
   const provOptions = props.province
@@ -82,16 +88,10 @@ export function AccountRegistrationForm(props: IProps) {
       confirmPassword: "",
     },
   });
-  console.log("school", school);
 
   const selectedProvince = form.watch("province");
   const selectedCity = form.watch("city");
   const selectedSubdistrict = form.watch("subdistrict");
-  const selectedSchool = form.getValues("school");
-  console.log("pick school", selectedSchool);
-  console.log("school", school);
-
-  console.log("prov", selectedProvince);
 
   useEffect(() => {
     async function getCity() {
@@ -162,7 +162,7 @@ export function AccountRegistrationForm(props: IProps) {
           const schoolOptions = response.data
             .map((school: any) => ({
               label: school.name,
-              value: school.id,
+              value: `${school.id}`,
             }))
             .sort((a: any, b: any) => a.label.localeCompare(b.label));
 
@@ -185,33 +185,51 @@ export function AccountRegistrationForm(props: IProps) {
     }
   }, [selectedProvince, form]);
 
-  // Submit data
+  console.log("err", serverErrors);
+  // Submit
   async function onSubmitData(data: AccountFormValues) {
     setIsLoading(true);
     setServerErrors(null);
 
     try {
-      const result = await submitRegistrationAction(data);
+      const res = await submitRegistrationAction(data);
+      console.log(res);
 
-      if (result.success) {
+      if (res.success) {
+        console.log("sukses data", res.data.data);
+        setCookie("CBO_Auth", res.data.data);
+        setIsSuccess(true, "Yeay, pendaftaran berhasil");
         router.push("/register/success?type=account");
       } else {
-        if (result.errors) {
-          // Set form errors
-          Object.entries(result.errors).forEach(([field, errors]) => {
-            if (errors && errors.length > 0) {
-              form.setError(field as any, {
-                type: "server",
-                message: errors[0],
-              });
-            }
-          });
+        const err = res.errCause;
+        if (err) {
+          if (err.phone) {
+            setServerErrors("Yah... Sayangnya No Whatsapp telah terdaftar");
+            form.setError("whatsapp", {
+              type: "server",
+              message: "No Whatsapp telah terdaftar",
+            });
+          }
+          if (err.email) {
+            setServerErrors("Yah... Sayangnya Email telah terdaftar");
+            form.setError("email", {
+              type: "server",
+              message: "Email telah terdaftar",
+            });
+          }
+          if (err.email && err.phone) {
+            setServerErrors(
+              "Yahh... Sayangnya Email dan No Whatsapp telah terdaftar"
+            );
+          }
         }
 
+        console.log("cokk", res.errCause);
+
         // Handle API errors
-        if (result.message) {
-          setServerErrors(result.message);
-        }
+        // if (res.message) {
+        //   setServerErrors(res.message);
+        // }
       }
     } catch (error) {
       console.error("Error during registration:", error);
@@ -225,8 +243,11 @@ export function AccountRegistrationForm(props: IProps) {
     <Card>
       <CardContent className="pt-6">
         {serverErrors && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-            {serverErrors}
+          <div className="flex items-center gap-2 px-4 py-2 mb-4 text-sm text-red-700 border border-red-200 rounded bg-red-50">
+            <Frown />
+            <p>{serverErrors}</p>
+
+            <p className="hidden">{isSchool}</p>
           </div>
         )}
 
@@ -305,15 +326,17 @@ export function AccountRegistrationForm(props: IProps) {
                 name="school"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>School Name</FormLabel>
+                    <FormLabel>School</FormLabel>
                     <FormControl>
                       <ReusableCombobox
-                        placeholder="Pilih Sekolah"
+                        placeholder="Select School"
                         className="text-sm"
-                        onChange={field.onChange}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          setIsSchool(e);
+                        }}
                         value={field.value}
-                        options={school}
-                        disabled={!selectedSubdistrict || isLoading}
+                        options={school} // Ini data sekolah dari API
                       />
                     </FormControl>
                     <FormMessage />
@@ -347,7 +370,12 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" {...field} disabled={isLoading} />
+                      <Input
+                        type="email"
+                        {...field}
+                        disabled={isLoading}
+                        placeholder="Masukkan Email"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -364,7 +392,7 @@ export function AccountRegistrationForm(props: IProps) {
                       <Input
                         {...field}
                         disabled={isLoading}
-                        placeholder="Masukkan nomor whatsapp"
+                        placeholder="08**********"
                       />
                     </FormControl>
                     <FormMessage />
@@ -384,7 +412,7 @@ export function AccountRegistrationForm(props: IProps) {
                         type="password"
                         {...field}
                         disabled={isLoading}
-                        placeholder="Masukkan Passoword"
+                        placeholder="Masukkan Password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -403,7 +431,7 @@ export function AccountRegistrationForm(props: IProps) {
                         type="password"
                         {...field}
                         disabled={isLoading}
-                        placeholder="Masukkan konfirmasi Passoword"
+                        placeholder="Masukkan konfirmasi Password"
                       />
                     </FormControl>
                     <FormMessage />

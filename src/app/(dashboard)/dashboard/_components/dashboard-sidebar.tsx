@@ -15,16 +15,16 @@ import {
   Menu,
   ChevronDown,
 } from "lucide-react";
-import { useAuth } from "@/src/lib/auth";
-import { Button } from "@/src/components/ui/button";
+import { useAuth } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/src/components/ui/collapsible";
-import { cn } from "@/src/lib/utils";
-import { Sheet, SheetContent, SheetTrigger } from "@/src/components/ui/sheet";
-import { ScrollArea } from "@/src/components/ui/scroll-area";
+} from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 
 export function DashboardSidebar({
@@ -200,7 +200,7 @@ export function DashboardSidebar({
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-[280px]">
             <DialogTitle className="hidden">Navigation</DialogTitle>
-            <DialogDescription className="sr-only hidden">
+            <DialogDescription className="hidden sr-only">
               This sidebar contains navigation links for the dashboard.
             </DialogDescription>
             <ScrollArea className="h-full">{sidebarContent}</ScrollArea>

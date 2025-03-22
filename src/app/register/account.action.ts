@@ -1,7 +1,7 @@
 // account.action.ts
 "use server";
 
-import api from "@/src/config/axiosServer";
+import api from "@/config/axiosServer";
 import { AxiosError } from "axios";
 import { z } from "zod";
 
@@ -77,7 +77,6 @@ export async function getSchoolAction(subId: string): Promise<{
   }
 }
 
-// New server action to handle form submission
 export async function submitRegistrationAction(
   data: z.infer<typeof accountSchema>
 ) {
@@ -91,17 +90,17 @@ export async function submitRegistrationAction(
     };
   }
 
-  const validatedData = validationResult.data;
-
-  // Remove confirmPassword before sending to API
-  const apiData = Object.fromEntries(
-    Object.entries(validatedData).filter(([key]) => key !== "confirmPassword")
-  );
-
-  // Send to API
+  const payload = {
+    name: validationResult.data.fullName,
+    email: validationResult.data.email,
+    phone: validationResult.data.whatsapp,
+    password: validationResult.data.password,
+    school_id: +validationResult.data.school,
+  };
+  console.log("ispayload", payload);
 
   try {
-    const response = await api.post("/auth/register", apiData);
+    const response = await api.post("/auth/user/register", payload);
 
     // If successful, return success
     return {
@@ -116,6 +115,8 @@ export async function submitRegistrationAction(
     return {
       success: false,
       message: errorMessage,
+      payload: payload,
+      errCause: axiosError.response?.data.errors || {},
     };
   }
 }
