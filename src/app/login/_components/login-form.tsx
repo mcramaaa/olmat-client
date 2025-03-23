@@ -107,7 +107,7 @@ export function LoginForm() {
               />
 
               <Button variant="link" className="p-0 text-sm" asChild>
-                <Link href="/forgot-password">Forgot password?</Link>
+                <Link href="/forgot-pass">Forgot password?</Link>
               </Button>
             </div>
 

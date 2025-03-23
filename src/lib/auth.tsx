@@ -34,6 +34,7 @@ type AuthContextType = {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  getMe: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -87,6 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       setIsSuccess(true, "Login Berhasil");
       router.push("/dashboard");
+      getMe();
     } else {
       if (res.data.status_code === 404) {
         setError(true, "Akun tidak ditemukan");
@@ -110,7 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout, getMe }}>
       {children}
     </AuthContext.Provider>
   );

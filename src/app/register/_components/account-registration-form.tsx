@@ -185,19 +185,17 @@ export function AccountRegistrationForm(props: IProps) {
     }
   }, [selectedProvince, form]);
 
-  console.log("err", serverErrors);
   // Submit
   async function onSubmitData(data: AccountFormValues) {
     setIsLoading(true);
     setServerErrors(null);
+    const userEmail = form.getValues("email");
 
     try {
       const res = await submitRegistrationAction(data);
-      console.log(res);
 
       if (res.success) {
-        console.log("sukses data", res.data.data);
-        setCookie("CBO_Auth", res.data.data);
+        setCookie("CBO_Auth", { data: res.data.data, email: userEmail });
         setIsSuccess(true, "Yeay, pendaftaran berhasil");
         router.push("/register/success?type=account");
       } else {
@@ -223,8 +221,6 @@ export function AccountRegistrationForm(props: IProps) {
             );
           }
         }
-
-        console.log("cokk", res.errCause);
 
         // Handle API errors
         // if (res.message) {

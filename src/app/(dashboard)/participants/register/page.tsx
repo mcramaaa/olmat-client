@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ParticipantRegistrationForm } from "../_components/participant-registration-form";
+import ParticipantFormV3 from "../_components/ParticipantFormV3";
 
 export const metadata: Metadata = {
   title: "Register Participants - Math Olympiad 2025",
@@ -19,7 +19,7 @@ export default function RegisterParticipantsPage() {
           </p>
         </div>
 
-        <ParticipantRegistrationForm />
+        <ParticipantFormV3 />
       </div>
     </div>
   );

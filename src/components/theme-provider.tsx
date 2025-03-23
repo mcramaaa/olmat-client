@@ -85,7 +85,7 @@ export function ThemeProvider({
         showSpinner={true}
         easing="ease"
       />
-      <Toaster />
+      <Toaster toastOptions={{ duration: 4000 }} />
       {children}
     </ThemeProviderContext.Provider>
   );

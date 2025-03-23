@@ -70,7 +70,7 @@ const participantsSchema = z.object({
 
 type ParticipantFormValues = z.infer<typeof participantsSchema>;
 
-export function ParticipantRegistrationForm() {
+export function ParticipantFormV1() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("0");

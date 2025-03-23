@@ -97,8 +97,6 @@ export async function submitRegistrationAction(
     password: validationResult.data.password,
     school_id: +validationResult.data.school,
   };
-  console.log("ispayload", payload);
-
   try {
     const response = await api.post("/auth/user/register", payload);
 
