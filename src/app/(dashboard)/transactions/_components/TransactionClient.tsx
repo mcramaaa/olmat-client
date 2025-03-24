@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { convertDateTime, convertRupiah } from "@/helper/common";
 import { IPayment } from "@/interfaces/IPayments";
 import { Filter, Search } from "lucide-react";
 import Link from "next/link";
@@ -60,39 +61,40 @@ export default function TransactionClient({ transactions }: IProps) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Transaction ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Participants
+                  <TableHead className="text-center">No.</TableHead>
+                  <TableHead>Invoice</TableHead>
+                  <TableHead className="text-center">
+                    Batas Pembayaran
                   </TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Payment Method
+                  <TableHead className="text-center">Jumlah Peserta</TableHead>
+                  <TableHead className="hidden md:table-cell text-center">
+                    Total Harga
                   </TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+
+                  <TableHead className="text-center">Status</TableHead>
+                  <TableHead className="text-center">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {transactions.map((transaction) => (
-                  <TableRow key={transaction.id}>
-                    <TableCell className="font-medium">
-                      {transaction.id}
-                    </TableCell>
+                {transactions.map((transaction, i) => (
+                  <TableRow key={i}>
+                    <TableCell className="text-center">{i + 1}</TableCell>
                     <TableCell>{transaction.invoice}</TableCell>
-                    <TableCell>{transaction.amount}</TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {transaction.participantAmount}
+                    <TableCell className="font-medium text-center">
+                      {convertDateTime(transaction.expiredAt)}
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {transaction.totalAmount}
+                    <TableCell className="hidden text-center md:table-cell">
+                      {transaction.participantAmount} Peserta
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell text-center">
+                      {convertRupiah(transaction.totalAmount)}
+                    </TableCell>
+                    <TableCell className="flex justify-center items-center">
                       <div
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                          transaction.status === "Completed"
+                        className={`inline-flex items-center rounded-full mt-1 px-2.5 py-0.5 text-xs font-medium ${
+                          transaction.status === "paid"
                             ? "bg-green-100 text-green-800"
-                            : transaction.status === "Pending"
+                            : transaction.status === "pending"
                             ? "bg-yellow-100 text-yellow-800"
                             : "bg-red-100 text-red-800"
                         }`}
@@ -100,10 +102,10 @@ export default function TransactionClient({ transactions }: IProps) {
                         {transaction.status}
                       </div>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-center">
                       <Button variant="ghost" size="sm" asChild>
-                        <Link href={`/transactions/${transaction.id}`}>
-                          View
+                        <Link href={`/transactions/${transaction.invoice}`}>
+                          Lihat
                         </Link>
                       </Button>
                     </TableCell>

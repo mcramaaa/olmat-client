@@ -80,7 +80,7 @@ export function DashboardItem({ data }: IProps) {
                   <span className="text-xl">Peserta</span>
                 </p>
               </div>
-              <p className="text-xs font-bold text-black">
+              <p className="text-sm font-bold text-black">
                 {dashData.pendingParticipant}{" "}
                 <span className="font-normal text-muted-foreground ">
                   peserta menunggu pembayaran
@@ -108,11 +108,11 @@ export function DashboardItem({ data }: IProps) {
                 <div className="text-3xl font-bold">
                   {dashData.successPayment}/{dashData.pendingPayment}
                 </div>
-                <div className="px-2 py-1 text-xs text-green-800 bg-green-100 rounded-full">
+                <div className="px-2 py-1 text-sm text-green-800 bg-green-100 rounded-full">
                   Paid
                 </div>
               </div>
-              <div className="flex items-center gap-1 text-xs font-bold">
+              <div className="flex items-center gap-1 text-sm font-bold">
                 {dashData.successPayment}
                 <p className="font-normal text-muted-foreground"> dari </p>
                 {dashData.pendingPayment}

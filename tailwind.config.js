@@ -12,11 +12,13 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
+        "custom-800": "850px",
         "2xl": "1400px",
       },
     },
     extend: {
       colors: {
+        brand: "#4287f5",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -73,5 +75,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
-
+};

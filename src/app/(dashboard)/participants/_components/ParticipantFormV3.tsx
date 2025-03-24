@@ -40,6 +40,7 @@ import ErrMessageBox from "@/components/ui/ErrMessageBox";
 import { postParticipantAction } from "../register/register.action";
 import { useAuth } from "@/lib/auth";
 import { useLayout } from "@/hooks/zustand/layout";
+import { useRouter } from "next/navigation";
 
 export const participantSchema = z.object({
   id: z.number(),
@@ -65,6 +66,7 @@ type ParticipantFormValues = z.infer<typeof formSchema>;
 
 export default function ParticipantFormV3() {
   const MAX_PARTICIPANTS = 11;
+  const router = useRouter();
   const { user } = useAuth();
   const { isLoading, setIsLoading, setIsSuccess, setError } = useLayout();
   const [activeParticipant, setActiveParticipant] = useState<number>(0);
@@ -308,8 +310,8 @@ export default function ParticipantFormV3() {
 
     const res = await postParticipantAction(completeData, user?.schoolId || 0);
     if (res.success) {
-      console.log("data part", res.data);
       setIsSuccess(true, "Yay, Peserta berhasil terdaftar 🎉");
+      router.push(`/transactions/${res.data.payment.invoice}`);
     } else {
       const err = res.error;
       setError(true, "Yah, Peserta gagal terdaftar 😔");
@@ -420,7 +422,9 @@ export default function ParticipantFormV3() {
                 <div className="flex items-center gap-2 mb-4">
                   <User className="w-5 h-5" />
                   <h3 className="text-lg font-medium">
-                    Participant {activeParticipant + 1}
+                    {fields[activeParticipant].name
+                      ? fields[activeParticipant].name
+                      : `Peserta ${activeParticipant + 1}`}
                   </h3>
                 </div>
 

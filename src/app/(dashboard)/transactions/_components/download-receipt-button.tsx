@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Receipt } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useLayout } from "@/hooks/zustand/layout";
 
@@ -130,7 +130,7 @@ export function DownloadReceiptButton({
       disabled={disabled || isLoading}
       className="w-full"
     >
-      <Download className="w-4 h-4 mr-2" />
+      <Receipt className="w-4 h-4 mr-2" />
       {isLoading ? "Generating Receipt..." : "Download Receipt"}
     </Button>
   );

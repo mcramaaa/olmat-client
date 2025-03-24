@@ -12,8 +12,9 @@ import {
   CreditCard,
   User,
   LogOut,
-  Menu,
   ChevronDown,
+  AlignLeft,
+  X,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -39,7 +40,7 @@ export function DashboardSidebar({
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 899);
     };
     checkIfMobile();
     window.addEventListener("resize", checkIfMobile);
@@ -53,13 +54,13 @@ export function DashboardSidebar({
   }, [pathname]);
 
   const sidebarContent = (
-    <div className="flex flex-col h-full">
-      <div className="px-3 py-4">
-        <div className="flex items-center px-2">
+    <div className="flex flex-col h-full ">
+      <div className="px-3 pb-4">
+        <div className="flex border-b items-center gap-4 py-2 mb-3 bg-white ">
           {/* <Link href="/" className="flex items-center">
             <span className="text-xl font-bold">Math Olympiad</span>
           </Link> */}
-          <div className="p-4 pb-4 mb-4 border-b">
+          <div className="p-4">
             <div className="flex items-center gap-2">
               <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
                 {user?.name?.charAt(0) || "U"}
@@ -73,6 +74,9 @@ export function DashboardSidebar({
                 </span>
               </div>
             </div>
+          </div>
+          <div>
+            <X className="w-10 lg:hidden" onClick={() => setIsOpen(false)} />
           </div>
         </div>
         <div className="space-y-1">
@@ -193,10 +197,10 @@ export function DashboardSidebar({
       <>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="w-5 h-5" />
-              <span className="sr-only">Toggle Menu</span>
-            </Button>
+            <button className="lg:hidden fixed flex -mt-[45px] z-50 ml-0 px-5 bg-white">
+              <AlignLeft className="w-6 h-6" />
+              <span className="sr-only">Side bar</span>
+            </button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-[280px]">
             <DialogTitle className="hidden">Navigation</DialogTitle>
