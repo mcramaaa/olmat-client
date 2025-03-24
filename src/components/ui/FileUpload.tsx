@@ -10,6 +10,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useLayout } from "@/hooks/zustand/layout";
 
 interface FileUploadDropzoneProps {
   id: string;
@@ -39,13 +40,14 @@ export default function FileUpload({
   previewClassName = "",
   placeholder = {
     title: "Drag & drop or click to upload",
-    description: `Upload a file. Max size ${maxSize}MB.`,
+    description: `Upload a file. Max size ${maxSize}KB.`,
   },
   showPreview = true,
   isImage = true,
 }: FileUploadDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [fullPreview, setFullPreview] = useState<string | null>(null);
+  const { setError } = useLayout();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -77,8 +79,8 @@ export default function FileUpload({
 
   const validateAndProcessFile = (file: File) => {
     // Check file size
-    if (file.size > maxSize * 1024 * 1024) {
-      alert(`File size exceeds ${maxSize}MB limit.`);
+    if (file.size > maxSize * 1024) {
+      setError(true, "Maximal ukuran file 200 KB yaa!");
       return;
     }
 
@@ -154,10 +156,10 @@ export default function FileUpload({
                 />
               </div>
             ) : (
-              <div className="flex items-center justify-center h-20 w-full">
-                <div className="bg-muted/50 rounded-md p-3">
+              <div className="flex items-center justify-center w-full h-20">
+                <div className="p-3 rounded-md bg-muted/50">
                   <svg
-                    className="h-8 w-8 text-muted-foreground"
+                    className="w-8 h-8 text-muted-foreground"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -172,22 +174,22 @@ export default function FileUpload({
                 </div>
               </div>
             )}
-            <p className="text-sm mt-2">{value.name}</p>
+            <p className="mt-2 text-sm">{value.name}</p>
             <Button
               type="button"
               variant="destructive"
               size="sm"
-              className="absolute -top-2 -right-2 h-7 w-7 rounded-full p-0"
+              className="absolute p-0 rounded-full -top-2 -right-2 h-7 w-7"
               onClick={handleRemove}
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="w-4 h-4" />
               <span className="sr-only">Remove file</span>
             </Button>
           </div>
         ) : (
           <div className="py-4">
             <p className="text-sm font-medium">{placeholder.title}</p>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="mt-1 text-xs text-muted-foreground">
               {placeholder.description}
             </p>
           </div>
@@ -209,7 +211,7 @@ export default function FileUpload({
       >
         <DialogTitle></DialogTitle>
         <DialogContent className="max-w-3xl">
-          <div className="relative w-full h-full flex items-center justify-center">
+          <div className="relative flex items-center justify-center w-full h-full">
             {fullPreview && (
               <div className="relative w-full h-[70vh]">
                 <Image

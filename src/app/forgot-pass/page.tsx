@@ -59,7 +59,6 @@ export default function ForgotPasswordPage() {
       setIsSuccess(true, "Email sudah dikirim coba kamu cek");
       setIsDone(true);
     } else {
-      console.log("error", res.error);
       setErrMsg(
         "Kami tidak menemukan email yang kamu berikan, coba pastikan ulang emailnya ya!"
       );
@@ -68,13 +67,13 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="flex items-center justify-center min-h-screen p-4">
       <Card className="flex flex-col items-center w-full max-w-sm">
         <CardHeader className="flex flex-col items-center">
-          <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center">
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-slate-800">
             <Shield className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-800 mb-2">
+          <h1 className="mb-2 text-2xl font-bold text-slate-800">
             Lupa Password
           </h1>
         </CardHeader>
@@ -82,7 +81,7 @@ export default function ForgotPasswordPage() {
         <CardContent>
           {!isDone ? (
             <>
-              <p className="text-center text-sm text-slate-600 mb-6">
+              <p className="mb-6 text-sm text-center text-slate-600">
                 Tenang, itu hal yang wajar kok! Masukkan alamat email kamu, dan
                 kami akan kirimkan link untuk mengatur ulang kata sandi.
               </p>
@@ -114,7 +113,7 @@ export default function ForgotPasswordPage() {
                   />
 
                   {error && (
-                    <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">
+                    <div className="p-3 mb-4 text-sm text-red-700 rounded-md bg-red-50">
                       {error}
                     </div>
                   )}
@@ -122,7 +121,7 @@ export default function ForgotPasswordPage() {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full mt-5 bg-slate-800 text-white py-3 rounded-md font-medium hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed mb-4 flex items-center justify-center"
+                    className="flex items-center justify-center w-full py-3 mt-5 mb-4 font-medium text-white rounded-md bg-slate-800 hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? (
                       <>
@@ -137,11 +136,11 @@ export default function ForgotPasswordPage() {
               </Form>
             </>
           ) : (
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="mb-6 text-center">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-green-600"
+                  className="w-8 h-8 text-green-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -154,7 +153,7 @@ export default function ForgotPasswordPage() {
                   />
                 </svg>
               </div>
-              <h2 className="text-xl font-semibold text-slate-800 mb-2">
+              <h2 className="mb-2 text-xl font-semibold text-slate-800">
                 Cek Email Kamu
               </h2>
               <p className="text-slate-600">
@@ -167,7 +166,7 @@ export default function ForgotPasswordPage() {
         <CardFooter>
           <Link
             href="/login"
-            className="flex items-center text-slate-600 hover:text-slate-800 text-sm font-medium"
+            className="flex items-center text-sm font-medium text-slate-600 hover:text-slate-800"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
             Back to Login

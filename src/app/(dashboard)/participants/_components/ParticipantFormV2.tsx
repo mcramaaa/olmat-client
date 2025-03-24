@@ -184,7 +184,6 @@ export default function ParticipantFormV2() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Here you would typically send the data to your backend
-    console.log("Submitting participants:", participants);
     alert("Registration submitted successfully!");
   };
 
@@ -199,7 +198,7 @@ export default function ParticipantFormV2() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">
               Participants ({participants.length}/{MAX_PARTICIPANTS})
             </h2>
@@ -210,14 +209,14 @@ export default function ParticipantFormV2() {
                 onClick={addParticipant}
                 className="flex items-center gap-1"
               >
-                <PlusCircle className="h-4 w-4" />
+                <PlusCircle className="w-4 h-4" />
                 Add Participant
               </Button>
             )}
           </div>
 
           {/* Participant Navigation Tabs */}
-          <div className="bg-muted/30 rounded-md p-2">
+          <div className="p-2 rounded-md bg-muted/30">
             <div className="flex flex-wrap gap-3">
               {participants.map((participant) => (
                 <div key={participant.id} className="relative">
@@ -242,13 +241,13 @@ export default function ParticipantFormV2() {
                       type="button"
                       variant="destructive"
                       size="icon"
-                      className="h-5 w-5 p-0 absolute -top-2 -right-2 rounded-full"
+                      className="absolute w-5 h-5 p-0 rounded-full -top-2 -right-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDeleteClick(participant.id, e);
                       }}
                     >
-                      <X className="h-3 w-3" />
+                      <X className="w-3 h-3" />
                       <span className="sr-only">
                         Remove participant {participant.id}
                       </span>
@@ -262,7 +261,7 @@ export default function ParticipantFormV2() {
           {/* Active Participant Form */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <User className="h-5 w-5" />
+              <User className="w-5 h-5" />
               <h3 className="text-lg font-medium">
                 Participant {activeParticipantData.id}
               </h3>
@@ -319,7 +318,7 @@ export default function ParticipantFormV2() {
                 </RadioGroup>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor={`dateOfBirth-${activeParticipantData.id}`}>
                     Date of Birth
@@ -378,7 +377,7 @@ export default function ParticipantFormV2() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor={`photo-${activeParticipantData.id}`}>
                     Photo
@@ -425,7 +424,7 @@ export default function ParticipantFormV2() {
           </div>
 
           <Alert className="bg-muted/50 border-muted">
-            <Info className="h-4 w-4" />
+            <Info className="w-4 h-4" />
             <AlertDescription>
               <span className="font-semibold">Penting</span>: Pastikan semua
               data peserta telah benar. Kamu bisa mendaftarkan 10 peserta untuk

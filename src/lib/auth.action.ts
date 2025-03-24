@@ -1,5 +1,7 @@
 "use server";
 
+import api from "@/config/axiosServer";
+import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 
 export async function getMeAction() {
@@ -36,27 +38,10 @@ export async function getMeAction() {
 
 export async function loginAction(email: string, password: string) {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST_API}/auth/user/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-        cache: "no-store",
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return { data, error: true, status: response.status };
-    }
-
-    return { data, error: null };
+    const res = await api.post("/auth/user/login", { email, password });
+    return { success: true, data: res.data, error: null };
   } catch (error) {
-    console.error("Error in loginAction:", error);
-    return { data: null, error: error };
+    const err = error as AxiosError;
+    return { success: false, data: null, error: err.response?.data };
   }
 }

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { PlusCircle, User, Info, X } from "lucide-react";
+import { PlusCircle, User, Info, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,8 +37,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import ErrMessageBox from "@/components/ui/ErrMessageBox";
+import { postParticipantAction } from "../register/register.action";
+import { useAuth } from "@/lib/auth";
+import { useLayout } from "@/hooks/zustand/layout";
 
-const participantSchema = z.object({
+export const participantSchema = z.object({
   id: z.number(),
   name: z.string().min(1, "Nama perlu di isi"),
   gender: z.string().min(1, "Jenis Kelamin perlu di isi"),
@@ -62,6 +65,8 @@ type ParticipantFormValues = z.infer<typeof formSchema>;
 
 export default function ParticipantFormV3() {
   const MAX_PARTICIPANTS = 11;
+  const { user } = useAuth();
+  const { isLoading, setIsLoading, setIsSuccess, setError } = useLayout();
   const [activeParticipant, setActiveParticipant] = useState<number>(0);
   const [participantToDelete, setParticipantToDelete] = useState<number | null>(
     null
@@ -227,7 +232,6 @@ export default function ParticipantFormV3() {
   // Err Detection
   const checkForErrors = useCallback((): boolean => {
     //Form Check
-    console.log("is", activeParticipant);
     const formErrors = form.formState.errors;
     if (formErrors.participants && Array.isArray(formErrors.participants)) {
       for (let i = 0; i < formErrors.participants.length; i++) {
@@ -237,7 +241,6 @@ export default function ParticipantFormV3() {
           typeof participantError === "object" &&
           Object.keys(participantError).length > 0
         ) {
-          setActiveParticipant(i);
           const errorField = Object.keys(participantError)[0];
           const errorMessage =
             participantError[errorField]?.message || "Data tidak valid";
@@ -255,7 +258,6 @@ export default function ParticipantFormV3() {
             i + 1
           } belum dilengkapi, lengkapi terlebih dahulu untuk berpindah ke peserta yang lain`
         );
-        // setActiveParticipant(i);
         return true;
       }
       if (!fileData[i].img) {
@@ -264,7 +266,6 @@ export default function ParticipantFormV3() {
             i + 1
           } belum dilengkapi, lengkapi terlebih dahulu untuk berpindah ke peserta yang lain`
         );
-        // setActiveParticipant(i);
         return true;
       }
       if (!fileData[i].attachment) {
@@ -273,14 +274,13 @@ export default function ParticipantFormV3() {
             i + 1
           } belum dilengkapi, lengkapi terlebih dahulu untuk berpindah ke peserta yang lain`
         );
-        // setActiveParticipant(i);
+
         return true;
       }
     }
-
     setIsErrMsg(undefined);
     return false;
-  }, [fields.length, fileData, activeParticipant, form.formState.errors]);
+  }, [fields.length, fileData, form.formState.errors]);
 
   useEffect(() => {
     if (isCountSubmit !== 0) {
@@ -288,27 +288,35 @@ export default function ParticipantFormV3() {
     }
   }, [form.formState, fileData, fields.length, checkForErrors, isCountSubmit]);
 
-  console.log("nin", isCountSubmit);
-
   // Handle Submit
-  const onSubmit = (data: ParticipantFormValues) => {
+  async function onSubmit(data: ParticipantFormValues) {
+    setIsLoading(true);
     setIsCountSubmit(isCountSubmit + 1);
     setIsErrMsg(undefined);
     if (checkForErrors()) {
       return;
     }
-    console.log("first");
-    const completeData = data.participants.map((participant, index) => ({
-      ...participant,
-      photo: fileData[index].img,
-      attachment: fileData[index].attachment,
-    }));
+    const completeData = data.participants.map((participant, index) => {
+      delete participant.imgPreview;
+      delete participant.attachmentPreview;
+      return {
+        ...participant,
+        img: fileData[index].img,
+        attachment: fileData[index].attachment,
+      };
+    });
 
-    console.log("Mengirim data peserta:", completeData);
-    alert("Pendaftaran berhasil dikirim!");
-  };
-
-  console.log(isErrMsg);
+    const res = await postParticipantAction(completeData, user?.schoolId || 0);
+    if (res.success) {
+      console.log("data part", res.data);
+      setIsSuccess(true, "Yay, Peserta berhasil terdaftar 🎉");
+    } else {
+      const err = res.error;
+      setError(true, "Yah, Peserta gagal terdaftar 😔");
+      console.error("err", err);
+    }
+    setIsLoading(false);
+  }
 
   return (
     <Form {...form}>
@@ -322,7 +330,7 @@ export default function ParticipantFormV3() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">
                 Participants ({fields.length}/{MAX_PARTICIPANTS})
               </h2>
@@ -333,14 +341,14 @@ export default function ParticipantFormV3() {
                   onClick={addParticipant}
                   className="flex items-center gap-1"
                 >
-                  <PlusCircle className="h-4 w-4" />
+                  <PlusCircle className="w-4 h-4" />
                   Add Participant
                 </Button>
               )}
             </div>
 
             {/* Participant Navigation Tabs */}
-            <div className="bg-muted/30 rounded-md p-2">
+            <div className="p-2 rounded-md bg-muted/30">
               <div className="flex flex-wrap gap-3">
                 {fields.map((field, index) => {
                   // Cek apakah participant ini memiliki error di form - cara yang aman secara tipe
@@ -383,7 +391,7 @@ export default function ParticipantFormV3() {
                       >
                         {index + 1}
                         {hasError && (
-                          <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                          <span className="absolute w-3 h-3 bg-red-500 rounded-full -top-1 -right-1"></span>
                         )}
                       </Button>
                       {fields.length > 1 && (
@@ -391,10 +399,10 @@ export default function ParticipantFormV3() {
                           type="button"
                           variant="destructive"
                           size="icon"
-                          className="h-5 w-5 p-0 absolute -top-2 -right-2 rounded-full"
+                          className="absolute w-5 h-5 p-0 rounded-full -top-2 -right-2"
                           onClick={(e) => handleDeleteClick(index, e)}
                         >
-                          <X className="h-3 w-3" />
+                          <X className="w-3 h-3" />
                           <span className="sr-only">
                             Hapus peserta {index + 1}
                           </span>
@@ -410,7 +418,7 @@ export default function ParticipantFormV3() {
             {fields[activeParticipant] && (
               <div key={activeParticipant}>
                 <div className="flex items-center gap-2 mb-4">
-                  <User className="h-5 w-5" />
+                  <User className="w-5 h-5" />
                   <h3 className="text-lg font-medium">
                     Participant {activeParticipant + 1}
                   </h3>
@@ -448,7 +456,7 @@ export default function ParticipantFormV3() {
                           >
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem
-                                value="male"
+                                value="L"
                                 id={`male-${activeParticipant}`}
                               />
                               <Label htmlFor={`male-${activeParticipant}`}>
@@ -457,7 +465,7 @@ export default function ParticipantFormV3() {
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem
-                                value="female"
+                                value="P"
                                 id={`female-${activeParticipant}`}
                               />
                               <Label htmlFor={`female-${activeParticipant}`}>
@@ -471,7 +479,7 @@ export default function ParticipantFormV3() {
                     )}
                   />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <FormField
                       control={form.control}
                       name={`participants.${activeParticipant}.birth`}
@@ -519,7 +527,7 @@ export default function ParticipantFormV3() {
                     )}
                   />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor={`photo-${activeParticipant}`}>
                         Photo
@@ -534,7 +542,7 @@ export default function ParticipantFormV3() {
                           handlePhotoChange(activeParticipant, file)
                         }
                         accept="image/jpeg,image/png,image/webp"
-                        maxSize={5}
+                        maxSize={200}
                         placeholder={{
                           title: "Drag & drop or click to upload",
                           description:
@@ -557,7 +565,7 @@ export default function ParticipantFormV3() {
                           handleAttachmentChange(activeParticipant, file)
                         }
                         accept="image/jpeg,image/png,image/webp"
-                        maxSize={5}
+                        maxSize={200}
                         placeholder={{
                           title: "Drag & drop or click to upload",
                           description:
@@ -572,7 +580,7 @@ export default function ParticipantFormV3() {
             {isErrMsg && <ErrMessageBox message={isErrMsg} />}
 
             <Alert className="bg-muted/50 border-muted">
-              <Info className="h-4 w-4" />
+              <Info className="w-4 h-4" />
               <AlertDescription>
                 <span className="font-semibold">Penting</span>: Pastikan semua
                 data peserta telah benar. Kamu bisa mendaftarkan 10 peserta
@@ -581,8 +589,20 @@ export default function ParticipantFormV3() {
             </Alert>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button type="submit" size="lg">
-              Submit Registration
+            <Button
+              type="submit"
+              size="lg"
+              disabled={isLoading}
+              onClick={() => setIsCountSubmit(isCountSubmit + 1)}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  Mengirim...
+                </>
+              ) : (
+                "Kirim Pendaftaran"
+              )}
             </Button>
           </CardFooter>
         </Card>

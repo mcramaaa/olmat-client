@@ -81,21 +81,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
-    const res: any = await loginAction(email, password);
-    if (res.data.status_code === 200) {
+    const res = await loginAction(email, password);
+    if (res.success) {
       setCookie("CBO_Token", res.data.data.token, {
         maxAge: 60 * 60 * 24 * 1,
       });
-      setIsSuccess(true, "Login Berhasil");
+      setIsSuccess(true, "Selamat Kamu Berhasil Masuk");
       router.push("/dashboard");
       getMe();
     } else {
-      if (res.data.status_code === 404) {
-        setError(true, "Akun tidak ditemukan");
+      const err = res.error as { status_code: number };
+      if (err.status_code === 404) {
+        setError(true, "Maaf Akun kamu tidak ditemukan");
       }
-      if (res.data.status_code === 422) {
-        setError(true, "Akun tidak ditemukan");
-        setError(true, "Password salah");
+      if ((res.error as { status_code: number }).status_code === 422) {
+        setError(true, "Sepertinya Password kamu salah");
       }
     }
   };
