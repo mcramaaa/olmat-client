@@ -22,6 +22,7 @@ import {
   convertBirth,
   convertDate,
   convertDateTime,
+  convertGender,
   convertRupiah,
 } from "@/helper/common";
 
@@ -36,7 +37,7 @@ export default function TransactionDetailClient({
 }: IProps) {
   return (
     <div className="flex flex-col gap-6 md:flex-row">
-      <div className="md:w-2/5 lg:w-1/3 duration-300">
+      <div className="duration-300 md:w-2/5 lg:w-1/3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-lg font-medium">
@@ -57,11 +58,11 @@ export default function TransactionDetailClient({
           <CardContent className="flex flex-col items-center pb-0">
             <h3 className="mb-4 font-semibold text-center">QRIS Payment</h3>
 
-            <div className="w-full flex justify-center mx-auto mb-4">
+            <div className="flex justify-center w-full mx-auto mb-4">
               <PaymentQRCode qrCode={transaction?.action?.qrString || ""} />
             </div>
 
-            <div className="text-md text-center text-muted-foreground">
+            <div className="text-center text-md text-muted-foreground">
               <p>Selesaikan pembayaran sebelum</p>
               <p className="text-black">
                 {convertDateTime(transaction?.expiredAt)}
@@ -87,7 +88,7 @@ export default function TransactionDetailClient({
             </div>
           </CardContent>
           <CardContent className="">
-            <div className=" space-y-2 ">
+            <div className="space-y-2 ">
               <div>
                 <h3 className="text-sm font-medium text-muted-foreground">
                   Harga
@@ -126,7 +127,7 @@ export default function TransactionDetailClient({
         </Card>
       </div>
 
-      <div className="md:w-3/5 lg:w-2/3 duration-300">
+      <div className="duration-300 md:w-3/5 lg:w-2/3">
         <Card>
           <CardHeader>
             <CardTitle>Registered Participants</CardTitle>
@@ -153,7 +154,7 @@ export default function TransactionDetailClient({
                         {participant.name}
                       </TableCell>
                       <TableCell className="text-center">
-                        {participant.gender === "L" ? "Laki-laki" : "Perempuan"}
+                        {convertGender(participant.gender)}
                       </TableCell>
 
                       <TableCell className="text-center">

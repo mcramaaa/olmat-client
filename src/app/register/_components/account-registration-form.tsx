@@ -26,6 +26,7 @@ import { ReusableCombobox } from "@/components/ui/reusable-combobox";
 import { Frown } from "lucide-react";
 import { useLayout } from "@/hooks/zustand/layout";
 import { setCookie } from "cookies-next";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const accountSchema = z
   .object({
@@ -35,7 +36,10 @@ const accountSchema = z
     school: z.string().min(1, { message: "School name is required" }),
     fullName: z.string().min(1, { message: "Full name is required" }),
     email: z.string().email({ message: "Please enter a valid email address" }),
-    whatsapp: z.string().min(1, { message: "WhatsApp number is required" }),
+    whatsapp: z
+      .string()
+      .min(1, { message: "WhatsApp number is required" })
+      .regex(/^08\d+$/, "Nomor WhatsApp harus dimulai dengan 08"),
     password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters" }),
@@ -404,8 +408,7 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
+                      <PasswordInput
                         {...field}
                         disabled={isLoading}
                         placeholder="Masukkan Password"
@@ -423,8 +426,7 @@ export function AccountRegistrationForm(props: IProps) {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
+                      <PasswordInput
                         {...field}
                         disabled={isLoading}
                         placeholder="Masukkan konfirmasi Password"

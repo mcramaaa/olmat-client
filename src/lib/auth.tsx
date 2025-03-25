@@ -47,6 +47,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const getMe = useCallback(async () => {
     const res = await getMeAction();
+    if (res.user === null) {
+      logout();
+    }
     if (res.user) {
       if (res.user.type === "Admin") {
         setUser({
@@ -74,7 +77,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
   }, []);
-  // Check if user is logged in on mount
   useEffect(() => {
     getMe();
   }, []);

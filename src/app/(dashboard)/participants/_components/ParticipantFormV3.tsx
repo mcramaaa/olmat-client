@@ -296,6 +296,7 @@ export default function ParticipantFormV3() {
     setIsCountSubmit(isCountSubmit + 1);
     setIsErrMsg(undefined);
     if (checkForErrors()) {
+      setIsLoading(false);
       return;
     }
     const completeData = data.participants.map((participant, index) => {
@@ -312,18 +313,19 @@ export default function ParticipantFormV3() {
     if (res.success) {
       setIsSuccess(true, "Yay, Peserta berhasil terdaftar 🎉");
       router.push(`/transactions/${res.data.payment.invoice}`);
+      setIsLoading(false);
     } else {
       const err = res.error;
       setError(true, "Yah, Peserta gagal terdaftar 😔");
+      setIsLoading(false);
       console.error("err", err);
     }
-    setIsLoading(false);
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Card className="w-full max-w-4xl mx-auto">
+        <Card className="w-full max-w-4xl">
           <CardHeader>
             <CardTitle>Pendaftaran Peserta</CardTitle>
             <CardDescription>

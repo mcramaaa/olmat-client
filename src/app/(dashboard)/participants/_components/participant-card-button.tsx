@@ -6,23 +6,21 @@ import { Download } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useLayout } from "@/hooks/zustand/layout";
 
-interface Participant {
+interface ParticipantCardButtonProps {
   id: string;
   name: string;
   school: string;
-  rayon: string;
-  photo: string;
-  status: string;
-  paymentStatus: string;
-}
-
-interface ParticipantCardButtonProps {
-  participant: Participant;
+  region: string;
+  imgUrl: string;
   disabled?: boolean;
 }
 
 export function ParticipantCardButton({
-  participant,
+  id,
+  imgUrl,
+  name,
+  region,
+  school,
   disabled = false,
 }: ParticipantCardButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,57 +37,34 @@ export function ParticipantCardButton({
         format: "a5",
       });
 
-      // Load the background image
-      const backgroundImg = new Image();
-      backgroundImg.crossOrigin = "anonymous";
-      backgroundImg.src =
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/idcard-IOgxy0oifXAO3TwYyhoyGQvIUF4DGc.png";
+      // Get the participant image through our proxy
+      const participantImageUrl = `/api/proxy-image?path=${encodeURIComponent(
+        `imgs/${imgUrl}`
+      )}`;
 
-      // Load the logo
-      const logoImg = new Image();
-      logoImg.crossOrigin = "anonymous";
-      logoImg.src =
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/olmat-logo-am4Yu1kqZt6ezOr0hwsWF4c7mKaXZe.png";
+      // For the ID card template, assuming it's in your public folder
+      // If it's also on your backend, adjust the path accordingly
+      const idCardTemplate = "/idcard.png";
 
-      // Load the participant photo
-      const photoImg = new Image();
-      photoImg.crossOrigin = "anonymous";
-      photoImg.src = participant.photo;
-
-      // Wait for images to load
-      await Promise.all([
-        new Promise<void>((resolve) => {
-          backgroundImg.onload = () => resolve();
-        }),
-        new Promise<void>((resolve) => {
-          logoImg.onload = () => resolve();
-        }),
-        new Promise<void>((resolve) => {
-          photoImg.onload = () => resolve();
-        }),
-      ]);
+      // Load both images
+      const [participantImageDataUrl, idCardTemplateDataUrl] =
+        await Promise.all([
+          loadImage(participantImageUrl),
+          loadImage(idCardTemplate),
+        ]);
 
       // Add background image
       doc.addImage({
-        imageData: backgroundImg,
+        imageData: idCardTemplateDataUrl,
         x: 0,
         y: 0,
         width: 148, // A5 width
         height: 210, // A5 height
       });
 
-      // Add logo
-      // doc.addImage({
-      //   imageData: logoImg,
-      //   x: 64, // Center of page
-      //   y: 20,
-      //   width: 20,
-      //   height: 20,
-      // });
-
       // Add participant photo (in the placeholder area)
       doc.addImage({
-        imageData: photoImg,
+        imageData: participantImageDataUrl,
         x: 57, // Center of the placeholder
         y: 45,
         width: 34,
@@ -98,40 +73,50 @@ export function ParticipantCardButton({
 
       // Add participant details
       doc.setFont("helvetica", "bold");
-      doc.setFontSize(15);
-      doc.setTextColor(0, 0, 0); // White text for better visibility on the blue background
+      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0); // Black text
 
       // Add participant name
-      doc.text(participant.name, 35, 115, { align: "left" });
+      doc.text(name || "", 30, 115, { align: "left" });
 
       // Add participant ID
-      doc.text(participant.id, 35, 139, { align: "left" });
+      doc.text(id || "", 30, 138, { align: "left" });
 
       // Add school name
-      doc.text(participant.school, 35, 162.5, { align: "left" });
+      doc.text(school || "", 30, 162.5, { align: "left" });
 
       // Add rayon
-      doc.text(participant.rayon, 35, 186.4, { align: "left" });
+      doc.text(region || "", 30, 186.4, { align: "left" });
 
       // Save the PDF
-      doc.save(`participant-card-${participant.id}.pdf`);
+      doc.save(`Kartu Peserta-${id}-${name}.pdf`);
 
       setIsSuccess(true, "Participant card downloaded");
-      // toast({
-      //   title: "Participant card downloaded",
-      //   description: "The participant card has been downloaded successfully.",
-      // });
     } catch (error) {
-      setError(true, "Failed Participant card downloaded");
-      throw error;
-      // toast({
-      //   title: "Download failed",
-      //   description:
-      //     "There was an error downloading the participant card. Please try again.",
-      //   variant: "destructive",
-      // });
+      console.error("Error generating PDF:", error);
+      setError(true, "Failed to download participant card");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Helper function to load an image and convert it to a data URL
+  const loadImage = async (src: string): Promise<string> => {
+    try {
+      const response = await fetch(src);
+      if (!response.ok) {
+        throw new Error(`Failed to load image: ${response.statusText}`);
+      }
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error("Error loading image:", error);
+      throw error;
     }
   };
 
@@ -147,7 +132,11 @@ export function ParticipantCardButton({
           : "Download participant card"
       }
     >
-      <Download className="w-4 h-4" />
+      {isLoading ? (
+        <span className="w-4 h-4 border-2 border-current rounded-full animate-spin border-t-transparent" />
+      ) : (
+        <Download className="w-4 h-4" />
+      )}
       <span className="sr-only">Download Card</span>
     </Button>
   );

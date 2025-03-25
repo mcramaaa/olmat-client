@@ -1,3 +1,5 @@
+import { ISchool } from "./ISchool";
+
 export interface IParticipant {
   id?: string;
   payment_id?: number;
@@ -13,4 +15,5 @@ export interface IParticipant {
   email?: string;
   img: any | undefined;
   attachment: any | undefined;
+  school: ISchool;
 }

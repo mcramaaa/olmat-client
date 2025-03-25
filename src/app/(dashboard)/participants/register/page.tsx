@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function RegisterParticipantsPage() {
   return (
-    <div className="container px-4 md:px-6 pb-12">
-      <div className="mx-auto max-w-4xl space-y-6">
+    <div className="pb-12  md:px-6">
+      <div className="max-w-4xl mx-auto space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Participant Registration</h1>
           <p className="text-gray-500">

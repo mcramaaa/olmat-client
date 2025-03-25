@@ -123,7 +123,7 @@ export function DashboardItem({ data }: IProps) {
             </CardContent>
             <CardFooter>
               <Button asChild className="w-full" variant="outline">
-                <Link href="/payment/PAY-001">Lihat Transaksi</Link>
+                <Link href="/transactions">Lihat Transaksi</Link>
               </Button>
             </CardFooter>
           </Card>

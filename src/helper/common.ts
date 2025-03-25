@@ -61,3 +61,11 @@ export function convertBirth(value: any | undefined) {
 
   return `${formattedDate} `;
 }
+
+export function convertGender(value: string | undefined) {
+  if (value === "L") {
+    return "Laki-laki";
+  } else {
+    return "Perempuan";
+  }
+}
