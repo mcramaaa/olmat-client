@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { getParticipantIdAction } from "../participant.action";
 import ParticipantDetailClient from "../_components/ParticipantDetailClient";
+import BackButton from "@/components/ui/BackButton";
 
 export const metadata: Metadata = {
   title: "Participant Details - Math Olympiad 2025",
@@ -16,7 +14,7 @@ interface ParticipantPageProps {
   };
 }
 
-export default async function ParticipantPage({
+export default async function ParticipantPageDetail({
   params,
 }: ParticipantPageProps) {
   const { id } = await params;
@@ -25,12 +23,18 @@ export default async function ParticipantPage({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/participants">
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-        </Button>
+        <BackButton />
         <h1 className="text-3xl font-bold tracking-tight">Detail Peserta</h1>
+      </div>
+
+      <div className="mb-4 md:hidden">
+        <h1 className="text-2xl font-bold tracking-tight">
+          Halo, pejuang Matematika! 🎓
+        </h1>
+        <p className="text-sm text-gray-500">
+          Ini adalah halaman profilmu sebagai peserta Olimpiade Matematika
+          UINSA.
+        </p>
       </div>
 
       <ParticipantDetailClient participant={res.data} />

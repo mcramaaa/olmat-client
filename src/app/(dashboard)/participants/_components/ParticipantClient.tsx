@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,53 +18,62 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IMetaData } from "@/interfaces/IMetaData";
-import { IParticipant } from "@/interfaces/IParticipant";
+import type { IMetaData } from "@/interfaces/IMetaData";
+import type { IParticipant } from "@/interfaces/IParticipant";
 import { Eye, Filter, Search } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 import { convertBirth, convertGender } from "@/helper/common";
+import { Pagination } from "@/components/ui/Pagination";
+import { usePathname, useRouter } from "next/navigation";
+import { useEncodedUrl } from "@/hooks/useEncodeUrl";
 
 interface IProps {
   participants: IParticipant[];
   metadata: IMetaData;
+  params: {
+    page: number;
+    limit: number;
+  };
 }
 
-export default function ParticipantClient({ participants, metadata }: IProps) {
+export default function ParticipantClient({
+  participants,
+  metadata,
+  params,
+}: IProps) {
+  const path = usePathname();
+  const router = useRouter();
+  const encodedCurrentUrl = useEncodedUrl();
+
+  const handlePageChange = (page: number) => {
+    router.push(`${path}?page=${page}&limit=${params.limit}`);
+  };
+
+  const handleLimitChange = (limit: number) => {
+    router.push(`${path}?page=${params.page}&limit=${limit}`);
+  };
+
   return (
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Participants List</CardTitle>
+          <CardTitle>List Peserta</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4 mb-6 md:flex-row">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search participants..." className="pl-8" />
+              <Input placeholder="Cari peserta..." className="pl-8" />
             </div>
             <div className="flex gap-2">
-              <Select defaultValue="all-status">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Filter by status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all-status">All Statuses</SelectItem>
-                  <SelectItem value="approved">Approved</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="rejected">Rejected</SelectItem>
-                </SelectContent>
-              </Select>
-
               <Select defaultValue="all-payment">
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Filter by payment" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all-payment">All Payments</SelectItem>
-                  <SelectItem value="paid">Paid</SelectItem>
-                  <SelectItem value="unpaid">Unpaid</SelectItem>
-                  <SelectItem value="refunded">Refunded</SelectItem>
+                  <SelectItem value="all-payment">Semua</SelectItem>
+                  <SelectItem value="paid">Terbayar</SelectItem>
+                  <SelectItem value="unpaid">Pending</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -119,15 +130,13 @@ export default function ParticipantClient({ participants, metadata }: IProps) {
                     <TableCell className="text-right">
                       <div className="flex justify-center gap-2">
                         <Button variant="ghost" size="icon" asChild>
-                          <Link href={`/participants/${participant.id}`}>
+                          <Link
+                            href={`/participants/${participant.id}?returnUrl=${encodedCurrentUrl}`}
+                          >
                             <Eye className="w-4 h-4" />
                             <span className="sr-only">View</span>
                           </Link>
                         </Button>
-                        {/* <ParticipantCardButton
-                          participant={participant}
-                          disabled={participant.status !== "active"}
-                        /> */}
                       </div>
                     </TableCell>
                   </TableRow>
@@ -136,19 +145,13 @@ export default function ParticipantClient({ participants, metadata }: IProps) {
             </Table>
           </div>
 
-          <div className="flex items-center justify-between mt-4">
-            <div className="text-sm text-muted-foreground">
-              Showing <strong>5</strong> of <strong>5</strong> participants
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" disabled>
-                Previous
-              </Button>
-              <Button variant="outline" size="sm" disabled>
-                Next
-              </Button>
-            </div>
-          </div>
+          <Pagination
+            currentPage={metadata.current_page}
+            totalItems={metadata.total}
+            itemsPerPage={metadata.per_page}
+            onItemsPerPageChange={handleLimitChange}
+            onPageChange={handlePageChange}
+          />
         </CardContent>
       </Card>
     </div>

@@ -5,10 +5,10 @@ import { IParticipant } from "@/interfaces/IParticipant";
 import { IPayment } from "@/interfaces/IPayments";
 import { AxiosError } from "axios";
 
-export async function getTransactionAction() {
+export async function getTransactionAction(page: number, limit: number) {
   try {
     // await new Promise((resolve) => setTimeout(resolve, 2000));
-    const res = await api.get(`/payment?page=1&limit=10`);
+    const res = await api.get(`/payment?page=${page}&limit=${limit}`);
     const rawData: IPayment[] = res.data.data.map((item: any) => ({
       id: item.id,
       invoice: item.invoice,

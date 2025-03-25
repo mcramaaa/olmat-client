@@ -35,6 +35,8 @@ export function DashboardItem({ data }: IProps) {
     pendingParticipant: data.pending_participant,
   };
 
+  console.log(dashData.successParticipant === 0);
+
   return (
     <>
       <div>
@@ -90,7 +92,9 @@ export function DashboardItem({ data }: IProps) {
             <CardFooter>
               <Button asChild className="w-full">
                 <Link href="/participants/register">
-                  Daftarkan Peserta Lagi
+                  {+dashData.successParticipant !== 0
+                    ? "Daftarkan Peserta Lagi"
+                    : "Mulai daftarkan peserta"}
                 </Link>
               </Button>
             </CardFooter>

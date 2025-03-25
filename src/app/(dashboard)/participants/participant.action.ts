@@ -1,9 +1,9 @@
 import api from "@/config/axiosServer";
 import { AxiosError } from "axios";
 
-export async function getParticipantAction() {
+export async function getParticipantAction(page: number, limit: number) {
   try {
-    const res = await api.get("/participant?page=1&limit=10");
+    const res = await api.get(`/participant?page=${page}&limit=${limit}`);
     return { success: true, data: res.data, error: null };
   } catch (error) {
     const err = error as AxiosError;

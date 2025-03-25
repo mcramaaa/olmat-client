@@ -64,7 +64,7 @@ const formSchema = z.object({
 
 type ParticipantFormValues = z.infer<typeof formSchema>;
 
-export default function ParticipantFormV3() {
+export default function ParticipantForm() {
   const MAX_PARTICIPANTS = 11;
   const router = useRouter();
   const { user } = useAuth();
@@ -327,7 +327,14 @@ export default function ParticipantFormV3() {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card className="w-full max-w-4xl">
           <CardHeader>
-            <CardTitle>Pendaftaran Peserta</CardTitle>
+            <CardTitle>
+              <button
+                onClick={() => setIsLoading(false)}
+                className="hover:scale-110"
+              >
+                Pendaftaran Peserta
+              </button>
+            </CardTitle>
             <CardDescription>
               Kamu dapat mendaftarkan 10 Peserta untuk mendapatkan gratis 1
               Peserta
@@ -336,7 +343,7 @@ export default function ParticipantFormV3() {
           <CardContent className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">
-                Participants ({fields.length}/{MAX_PARTICIPANTS})
+                Peserta ({fields.length}/{MAX_PARTICIPANTS})
               </h2>
               {fields.length < MAX_PARTICIPANTS && (
                 <Button
@@ -346,7 +353,7 @@ export default function ParticipantFormV3() {
                   className="flex items-center gap-1"
                 >
                   <PlusCircle className="w-4 h-4" />
-                  Add Participant
+                  Tambah Peserta
                 </Button>
               )}
             </div>
@@ -436,7 +443,7 @@ export default function ParticipantFormV3() {
                     name={`participants.${activeParticipant}.name`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel>Nama Lengkap</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Enter participant's full name"
@@ -453,7 +460,7 @@ export default function ParticipantFormV3() {
                     name={`participants.${activeParticipant}.gender`}
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel>Gender</FormLabel>
+                        <FormLabel>Jenis Kelamin</FormLabel>
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
@@ -465,8 +472,9 @@ export default function ParticipantFormV3() {
                                 value="L"
                                 id={`male-${activeParticipant}`}
                               />
+
                               <Label htmlFor={`male-${activeParticipant}`}>
-                                Male
+                                Laki-laki
                               </Label>
                             </div>
                             <div className="flex items-center space-x-2">
@@ -475,7 +483,7 @@ export default function ParticipantFormV3() {
                                 id={`female-${activeParticipant}`}
                               />
                               <Label htmlFor={`female-${activeParticipant}`}>
-                                Female
+                                Perempuan
                               </Label>
                             </div>
                           </RadioGroup>
@@ -491,7 +499,7 @@ export default function ParticipantFormV3() {
                       name={`participants.${activeParticipant}.birth`}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Date of Birth</FormLabel>
+                          <FormLabel>Tanggal Lahir</FormLabel>
                           <FormControl>
                             <Input type="date" {...field} />
                           </FormControl>
@@ -524,7 +532,7 @@ export default function ParticipantFormV3() {
                     name={`participants.${activeParticipant}.phone`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone Number</FormLabel>
+                        <FormLabel>WhatsApp</FormLabel>
                         <FormControl>
                           <Input placeholder="+62 8xx xxxx xxxx" {...field} />
                         </FormControl>
@@ -535,9 +543,7 @@ export default function ParticipantFormV3() {
 
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor={`photo-${activeParticipant}`}>
-                        Photo
-                      </Label>
+                      <Label htmlFor={`photo-${activeParticipant}`}>Foto</Label>
                       <FileUpload
                         id={`photo-${activeParticipant}`}
                         value={fileData[activeParticipant]?.img || null}
@@ -559,7 +565,7 @@ export default function ParticipantFormV3() {
 
                     <div className="space-y-2">
                       <Label htmlFor={`attachment-${activeParticipant}`}>
-                        Attachment
+                        Kartu Pelajar / File Pendukung
                       </Label>
                       <FileUpload
                         id={`attachment-${activeParticipant}`}

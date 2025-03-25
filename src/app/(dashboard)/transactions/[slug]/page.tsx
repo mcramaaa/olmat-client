@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { getInvAction } from "../transaction.action";
 import TransactionDetailClient from "../_components/TransactionDetailClient";
+import BackButton from "@/components/ui/BackButton";
 
 export const metadata: Metadata = {
   title: "Transaction Details - Math Olympiad 2025",
@@ -26,11 +24,7 @@ export default async function TransactionPage({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/transactions">
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-        </Button>
+        <BackButton />
         <h1 className="text-3xl font-bold tracking-tight">
           Transaction Details
         </h1>

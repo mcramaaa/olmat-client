@@ -5,8 +5,8 @@ export const ROUTES = {
   DASHBOARD: {
     DEFAULT: "/dashboard",
     ACCOUNT: "/account",
-    PARTICIPANTS: "/participants",
+    PARTICIPANTS: "/participants?page=1&limit=10",
     REGISTER_PARTICIPANTS: "/participants/register",
-    TRANSACTIONS: "/transactions",
+    TRANSACTIONS: "/transactions?page=1&limit=10",
   },
 };

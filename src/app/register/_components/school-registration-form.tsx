@@ -59,6 +59,7 @@ export function SchoolRegistrationForm() {
   });
 
   function onSubmit(data: SchoolFormValues) {
+    console.log(data);
     setIsLoading(true);
 
     // In a real application, you would send this data to your backend

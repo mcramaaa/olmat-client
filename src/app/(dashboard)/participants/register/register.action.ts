@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import api from "@/config/axiosServer";
-import { participantSchema } from "../_components/ParticipantFormV3";
+import { participantSchema } from "../_components/ParticipantForm";
 import { AxiosError } from "axios";
 
 export async function postParticipantAction(

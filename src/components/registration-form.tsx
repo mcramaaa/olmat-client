@@ -99,6 +99,7 @@ export function RegistrationForm() {
   });
 
   function onSubmit(data: RegistrationFormValues) {
+    console.log(data);
     // In a real application, you would send this data to your backend
     router.push("/register/success");
   }

@@ -55,6 +55,7 @@ export function AccountForm() {
   });
 
   function onSubmit(data: AccountFormValues) {
+    console.log(data);
     setIsLoading(true);
 
     setTimeout(() => {

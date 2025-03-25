@@ -1,6 +1,9 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Pagination } from "@/components/ui/Pagination";
 import {
   Select,
   SelectContent,
@@ -17,16 +20,40 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { convertDateTime, convertRupiah } from "@/helper/common";
+import { useEncodedUrl } from "@/hooks/useEncodeUrl";
+import { IMetaData } from "@/interfaces/IMetaData";
 import { IPayment } from "@/interfaces/IPayments";
 import { Filter, Search } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 interface IProps {
   transactions: IPayment[];
+  metadata: IMetaData;
+  params: {
+    page: number;
+    limit: number;
+  };
 }
 
-export default function TransactionClient({ transactions }: IProps) {
+export default function TransactionClient({
+  transactions,
+  metadata,
+  params,
+}: IProps) {
+  const path = usePathname();
+  const router = useRouter();
+  const encodedCurrentUrl = useEncodedUrl();
+
+  const handlePageChange = (page: number) => {
+    router.push(`${path}?page=${page}&limit=${params.limit}`);
+  };
+
+  const handleLimitChange = (limit: number) => {
+    router.push(`${path}?page=${params.page}&limit=${limit}`);
+  };
+
   return (
     <div>
       <Card>
@@ -104,7 +131,9 @@ export default function TransactionClient({ transactions }: IProps) {
                     </TableCell>
                     <TableCell className="text-center">
                       <Button variant="ghost" size="sm" asChild>
-                        <Link href={`/transactions/${transaction.invoice}`}>
+                        <Link
+                          href={`/transactions/${transaction.invoice}?returnUrl=${encodedCurrentUrl}`}
+                        >
                           Lihat
                         </Link>
                       </Button>
@@ -114,6 +143,13 @@ export default function TransactionClient({ transactions }: IProps) {
               </TableBody>
             </Table>
           </div>
+          <Pagination
+            currentPage={metadata.current_page}
+            totalItems={metadata.total}
+            itemsPerPage={metadata.per_page}
+            onItemsPerPageChange={handleLimitChange}
+            onPageChange={handlePageChange}
+          />
         </CardContent>
       </Card>
     </div>

@@ -22,15 +22,6 @@ export default function ParticipantDetailClient({ participant }: IProps) {
 
   return (
     <>
-      <div className="mb-4 md:hidden">
-        <h1 className="text-2xl font-bold tracking-tight">
-          Halo, pejuang Matematika! 🎓
-        </h1>
-        <p className="text-sm text-gray-500">
-          Ini adalah halaman profilmu sebagai peserta Olimpiade Matematika
-          UINSA.
-        </p>
-      </div>
       <div className="flex flex-col gap-6 md:flex-row">
         <div className="md:w-1/3">
           <Card>
@@ -203,6 +194,7 @@ export default function ParticipantDetailClient({ participant }: IProps) {
                         </div>
                       </div>
                       <ParticipantCardButton
+                        disabled={participant.status !== "active"}
                         name={participant.name}
                         id={participant.id || ""}
                         school={participant.school.name}

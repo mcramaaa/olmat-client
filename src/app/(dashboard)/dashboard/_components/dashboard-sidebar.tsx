@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import { ROUTES } from "@/routes/router";
 
 export function DashboardSidebar({
   className,
@@ -80,7 +81,7 @@ export function DashboardSidebar({
           </div>
         </div>
         <div className="space-y-1">
-          <Link href="/dashboard" passHref>
+          <Link href={ROUTES.DASHBOARD.DEFAULT} passHref>
             <Button
               variant={pathname === "/dashboard" ? "secondary" : "ghost"}
               className="justify-start w-full"
@@ -110,7 +111,7 @@ export function DashboardSidebar({
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="pl-6 space-y-1">
-              <Link href="/participants" passHref>
+              <Link href={ROUTES.DASHBOARD.PARTICIPANTS} passHref>
                 <Button
                   variant={pathname === "/participants" ? "secondary" : "ghost"}
                   className="justify-start w-full"
@@ -119,7 +120,7 @@ export function DashboardSidebar({
                   All Participants
                 </Button>
               </Link>
-              <Link href="/participants/register" passHref>
+              <Link href={ROUTES.DASHBOARD.REGISTER_PARTICIPANTS} passHref>
                 <Button
                   variant={
                     pathname === "/participants/register"
@@ -156,7 +157,7 @@ export function DashboardSidebar({
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="pl-6 space-y-1">
-              <Link href="/transactions" passHref>
+              <Link href={ROUTES.DASHBOARD.TRANSACTIONS} passHref>
                 <Button
                   variant={pathname === "/transactions" ? "secondary" : "ghost"}
                   className="justify-start w-full"
@@ -168,7 +169,7 @@ export function DashboardSidebar({
             </CollapsibleContent>
           </Collapsible>
 
-          <Link href="/account" passHref>
+          <Link href={ROUTES.DASHBOARD.ACCOUNT} passHref>
             <Button
               variant={pathname === "/account" ? "secondary" : "ghost"}
               className="justify-start w-full"

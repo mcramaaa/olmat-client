@@ -3,14 +3,23 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getParticipantAction } from "./participant.action";
 import ParticipantClient from "./_components/ParticipantClient";
+import { ISearchParams } from "@/interfaces/ISearchParams";
 
 export const metadata: Metadata = {
   title: "All Participants - Math Olympiad 2025",
   description: "View all registered participants",
 };
 
-export default async function AllParticipantsPage() {
-  const res = await getParticipantAction();
+interface IProps {
+  searchParams: ISearchParams;
+}
+
+export default async function AllParticipantsPage({ searchParams }: IProps) {
+  const page = Number((await searchParams)?.page) || 1;
+  const limit = Number((await searchParams)?.limit) || 10;
+
+  const res = await getParticipantAction(page, limit);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -28,6 +37,7 @@ export default async function AllParticipantsPage() {
       <ParticipantClient
         participants={res.data.data}
         metadata={res.data.metadata}
+        params={{ page, limit }}
       />
     </div>
   );

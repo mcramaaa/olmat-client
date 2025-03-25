@@ -10,6 +10,7 @@ import {
 import { DashboardItem } from "./_components/DashboardItem";
 import { getDashboardAction } from "./dasboard.action";
 import { FastForward } from "lucide-react";
+import { ROUTES } from "@/routes/router";
 
 export default async function DashboardPage() {
   const res = await getDashboardAction();
@@ -19,25 +20,25 @@ export default async function DashboardPage() {
       title: "Data Peserta",
       description: "Lihat dan kelola seluruh peserta yang telah terdaftar",
       buttonTittle: "Lihat Semua",
-      link: "/participants",
+      link: ROUTES.DASHBOARD.PARTICIPANTS,
     },
     {
       title: "Pendaftaran Peserta",
       description: "Daftarkan peserta untuk mengikuti OLMAT UINSA",
       buttonTittle: "Daftarkan Peserta",
-      link: "/participants/register",
+      link: ROUTES.DASHBOARD.REGISTER_PARTICIPANTS,
     },
     {
       title: "Transaksi",
       description: "Lihat dan kelola seluruh riwayat transaksi",
       buttonTittle: "Lihat Semua",
-      link: "/transactions",
+      link: ROUTES.DASHBOARD.TRANSACTIONS,
     },
     {
       title: "Informasi Akun",
       description: "Kelola akun anda dan informasi akun",
       buttonTittle: "Kelola akun",
-      link: "/account",
+      link: ROUTES.DASHBOARD.ACCOUNT,
     },
   ];
 

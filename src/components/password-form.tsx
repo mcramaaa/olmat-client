@@ -48,11 +48,12 @@ export function PasswordForm() {
   });
 
   function onSubmit(data: PasswordFormValues) {
-    setIsLoading(true, "loading");
+    console.log(data);
+    setIsLoading(true);
 
     // In a real application, you would send this data to your backend
     setTimeout(() => {
-      setIsLoading(false, "loading");
+      setIsLoading(false);
       setIsSuccess(true, "Password updated successfully.");
       form.reset();
     }, 1000);

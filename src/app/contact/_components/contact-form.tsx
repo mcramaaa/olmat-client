@@ -46,6 +46,7 @@ export function ContactForm() {
   });
 
   function onSubmit(data: ContactFormValues) {
+    console.log(data);
     setIsLoading(true);
 
     // In a real application, you would send this data to your backend
