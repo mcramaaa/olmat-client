@@ -18,6 +18,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/lib/auth";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -78,9 +79,10 @@ export function LoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Kata Sandi</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} />
+                    {/* <Input type="password" placeholder="••••••••" {...field} /> */}
+                    <PasswordInput placeholder="••••••••" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -100,19 +102,19 @@ export function LoginForm() {
                       />
                     </FormControl>
                     <FormLabel className="text-sm font-normal">
-                      Remember me
+                      Ingat saya
                     </FormLabel>
                   </FormItem>
                 )}
               />
 
               <Button variant="link" className="p-0 text-sm" asChild>
-                <Link href="/forgot-pass">Forgot password?</Link>
+                <Link href="/forgot-pass">Lupa kata sandi?</Link>
               </Button>
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? "Signing in..." : "Masuk"}
             </Button>
           </form>
         </Form>

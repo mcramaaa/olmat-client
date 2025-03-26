@@ -21,7 +21,7 @@ type User = {
   phone: string;
   email: string;
   type: string;
-  regionId: string;
+  region?: { id: string; name: string };
   schoolId?: number;
   schoolName?: string;
   degreeId?: number;
@@ -35,6 +35,7 @@ type AuthContextType = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   getMe: () => void;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -47,18 +48,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const getMe = useCallback(async () => {
     const res = await getMeAction();
-    if (res.user === null) {
-      logout();
-    }
     if (res.user) {
-      if (res.user.type === "Admin") {
+      if (res.user.data.type === "Admin") {
         setUser({
           id: res.user.data.id,
           name: res.user.data.name,
           email: res.user.data.email,
           phone: res.user.data.phone,
           type: res.user.data.type,
-          regionId: res.user.data.region,
+          region: res.user.data.region,
         });
       } else {
         setUser({
@@ -67,7 +65,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: res.user.data.email,
           phone: res.user.data.phone,
           type: res.user.data.type,
-          regionId: res.user.data.region.id,
+          region: res.user.data.region.id,
           schoolName: res.user.data.school.name,
           schoolId: res.user.data.school.id,
           degreeId: res.user.data.school.degree.id,
@@ -114,7 +112,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, getMe }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, logout, getMe, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

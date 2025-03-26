@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
-import { ParticipantCardButton } from "@/components/participant-card-button";
 
 // Sample participant data
 const participant = {
@@ -135,10 +134,10 @@ export default function CardPreviewClientPage() {
             </div>
 
             <div className="flex justify-center">
-              <Button className="w-full" onClick={() => {}}>
+              {/* <Button className="w-full" onClick={() => {}}>
                 <ParticipantCardButton participant={participant} />
                 Download Participant Card (A5 PDF)
-              </Button>
+              </Button> */}
             </div>
 
             <div className="p-4 text-sm text-gray-500 rounded-md bg-gray-50">

@@ -11,9 +11,7 @@ export const metadata: Metadata = {
 };
 
 interface IProps {
-  searchParams: {
-    sec?: string;
-  };
+  searchParams: Promise<{ sec: string }>;
 }
 
 export default async function RegisterPage({ searchParams }: IProps) {

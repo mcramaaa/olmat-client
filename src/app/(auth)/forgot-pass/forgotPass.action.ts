@@ -17,7 +17,7 @@ export async function forgotPassAction(email: string) {
     const err = error as AxiosError;
     return {
       success: false,
-      data: null,
+      data: {},
       error: err.response?.data,
     };
   }
@@ -35,7 +35,7 @@ export async function postNewPassAction(payload: object) {
     const err = error as AxiosError;
     return {
       success: false,
-      data: null,
+      data: {},
       error: err.response?.data,
     };
   }

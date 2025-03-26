@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ParticipantForm from "../_components/ParticipantForm";
+import { getProvinceAction } from "@/app/(auth)/register/account.action";
 
 export const metadata: Metadata = {
   title: "Register Participants - Math Olympiad 2025",
@@ -7,7 +8,12 @@ export const metadata: Metadata = {
     "Register participants for the International Mathematics Olympiad 2025",
 };
 
-export default function RegisterParticipantsPage() {
+export default async function RegisterParticipantsPage() {
+  const resProv = await getProvinceAction();
+  const prov = resProv.data.map((item: any) => ({
+    label: item.name,
+    value: item.id,
+  }));
   return (
     <div className="pb-12  md:px-6">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -19,7 +25,7 @@ export default function RegisterParticipantsPage() {
           </p>
         </div>
 
-        <ParticipantForm />
+        <ParticipantForm provinceOptions={prov} />
       </div>
     </div>
   );

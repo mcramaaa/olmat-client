@@ -169,7 +169,7 @@ export default function ForgotPasswordPage() {
             className="flex items-center text-sm font-medium text-slate-600 hover:text-slate-800"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
-            Back to Login
+            Kembali ke Halaman Login
           </Link>
         </CardFooter>
       </Card>

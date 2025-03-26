@@ -13,8 +13,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Download, Clock, QrCode, AlertCircle } from "lucide-react";
 import { PaymentCountdown } from "@/components/payment-countdown";
-import { PaymentQRCode } from "@/components/payment-qr-code";
-import { DownloadReceiptButton } from "@/components/download-receipt-button";
 
 export const metadata: Metadata = {
   title: "Payment Details - Math Olympiad 2025",
@@ -161,10 +159,10 @@ export default function PaymentPage({ params }: PaymentPageProps) {
               </div>
             </CardContent>
             <CardFooter>
-              <DownloadReceiptButton
+              {/* <DownloadReceiptButton
                 paymentId={payment.id}
                 disabled={payment.status !== "completed"}
-              />
+              /> */}
             </CardFooter>
           </Card>
         </div>
@@ -185,7 +183,7 @@ export default function PaymentPage({ params }: PaymentPageProps) {
               <h3 className="mb-4 font-semibold text-center">QRIS Payment</h3>
 
               <div className="w-full max-w-[200px] mx-auto mb-4">
-                <PaymentQRCode qrCode={payment.qrCode} />
+                {/* <PaymentQRCode qrCode={payment.qrCode} /> */}
               </div>
 
               <div className="mb-4 text-sm text-center text-muted-foreground">

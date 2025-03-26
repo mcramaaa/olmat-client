@@ -23,19 +23,17 @@ export function DashboardItem({ data }: IProps) {
   const { user } = useAuth();
   const dashData: IDashboard = {
     eventSetting: {
-      name: data.event_setting.name,
-      amount: data.event_setting.amount,
-      free: data.event_setting.free,
-      start: data.event_setting.start,
-      end: data.event_setting.end,
+      name: data.event_setting.name || "",
+      amount: data.event_setting.amount || "",
+      free: data.event_setting.free || "",
+      start: data.event_setting.start || "",
+      end: data.event_setting.end || "",
     },
-    successPayment: data.success_payment,
-    allPayment: data.all_payment,
-    successParticipant: data.success_participant,
-    pendingParticipant: data.pending_participant,
+    successPayment: data.success_payment || "",
+    allPayment: data.all_payment || "",
+    successParticipant: data.success_participant || "",
+    pendingParticipant: data.pending_participant || "",
   };
-
-  console.log(dashData.successParticipant === 0);
 
   return (
     <>
@@ -57,15 +55,19 @@ export function DashboardItem({ data }: IProps) {
               <UserCheck className="w-6 h-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{user?.name}</div>
+              <div className="text-3xl font-bold">{user?.name || ""}</div>
               <p className="text-sm text-muted-foreground">
-                {user?.schoolName}
+                {user?.type === "Admin"
+                  ? user?.region?.name || ""
+                  : user?.schoolName || ""}
               </p>
             </CardContent>
             <CardFooter>
-              <Button asChild className="w-full" variant={"outline"}>
-                <Link href={ROUTES.DASHBOARD.ACCOUNT}>Kelola Akun</Link>
-              </Button>
+              {user?.type !== "Admin" && (
+                <Button asChild className="w-full" variant={"outline"}>
+                  <Link href={ROUTES.DASHBOARD.ACCOUNT}>Kelola Akun</Link>
+                </Button>
+              )}
             </CardFooter>
           </Card>
           <Card>

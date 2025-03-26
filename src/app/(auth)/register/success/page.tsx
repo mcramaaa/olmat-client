@@ -2,9 +2,7 @@ import AccountClient from "./_components/AccountClient";
 import SchoolClient from "./_components/SchoolClient";
 
 interface IPros {
-  searchParams: {
-    type: string;
-  };
+  searchParams: Promise<{ type: string }>;
 }
 
 export default async function RegistrationSuccessPage({ searchParams }: IPros) {

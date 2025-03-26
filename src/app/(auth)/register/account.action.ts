@@ -37,7 +37,7 @@ export async function getProvinceAction(): Promise<{
     const res = await api.get("/location-api/province");
     return { data: res.data, error: null };
   } catch (error) {
-    return { data: null, error: error as AxiosError };
+    return { data: [], error: error as AxiosError };
   }
 }
 
@@ -49,7 +49,7 @@ export async function getCityAction(provinceId: string): Promise<{
     const res = await api.get(`/location-api/city/${provinceId}`);
     return { data: res.data, error: null };
   } catch (error) {
-    return { data: null, error: error as AxiosError };
+    return { data: [], error: error as AxiosError };
   }
 }
 
@@ -61,7 +61,7 @@ export async function getSubdistrictAction(cityId: string): Promise<{
     const res = await api.get(`/location-api/subdistrict/${cityId}`);
     return { data: res.data, error: null };
   } catch (error) {
-    return { data: null, error: error as AxiosError };
+    return { data: [], error: error as AxiosError };
   }
 }
 
@@ -73,7 +73,7 @@ export async function getSchoolAction(subId: string): Promise<{
     const res = await api.get(`/location-api/school/${subId}`);
     return { data: res.data, error: null };
   } catch (error) {
-    return { data: null, error: error as AxiosError };
+    return { data: [], error: error as AxiosError };
   }
 }
 

@@ -169,15 +169,17 @@ export function DashboardSidebar({
             </CollapsibleContent>
           </Collapsible>
 
-          <Link href={ROUTES.DASHBOARD.ACCOUNT} passHref>
-            <Button
-              variant={pathname === "/account" ? "secondary" : "ghost"}
-              className="justify-start w-full"
-            >
-              <User className="w-4 h-4 mr-2" />
-              Account
-            </Button>
-          </Link>
+          {user?.type !== "Admin" && (
+            <Link href={ROUTES.DASHBOARD.ACCOUNT} passHref>
+              <Button
+                variant={pathname === "/account" ? "secondary" : "ghost"}
+                className="justify-start w-full"
+              >
+                <User className="w-4 h-4 mr-2" />
+                Account
+              </Button>
+            </Link>
+          )}
 
           <Button
             variant="ghost"

@@ -2,13 +2,8 @@ import React from "react";
 import ForgotPassForm from "./_components/forgotPassForm";
 
 interface IProps {
-  params: {
-    slug: string;
-  };
-
-  searchParams: {
-    email: string;
-  };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ email: string }>;
 }
 
 export default async function page({ params, searchParams }: IProps) {

@@ -11,6 +11,6 @@ export async function getDashboardAction(): Promise<{
     const res = await api.get("/dashboard");
     return { data: res.data, error: null };
   } catch (error) {
-    return { data: null, error: error as AxiosError };
+    return { data: {}, error: error as AxiosError };
   }
 }

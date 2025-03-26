@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getTransactionAction } from "./transaction.action";
 import TransactionClient from "./_components/TransactionClient";
-import { ISearchParams } from "@/interfaces/ISearchParams";
 
 export const metadata: Metadata = {
   title: "Transactions - Math Olympiad 2025",
@@ -9,12 +8,12 @@ export const metadata: Metadata = {
 };
 
 interface IProps {
-  searchParams: ISearchParams;
+  searchParams: Promise<{ page: number; limit: number }>;
 }
 
 export default async function TransactionsPage({ searchParams }: IProps) {
-  const page = Number((await searchParams)?.page) || 1;
-  const limit = Number((await searchParams)?.limit) || 10;
+  const page = (await searchParams).page || 1;
+  const limit = (await searchParams).limit || 10;
 
   const res = await getTransactionAction(page, limit);
 

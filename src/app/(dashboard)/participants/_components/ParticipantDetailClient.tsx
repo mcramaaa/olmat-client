@@ -18,8 +18,6 @@ interface IProps {
 }
 
 export default function ParticipantDetailClient({ participant }: IProps) {
-  console.log("uspad", participant);
-
   return (
     <>
       <div className="flex flex-col gap-6 md:flex-row">
