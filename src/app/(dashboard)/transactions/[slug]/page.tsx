@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 };
 
 interface TransactionPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function TransactionPage({

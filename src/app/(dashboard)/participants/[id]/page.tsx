@@ -8,15 +8,11 @@ export const metadata: Metadata = {
   description: "View participant details",
 };
 
-interface ParticipantPageProps {
-  params: {
-    id: string;
-  };
-}
-
 export default async function ParticipantPageDetail({
   params,
-}: ParticipantPageProps) {
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const res = await getParticipantIdAction(id);
 

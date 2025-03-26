@@ -30,7 +30,7 @@ export function DashboardItem({ data }: IProps) {
       end: data.event_setting.end,
     },
     successPayment: data.success_payment,
-    pendingPayment: data.pending_payment,
+    allPayment: data.all_payment,
     successParticipant: data.success_participant,
     pendingParticipant: data.pending_participant,
   };
@@ -110,7 +110,7 @@ export function DashboardItem({ data }: IProps) {
             <CardContent>
               <div className="flex items-center gap-2">
                 <div className="text-3xl font-bold">
-                  {dashData.successPayment}/{dashData.pendingPayment}
+                  {dashData.successPayment}/{dashData.allPayment}
                 </div>
                 <div className="px-2 py-1 text-sm text-green-800 bg-green-100 rounded-full">
                   Paid
@@ -119,7 +119,7 @@ export function DashboardItem({ data }: IProps) {
               <div className="flex items-center gap-1 text-sm font-bold">
                 {dashData.successPayment}
                 <p className="font-normal text-muted-foreground"> dari </p>
-                {dashData.pendingPayment}
+                {dashData.allPayment}
                 <p className="font-normal text-muted-foreground">
                   transaksi telah terbayar
                 </p>
