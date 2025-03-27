@@ -55,9 +55,9 @@ export function DashboardSidebar({
   }, [pathname]);
 
   const sidebarContent = (
-    <div className="flex flex-col h-full ">
-      <div className="px-3 pb-4">
-        <div className="flex border-b items-center gap-4 py-2 mb-3 bg-white ">
+    <div className="flex flex-col justify-between h-full px-3 pb-4">
+      <div>
+        <div className="flex items-center gap-4 py-2 mb-3 bg-white border-b ">
           {/* <Link href="/" className="flex items-center">
             <span className="text-xl font-bold">Math Olympiad</span>
           </Link> */}
@@ -80,116 +80,123 @@ export function DashboardSidebar({
             <X className="w-10 lg:hidden" onClick={() => setIsOpen(false)} />
           </div>
         </div>
-        <div className="space-y-1">
-          <Link href={ROUTES.DASHBOARD.DEFAULT} passHref>
-            <Button
-              variant={pathname === "/dashboard" ? "secondary" : "ghost"}
-              className="justify-start w-full"
-            >
-              <LayoutDashboard className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
-          </Link>
-
-          <Collapsible
-            open={participantsOpen}
-            onOpenChange={setParticipantsOpen}
-            className="space-y-1"
-          >
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" className="justify-between w-full">
-                <div className="flex items-center">
-                  <Users className="w-4 h-4 mr-2" />
-                  Participants
-                </div>
-                <ChevronDown
-                  className={cn(
-                    "h-4 w-4 transition-transform duration-200",
-                    participantsOpen ? "rotate-180" : ""
-                  )}
-                />
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pl-6 space-y-1">
-              <Link href={ROUTES.DASHBOARD.PARTICIPANTS} passHref>
-                <Button
-                  variant={pathname === "/participants" ? "secondary" : "ghost"}
-                  className="justify-start w-full"
-                  size="sm"
-                >
-                  All Participants
-                </Button>
-              </Link>
-              <Link href={ROUTES.DASHBOARD.REGISTER_PARTICIPANTS} passHref>
-                <Button
-                  variant={
-                    pathname === "/participants/register"
-                      ? "secondary"
-                      : "ghost"
-                  }
-                  className="justify-start w-full"
-                  size="sm"
-                >
-                  <UserPlus className="w-4 h-4 mr-2" />
-                  Register New
-                </Button>
-              </Link>
-            </CollapsibleContent>
-          </Collapsible>
-
-          <Collapsible
-            open={transactionsOpen}
-            onOpenChange={setTransactionsOpen}
-            className="space-y-1"
-          >
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" className="justify-between w-full">
-                <div className="flex items-center">
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  Transactions
-                </div>
-                <ChevronDown
-                  className={cn(
-                    "h-4 w-4 transition-transform duration-200",
-                    transactionsOpen ? "rotate-180" : ""
-                  )}
-                />
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pl-6 space-y-1">
-              <Link href={ROUTES.DASHBOARD.TRANSACTIONS} passHref>
-                <Button
-                  variant={pathname === "/transactions" ? "secondary" : "ghost"}
-                  className="justify-start w-full"
-                  size="sm"
-                >
-                  All Transactions
-                </Button>
-              </Link>
-            </CollapsibleContent>
-          </Collapsible>
-
-          {user?.type !== "Admin" && (
-            <Link href={ROUTES.DASHBOARD.ACCOUNT} passHref>
+        <ScrollArea>
+          <div className="space-y-1">
+            <Link href={ROUTES.DASHBOARD.DEFAULT} passHref>
               <Button
-                variant={pathname === "/account" ? "secondary" : "ghost"}
+                variant={pathname === "/dashboard" ? "secondary" : "ghost"}
                 className="justify-start w-full"
               >
-                <User className="w-4 h-4 mr-2" />
-                Account
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Dashboard
               </Button>
             </Link>
-          )}
 
-          <Button
-            variant="ghost"
-            className="justify-start w-full text-red-500 hover:bg-red-50 hover:text-red-600"
-            onClick={logout}
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
-        </div>
+            <Collapsible
+              open={participantsOpen}
+              onOpenChange={setParticipantsOpen}
+              className="space-y-1"
+            >
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" className="justify-between w-full">
+                  <div className="flex items-center">
+                    <Users className="w-4 h-4 mr-2" />
+                    Participants
+                  </div>
+                  <ChevronDown
+                    className={cn(
+                      "h-4 w-4 transition-transform duration-200",
+                      participantsOpen ? "rotate-180" : ""
+                    )}
+                  />
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pl-6 space-y-1">
+                <Link href={ROUTES.DASHBOARD.PARTICIPANTS} passHref>
+                  <Button
+                    variant={
+                      pathname === "/participants" ? "secondary" : "ghost"
+                    }
+                    className="justify-start w-full"
+                    size="sm"
+                  >
+                    All Participants
+                  </Button>
+                </Link>
+                <Link href={ROUTES.DASHBOARD.REGISTER_PARTICIPANTS} passHref>
+                  <Button
+                    variant={
+                      pathname === "/participants/register"
+                        ? "secondary"
+                        : "ghost"
+                    }
+                    className="justify-start w-full"
+                    size="sm"
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Register New
+                  </Button>
+                </Link>
+              </CollapsibleContent>
+            </Collapsible>
+
+            <Collapsible
+              open={transactionsOpen}
+              onOpenChange={setTransactionsOpen}
+              className="space-y-1"
+            >
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" className="justify-between w-full">
+                  <div className="flex items-center">
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    Transactions
+                  </div>
+                  <ChevronDown
+                    className={cn(
+                      "h-4 w-4 transition-transform duration-200",
+                      transactionsOpen ? "rotate-180" : ""
+                    )}
+                  />
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pl-6 space-y-1">
+                <Link href={ROUTES.DASHBOARD.TRANSACTIONS} passHref>
+                  <Button
+                    variant={
+                      pathname === "/transactions" ? "secondary" : "ghost"
+                    }
+                    className="justify-start w-full"
+                    size="sm"
+                  >
+                    All Transactions
+                  </Button>
+                </Link>
+              </CollapsibleContent>
+            </Collapsible>
+
+            {user?.type !== "Admin" && (
+              <Link href={ROUTES.DASHBOARD.ACCOUNT} passHref>
+                <Button
+                  variant={pathname === "/account" ? "secondary" : "ghost"}
+                  className="justify-start w-full"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Account
+                </Button>
+              </Link>
+            )}
+          </div>
+        </ScrollArea>
+      </div>
+      <div className="pt-3 border-t">
+        <Button
+          variant="ghost"
+          className="justify-start w-full text-red-500 hover:bg-red-50 hover:text-red-600"
+          onClick={logout}
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Logout
+        </Button>
       </div>
     </div>
   );
@@ -200,17 +207,17 @@ export function DashboardSidebar({
       <>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <button className="lg:hidden fixed flex -mt-[45px] z-50 ml-0 px-5 bg-white">
+            <button className="fixed z-50 flex px-5 ml-0 bg-white ">
               <AlignLeft className="w-6 h-6" />
-              <span className="sr-only">Side bar</span>
+              <span className="">Side bar</span>
             </button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-[280px]">
+          <SheetContent side="left" className="p-0 w-[280px] h-full ">
             <DialogTitle className="hidden">Navigation</DialogTitle>
             <DialogDescription className="hidden sr-only">
               This sidebar contains navigation links for the dashboard.
             </DialogDescription>
-            <ScrollArea className="h-full">{sidebarContent}</ScrollArea>
+            {sidebarContent}
           </SheetContent>
         </Sheet>
       </>
@@ -221,11 +228,12 @@ export function DashboardSidebar({
   return (
     <div
       className={cn(
-        "hidden md:flex h-screen w-64 flex-col border-r bg-background",
+        "hidden md:flex sticky top-0 h-screen w-64 flex-col border-r bg-background",
         className
       )}
     >
-      <ScrollArea className="flex-1">{sidebarContent}</ScrollArea>
+      {/* <ScrollArea className="flex-1">{sidebarContent}</ScrollArea> */}
+      {sidebarContent}
     </div>
   );
 }

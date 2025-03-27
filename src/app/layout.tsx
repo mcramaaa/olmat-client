@@ -2,9 +2,7 @@ import type React from "react";
 
 import "@/app/globals.css";
 import { ThemeProvider } from "../components/theme-provider";
-import { AuthProvider } from "../lib/auth";
-import { SiteHeader } from "../components/site-header";
-import { SiteFooter } from "../components/site-footer";
+import { AuthProvider } from "@/lib/auth";
 
 export const metadata = {
   title: "Math Olympiad 2025",
@@ -19,15 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen font-sans antialiased bg-white">
-        <ThemeProvider defaultTheme="light">
-          <AuthProvider>
-            <div className="relative flex flex-col">
-              <SiteHeader />
-              <main className="flex-1">{children}</main>
-              <SiteFooter />
-            </div>
-          </AuthProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider defaultTheme="light">{children}</ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

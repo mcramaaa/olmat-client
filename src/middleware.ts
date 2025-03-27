@@ -1,15 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtDecode } from "jwt-decode";
+import { protectedPaths } from "./constant/protectPath.constant";
 
 // Protected Path
-const protectedPaths = [
-  "/dashboard",
-  "/participants",
-  "/participants/register",
-  "/transactions",
-  "/account",
-];
 
 const accessRestrictions = {
   admin: {

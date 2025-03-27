@@ -5,6 +5,10 @@ import NextTopLoader from "nextjs-toploader";
 import toast, { Toaster } from "react-hot-toast";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLayout } from "../hooks/zustand/layout";
+import { SiteHeader } from "./site-header";
+import { SiteFooter } from "./site-footer";
+import { usePathname } from "next/navigation";
+import { protectedPaths } from "@/constant/protectPath.constant";
 
 type Theme = "light" | "dark" | "system";
 
@@ -32,6 +36,9 @@ export function ThemeProvider({
   storageKey = "theme",
   ...props
 }: ThemeProviderProps) {
+  const path = usePathname();
+  const isProtected = protectedPaths.includes(path);
+  console.log("procte", isProtected);
   const [theme, setTheme] = useState<Theme>(defaultTheme);
   const { isSuccess, isError, isLoading, isMessage, setIsSuccess, setError } =
     useLayout();
@@ -86,7 +93,11 @@ export function ThemeProvider({
         easing="ease"
       />
       <Toaster toastOptions={{ duration: 4000 }} />
-      {children}
+      <div className="relative flex flex-col">
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
+      </div>
     </ThemeProviderContext.Provider>
   );
 }
