@@ -1,17 +1,11 @@
-"use client";
-
-import { useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
-import { ArrowRight, BookOpen, Brush, Presentation } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, BookOpen, Brush } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function SupportingEventsSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -71,10 +65,10 @@ export function SupportingEventsSection() {
 
           <TabsContent value="seminar">
             <motion.div
-              ref={ref}
               initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
+              whileInView="visible"
               variants={containerVariants}
+              viewport={{ once: true }}
               className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
             >
               <motion.div
@@ -83,18 +77,17 @@ export function SupportingEventsSection() {
               >
                 <div className="space-y-6">
                   <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#996515]/10 text-[#996515] text-sm font-medium mb-2">
-                    <Presentation className="h-4 w-4 mr-2" />
-                    Educational Event
+                    <Brush className="h-4 w-4 mr-2" />
+                    Creative Competition
                   </div>
                   <h3 className="text-3xl font-bold text-[#665D1E]">
-                    Mathematics in the Modern World
+                    Mathematical Art & Design Contest
                   </h3>
                   <p className="text-gray-700">
-                    Join our exclusive seminar featuring renowned mathematicians
-                    and educators who will explore the role of mathematics in
-                    todass world. From AI and data science to cryptography and
-                    quantum computing, discover how mathematical principles are
-                    shaping our future.
+                    Express your creativity through mathematics! Our design
+                    contest challenges participants to create visual art,
+                    digital designs, or physical models that incorporate
+                    mathematical concepts and principles.
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-start">
@@ -104,9 +97,9 @@ export function SupportingEventsSection() {
                         </span>
                       </div>
                       <div>
-                        <h4 className="font-medium">Interactive Workshops</h4>
+                        <h4 className="font-medium">Multiple Categories</h4>
                         <p className="text-sm text-gray-600">
-                          Hands-on sessions with industry experts
+                          Digital art, physical models, and graphic design
                         </p>
                       </div>
                     </div>
@@ -117,10 +110,9 @@ export function SupportingEventsSection() {
                         </span>
                       </div>
                       <div>
-                        <h4 className="font-medium">Panel Discussions</h4>
+                        <h4 className="font-medium">Exhibition</h4>
                         <p className="text-sm text-gray-600">
-                          Engaging conversations about mathematics in various
-                          fields
+                          Showcase your work at the Olympiad venue
                         </p>
                       </div>
                     </div>
@@ -131,11 +123,9 @@ export function SupportingEventsSection() {
                         </span>
                       </div>
                       <div>
-                        <h4 className="font-medium">
-                          Networking Opportunities
-                        </h4>
+                        <h4 className="font-medium">Prizes</h4>
                         <p className="text-sm text-gray-600">
-                          Connect with like-minded students and professionals
+                          Recognition and awards for outstanding designs
                         </p>
                       </div>
                     </div>
@@ -154,7 +144,7 @@ export function SupportingEventsSection() {
                   <div className="absolute inset-0 bg-white rounded-2xl shadow-xl overflow-hidden">
                     <Image
                       src="/placeholder.svg?height=400&width=600"
-                      alt="Mathematics Seminar"
+                      alt="Mathematical Design Contest"
                       fill
                       className="object-cover"
                     />

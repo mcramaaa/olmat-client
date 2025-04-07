@@ -13,13 +13,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import { useLayout } from "@/hooks/zustand/layout";
 
 const accountFormSchema = z.object({
@@ -96,8 +96,21 @@ export function AccountForm() {
                 </FormItem>
               )}
             />
-
             <FormField
+              control={form.control}
+              name="whatsapp"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>WhatsApp Number</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* <FormField
               control={form.control}
               name="phone"
               render={({ field }) => (
@@ -109,24 +122,10 @@ export function AccountForm() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
           </div>
 
-          <FormField
-            control={form.control}
-            name="whatsapp"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>WhatsApp Number</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <FormField
               control={form.control}
               name="province"
@@ -183,9 +182,9 @@ export function AccountForm() {
                 </FormItem>
               )}
             />
-          </div>
+          </div> */}
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="schoolName"
             render={({ field }) => (
@@ -197,7 +196,7 @@ export function AccountForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </div>
 
         <Button type="submit" disabled={isLoading}>

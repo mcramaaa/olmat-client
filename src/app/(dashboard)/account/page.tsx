@@ -23,25 +23,25 @@ export default function AccountPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Account</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Akun Saya</h1>
         <p className="text-gray-500">
-          Manage your account settings and preferences
+          Perbarui informasi akun dan keamanan kamu.
         </p>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          <TabsTrigger value="profile">Profil</TabsTrigger>
+          <TabsTrigger value="password">Kata Sandi</TabsTrigger>
+          {/* <TabsTrigger value="notifications"></TabsTrigger> */}
         </TabsList>
 
         <TabsContent value="profile">
           <Card>
             <CardHeader>
-              <CardTitle>Profile</CardTitle>
+              <CardTitle>Profil Saya</CardTitle>
               <CardDescription>
-                Update your personal information and school details
+                Perbarui informasi akun dan data diri kamu
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">

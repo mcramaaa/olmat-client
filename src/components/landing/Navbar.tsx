@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { APPCONSTANT } from "@/constant/App.constant";
+import { useAuth } from "@/lib/auth";
 
 interface LandingNavbarProps {
   activeSection: string;
@@ -14,6 +16,7 @@ export function LandingNavbar({
   activeSection,
   onNavClick,
 }: LandingNavbarProps) {
+  const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -47,9 +50,11 @@ export function LandingNavbar({
               <span className="text-white font-bold text-lg">M</span>
             </div>
             <div>
-              <h1 className="font-bold text-xl text-[#996515]">UINSA</h1>
+              <h1 className="font-bold text-xl text-[#996515]">
+                {APPCONSTANT.name}
+              </h1>
               <p className="text-xs -mt-1 text-[#996515]/80">
-                Math Olympiad 2025
+                {APPCONSTANT.fullName}
               </p>
             </div>
           </Link>
@@ -71,7 +76,7 @@ export function LandingNavbar({
             ))}
             <Link href="/login">
               <Button className="ml-4 bg-[#996515] hover:bg-[#996515]/90">
-                Login
+                {user ? "Dashboard" : "Masuk"}
               </Button>
             </Link>
           </nav>
@@ -113,7 +118,7 @@ export function LandingNavbar({
               ))}
               <Link href="/login" className="mt-2">
                 <Button className="w-full bg-[#996515] hover:bg-[#996515]/90">
-                  Login
+                  {user ? "Dashboard" : "Masuk"}
                 </Button>
               </Link>
             </nav>

@@ -36,9 +36,10 @@ export function ThemeProvider({
   storageKey = "theme",
   ...props
 }: ThemeProviderProps) {
-  const path = usePathname();
-  const isProtected = protectedPaths.includes(path);
-  console.log("procte", isProtected);
+  const pathname = usePathname();
+  const isProtected = protectedPaths.some(
+    (path) => pathname === path || pathname.startsWith(`${path}/`)
+  );
   const [theme, setTheme] = useState<Theme>(defaultTheme);
   const { isSuccess, isError, isLoading, isMessage, setIsSuccess, setError } =
     useLayout();
@@ -94,9 +95,9 @@ export function ThemeProvider({
       />
       <Toaster toastOptions={{ duration: 4000 }} />
       <div className="relative flex flex-col">
-        <SiteHeader />
+        {!isProtected && <SiteHeader />}
         <main className="flex-1">{children}</main>
-        <SiteFooter />
+        {!isProtected && <SiteFooter />}
       </div>
     </ThemeProviderContext.Provider>
   );

@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { Twitter, Facebook, Instagram } from "lucide-react"
+import Link from "next/link";
+import { Twitter, Facebook, Instagram } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -8,7 +8,9 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-bold mb-4">Math Olympiad 2025</h3>
-            <p className="text-sm text-gray-600">Fostering mathematical talent worldwide</p>
+            <p className="text-sm text-gray-600">
+              Fostering mathematical talent worldwide
+            </p>
           </div>
 
           <div>
@@ -20,7 +22,10 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/register" className="text-gray-600 hover:underline">
+                <Link
+                  href="/register"
+                  className="text-gray-600 hover:underline"
+                >
                   Registration
                 </Link>
               </li>
@@ -60,10 +65,19 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          <p>© 2025 Olmat Uinsa created by <Link href={'https://mcrama.vercel.app/'} target="_blank" >Mc Rama</Link>. All rights reserved.</p>
+          <p>
+            © 2025 OLMAT UINSA created by{" "}
+            <Link
+              href={"https://mcrama.vercel.app/"}
+              target="_blank"
+              className="font-bold"
+            >
+              Mc Rama
+            </Link>
+            . All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
-

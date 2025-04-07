@@ -4,10 +4,11 @@ import { useRef } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { Award, Brain, Medal, Users } from "lucide-react";
+import { APPCONSTANT } from "@/constant/App.constant";
 
 export function AboutSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: false, amount: 0.3 });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -33,13 +34,11 @@ export function AboutSection() {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#996515]">
-            About the Olympiad
+            Tentang {APPCONSTANT.name}
           </h2>
           <div className="w-20 h-1 bg-[#996515] mx-auto mb-6"></div>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-            The UINSA Math Olympiad is Indonesias premier mathematics
-            competition, bringing together the brightest young minds from across
-            the nation.
+            {APPCONSTANT.theme}
           </p>
         </div>
 
@@ -52,40 +51,14 @@ export function AboutSection() {
               variants={containerVariants}
               className="space-y-6"
             >
-              <motion.div variants={itemVariants}>
-                <h3 className="text-2xl font-bold mb-4 text-[#665D1E]">
-                  Our Mission
-                </h3>
-                <p className="text-gray-700">
-                  To foster mathematical excellence, critical thinking, and
-                  problem-solving skills among Indonesian students while
-                  promoting a love for mathematics and creating a platform for
-                  talented students to showcase their abilities.
-                </p>
-              </motion.div>
-
-              <motion.div variants={itemVariants}>
-                <h3 className="text-2xl font-bold mb-4 text-[#665D1E]">
-                  Who Can Participate
-                </h3>
-                <p className="text-gray-700">
-                  The competition is open to high school students from across
-                  Indonesia. Participants can register individually or as part
-                  of a school team.
-                </p>
-              </motion.div>
-
-              <motion.div variants={itemVariants}>
-                <h3 className="text-2xl font-bold mb-4 text-[#665D1E]">
-                  Why Join Us
-                </h3>
-                <p className="text-gray-700">
-                  Beyond the competition, the UINSA Math Olympiad offers
-                  workshops, seminars, and networking opportunities with leading
-                  mathematicians and educators. Winners receive prestigious
-                  awards, scholarships, and national recognition.
-                </p>
-              </motion.div>
+              {APPCONSTANT.about.item.map((data, i) => (
+                <motion.div key={i} variants={itemVariants}>
+                  <h3 className="text-2xl font-bold mb-4 text-[#665D1E]">
+                    {data.label}
+                  </h3>
+                  <p className="text-gray-700">{data.desc}</p>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
 
@@ -102,7 +75,9 @@ export function AboutSection() {
 
               {/* Floating Stats */}
               <div className="absolute -top-5 -left-5 h-24 w-24 bg-white rounded-lg shadow-xl flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold text-[#996515]">18</span>
+                <span className="text-2xl font-bold text-[#996515]">
+                  {APPCONSTANT.regions.length}
+                </span>
                 <span className="text-xs text-gray-600">Regions</span>
               </div>
               <div className="absolute -bottom-5 -right-5 h-24 w-24 bg-white rounded-lg shadow-xl flex flex-col items-center justify-center">

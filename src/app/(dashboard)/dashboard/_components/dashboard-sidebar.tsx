@@ -61,7 +61,7 @@ export function DashboardSidebar({
           {/* <Link href="/" className="flex items-center">
             <span className="text-xl font-bold">Math Olympiad</span>
           </Link> */}
-          <div className="p-4">
+          <div className="px-4 py-2">
             <div className="flex items-center gap-2">
               <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
                 {user?.name?.charAt(0) || "U"}
@@ -188,15 +188,28 @@ export function DashboardSidebar({
           </div>
         </ScrollArea>
       </div>
-      <div className="pt-3 border-t">
+      <div className="">
         <Button
           variant="ghost"
-          className="justify-start w-full text-red-500 hover:bg-red-50 hover:text-red-600"
+          className="justify-start w-full text-red-500 hover:bg-red-50 hover:text-red-600 py-6 border-y"
           onClick={logout}
         >
           <LogOut className="w-4 h-4 mr-2" />
           Logout
         </Button>
+        <div className=" mt-5 text-center text-xs text-gray-600">
+          <p>
+            © 2025 Olmat Uinsa created by{" "}
+            <Link
+              href={"https://mcrama.vercel.app/"}
+              target="_blank"
+              className="font-bold"
+            >
+              Mc Rama
+            </Link>
+            . All rights reserved.
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -207,9 +220,9 @@ export function DashboardSidebar({
       <>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <button className="fixed z-50 flex px-5 ml-0 bg-white ">
+            <button className="fixed z-50 flex px-5 ml-0 items-center h-[55px] lg:h-[70px]">
               <AlignLeft className="w-6 h-6" />
-              <span className="">Side bar</span>
+              <span className="sr-only">Side bar</span>
             </button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-[280px] h-full ">

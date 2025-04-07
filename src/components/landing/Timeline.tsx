@@ -6,7 +6,7 @@ import { CalendarDays } from "lucide-react";
 
 export function TimelineSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: false, amount: 0.2 });
 
   // Timeline data
   const timelineEvents = [
@@ -67,8 +67,8 @@ export function TimelineSection() {
     >
       {/* Background Elements */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-20 left-[10%] w-64 h-64 rounded-full bg-[#996515]/5 blur-3xl" />
-        <div className="absolute bottom-40 right-[15%] w-72 h-72 rounded-full bg-[#d2b48c]/10 blur-3xl" />
+        <div className="absolute top-20 left-[10%] w-64 h-64 rounded-full bg-[#996515]/20 blur-3xl" />
+        <div className="absolute bottom-40 right-[15%] w-72 h-72 rounded-full bg-[#d2b48c]/30 blur-3xl" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
