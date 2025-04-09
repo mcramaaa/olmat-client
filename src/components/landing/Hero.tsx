@@ -52,7 +52,9 @@ export function HeroSection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#996515]/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-xl font-bold">Challenge Your Mind</h3>
+                  <h3 className="text-xl font-bold">
+                    Ayo tekan otakmu untuk berfikir lebih keras
+                  </h3>
                   <p className="text-sm opacity-90">
                     Join students from across Indonesia in this prestigious
                     competition
