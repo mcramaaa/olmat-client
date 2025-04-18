@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +18,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/lib/auth";
 import { PasswordInput } from "@/components/ui/password-input";
+import { useLayout } from "@/hooks/zustand/layout";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -32,7 +32,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const { login } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useLayout();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),

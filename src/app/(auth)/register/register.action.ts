@@ -14,7 +14,10 @@ const accountSchema = z
     school: z.string().min(1, { message: "School name is required" }),
     fullName: z.string().min(1, { message: "Full name is required" }),
     email: z.string().email({ message: "Please enter a valid email address" }),
-    whatsapp: z.string().min(1, { message: "WhatsApp number is required" }),
+    whatsapp: z
+      .string()
+      .min(1, { message: "WhatsApp number is required" })
+      .regex(/^08\d+$/, "Nomor WhatsApp harus dimulai dengan 08"),
     password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters" }),
@@ -27,12 +30,29 @@ const accountSchema = z
     path: ["confirmPassword"],
   });
 
+const schoolSchema = z.object({
+  province_id: z.string().min(1, { message: "Province is required" }),
+  city_id: z.string().min(1, { message: "City is required" }),
+  subdistrict_id: z.string().min(1, { message: "Subdistrict is required" }),
+  address: z.string().min(1, { message: "Address is required" }),
+  degree_id: z.string().min(1, { message: "School level is required" }),
+  name: z.string().min(1, { message: "School name is required" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  phone: z
+    .string()
+    .min(1, { message: "WhatsApp number is required" })
+    .regex(/^08\d+$/, "Nomor WhatsApp harus dimulai dengan 08"),
+  whatsapp: z
+    .string()
+    .min(1, { message: "WhatsApp number is required" })
+    .regex(/^08\d+$/, "Nomor WhatsApp harus dimulai dengan 08"),
+});
+
 // Your existing API call functions
 export async function getProvinceAction(): Promise<{
   data: any;
   error: AxiosError | null;
 }> {
-  // const api = apiServer();
   try {
     const res = await api.get("/location-api/province");
     return { data: res.data, error: null };
@@ -77,7 +97,42 @@ export async function getSchoolAction(subId: string): Promise<{
   }
 }
 
-export async function submitRegistrationAction(
+export async function getDegreeAction(): Promise<{
+  data: any;
+  error: AxiosError | null;
+}> {
+  try {
+    const res = await api.get(`/location-api/degree`);
+    return { data: res.data, error: null };
+  } catch (error) {
+    return { data: [], error: error as AxiosError };
+  }
+}
+
+export async function submitSchoolRegistrationAction(
+  data: z.infer<typeof schoolSchema>
+) {
+  const validationResult = schoolSchema.safeParse(data);
+
+  if (!validationResult.success) {
+    return {
+      success: false,
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  try {
+    const res = await api.post("/school", data);
+    console.log("res sch", res.data);
+    return { success: true, data: res.data, error: null };
+  } catch (error) {
+    const err = error as AxiosError;
+    console.log(err);
+    return { success: false, data: null, error: err };
+  }
+}
+
+export async function submitAccountRegistrationAction(
   data: z.infer<typeof accountSchema>
 ) {
   // Server-side validation
