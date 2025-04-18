@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -52,7 +51,7 @@ interface IProps {
 }
 
 export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
-  const router = useRouter();
+  // const router = useRouter();
   const { isLoading, setIsLoading } = useLayout();
   const [cities, setCities] = useState<{ label: string; value: string }[]>([]);
   const [subdistricts, setSubdistricts] = useState<
