@@ -10,7 +10,6 @@ import { SiteFooter } from "./site-footer";
 import { usePathname } from "next/navigation";
 import { protectedPaths } from "@/constant/protectPath.constant";
 
-// type Theme = "light" | "dark" | "system";
 type Theme = "light";
 
 type ThemeProviderProps = {
@@ -38,9 +37,12 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const pathname = usePathname();
-  const isProtected = protectedPaths.some(
-    (path) => pathname === path || pathname.startsWith(`${path}/`)
-  );
+  const isProtected =
+    pathname !== "/" &&
+    protectedPaths.some(
+      (path) => pathname === path || pathname.startsWith(`${path}/`)
+    );
+
   const [theme, setTheme] = useState<Theme>(defaultTheme);
   const { isSuccess, isError, isLoading, isMessage, setIsSuccess, setError } =
     useLayout();
@@ -91,7 +93,7 @@ export function ThemeProvider({
         }`}
       >
         {/* <LoadingBlock /> */}
-        {!isProtected && <SiteHeader />}
+        {!isProtected && pathname !== "/" && <SiteHeader />}
         <main className="flex-1">{children}</main>
         {!isProtected && <SiteFooter />}
       </div>

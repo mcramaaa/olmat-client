@@ -2,7 +2,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Brush } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function SupportingEventsSection() {
@@ -336,107 +335,6 @@ export function SupportingEventsSection() {
             </motion.div>
           </TabsContent>
         </Tabs>
-
-        {/* Event Cards */}
-        <div className="mt-20">
-          <h3 className="text-2xl font-bold text-center mb-10">
-            Upcoming Events
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative h-48">
-                  <Image
-                    src="/placeholder.svg?height=200&width=400"
-                    alt="Opening Ceremony"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-3 left-3 bg-[#996515] text-white text-xs font-medium px-2 py-1 rounded">
-                    Jan 15, 2025
-                  </div>
-                </div>
-                <CardContent className="p-5">
-                  <h4 className="font-bold text-lg mb-2">Opening Ceremony</h4>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Join us for the grand opening of the UINSA Math Olympiad
-                    2025 with special guests and performances.
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    View Details
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative h-48">
-                  <Image
-                    src="/placeholder.svg?height=200&width=400"
-                    alt="Workshop Series"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-3 left-3 bg-[#996515] text-white text-xs font-medium px-2 py-1 rounded">
-                    Feb 10, 2025
-                  </div>
-                </div>
-                <CardContent className="p-5">
-                  <h4 className="font-bold text-lg mb-2">Workshop Series</h4>
-                  <p className="text-sm text-gray-600 mb-4">
-                    A series of preparatory workshops to help participants
-                    sharpen their mathematical skills.
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    View Details
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative h-48">
-                  <Image
-                    src="/placeholder.svg?height=200&width=400"
-                    alt="Math Exhibition"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-3 left-3 bg-[#996515] text-white text-xs font-medium px-2 py-1 rounded">
-                    Mar 5, 2025
-                  </div>
-                </div>
-                <CardContent className="p-5">
-                  <h4 className="font-bold text-lg mb-2">Math Exhibition</h4>
-                  <p className="text-sm text-gray-600 mb-4">
-                    An interactive exhibition showcasing the beauty and
-                    applications of mathematics in everyday life.
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    View Details
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </div>
       </div>
     </section>
   );

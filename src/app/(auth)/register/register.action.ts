@@ -73,6 +73,34 @@ export async function getCityAction(provinceId: string): Promise<{
   }
 }
 
+export async function getAllCityAction(): Promise<{
+  data: any;
+  error: AxiosError | null;
+}> {
+  try {
+    const res = await api.get(`/location-api/cities`);
+    const cities = res.data.map((item: any) => ({
+      label: item.name,
+      value: item.id,
+    }));
+    return { data: cities, error: null };
+  } catch (error) {
+    return { data: [], error: error as AxiosError };
+  }
+}
+
+export async function getRegionAction(cityId: string): Promise<{
+  data: any;
+  error: AxiosError | null;
+}> {
+  try {
+    const res = await api.get(`/location-api/region/${cityId}`);
+    return { data: res.data, error: null };
+  } catch (error) {
+    return { data: [], error: error as AxiosError };
+  }
+}
+
 export async function getSubdistrictAction(cityId: string): Promise<{
   data: any;
   error: AxiosError | null;
@@ -123,11 +151,9 @@ export async function submitSchoolRegistrationAction(
 
   try {
     const res = await api.post("/school", data);
-    console.log("res sch", res.data);
     return { success: true, data: res.data, error: null };
   } catch (error) {
     const err = error as AxiosError;
-    console.log(err);
     return { success: false, data: null, error: err };
   }
 }

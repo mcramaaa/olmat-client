@@ -10,8 +10,13 @@ import { AboutSection } from "@/components/landing/About";
 import { SupportingEventsSection } from "@/components/landing/Event";
 import { TimelineSection } from "@/components/landing/Timeline";
 import { ContactSection } from "@/components/landing/Contact";
+import PromotionSection from "@/components/landing/Promotion";
 
-export default function HomeV2() {
+interface IProps {
+  cities: { label: string; value: string }[];
+}
+
+export default function HomeV2({ cities }: IProps) {
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
@@ -57,9 +62,10 @@ export default function HomeV2() {
       <main>
         <HeroSection />
         <AboutSection />
+        <PromotionSection />
         <SupportingEventsSection />
         <TimelineSection />
-        <ContactSection />
+        <ContactSection cities={cities} />
       </main>
 
       <div className="fixed bottom-6 right-6 z-50">

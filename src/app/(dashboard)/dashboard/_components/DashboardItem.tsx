@@ -12,6 +12,7 @@ import { IDashboard } from "@/interfaces/IDashboard";
 import { useAuth } from "@/lib/auth";
 import { ROUTES } from "@/routes/router";
 import { CreditCard, LayoutDashboard, UserCheck, Users } from "lucide-react";
+import { PiWhatsappLogo } from "react-icons/pi";
 import Link from "next/link";
 import React from "react";
 
@@ -135,6 +136,22 @@ export function DashboardItem({ data }: IProps) {
           </Card>
         </div>
       </div>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+          <CardTitle className="text-lg font-medium">
+            Komunitas Whatsapp
+          </CardTitle>
+          <PiWhatsappLogo className="w-5 h-5 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <p>Gabung Komunitas Olimpiade Matematika UINSA</p>
+        </CardContent>
+        <CardFooter>
+          <Button asChild className="w-full" variant="outline">
+            <Link href="/transactions">Lihat Transaksi</Link>
+          </Button>
+        </CardFooter>
+      </Card>
     </>
   );
 }

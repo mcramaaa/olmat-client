@@ -1,16 +1,26 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronsDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { APPCONSTANT } from "@/constant/App.constant";
+import Countdown from "../Countdown";
 
 export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-[90vh] flex items-center bg-white pt-20 lg:pt-6"
+      className="relative flex justify-center items-center min-h-screen pb-36 pt-20 lg:pt-6 mb-20"
     >
-      <div className="container mx-auto px-6 relative z-10">
+      <Image src={"/bg.webp"} fill alt="" className="object-cover opacity-20" />
+      <motion.div
+        animate={{ y: [0, 10, 0] }}
+        style={{ scale: 1.5 }}
+        transition={{ repeat: Number.POSITIVE_INFINITY, duration: 3 }}
+        className=" hidden md:block md:text-8xl font-black text-white/60 absolute bottom-28  uppercase"
+      >
+        <p>Olimpiade Matematika</p>
+      </motion.div>
+      <div className=" container mx-auto px-6 relative z-10 ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -30,9 +40,6 @@ export function HeroSection() {
               <Button size="lg" className="bg-[#996515] hover:bg-[#996515]/90">
                 Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              {/* <Button size="lg" variant="outline" onClick={scrollToAbout}>
-                Learn More
-              </Button> */}
             </div>
           </motion.div>
 
@@ -40,26 +47,16 @@ export function HeroSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
+            className="relative order-first"
           >
             <div className="relative h-[400px] md:h-[500px] w-full">
-              <div className="absolute inset-0 bg-white rounded-2xl shadow-xl overflow-hidden">
+              <div className="absolute inset-0 overflow-hidden">
                 <Image
-                  src="/logo-olmat.png"
+                  src="/maskot.png"
                   alt="Math Olympiad"
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#996515]/40 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-xl font-bold">
-                    Ayo tekan otakmu untuk berfikir lebih keras
-                  </h3>
-                  <p className="text-sm opacity-90">
-                    Join students from across Indonesia in this prestigious
-                    competition
-                  </p>
-                </div>
               </div>
             </div>
 
@@ -83,7 +80,8 @@ export function HeroSection() {
 
         {/* Scroll Down Indicator */}
       </div>
-      <motion.div
+
+      {/* <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
@@ -91,7 +89,11 @@ export function HeroSection() {
         <ChevronsDown className=" w-6 text-[#996515]" />
         <ChevronsDown className=" w-6 text-black" />
         <ChevronsDown className=" w-6 text-[#996515]" />
-      </motion.div>
+      </motion.div> */}
+      <div className="absolute w-full z-10 -bottom-1.5 flex justify-center">
+        <Countdown eventDate="2025-09-27T07:00:00+07:00" />
+      </div>
+      <div className="absolute w-full bg-gradient-to-t from-white to-white/0 h-32 bottom-0 "></div>
     </section>
   );
 }

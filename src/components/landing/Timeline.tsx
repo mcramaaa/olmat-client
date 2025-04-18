@@ -65,12 +65,6 @@ export function TimelineSection() {
       id="timeline"
       className="py-20 bg-[#f8f4e3]/50 relative overflow-hidden"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-20 left-[10%] w-64 h-64 rounded-full bg-[#996515]/20 blur-3xl" />
-        <div className="absolute bottom-40 right-[15%] w-72 h-72 rounded-full bg-[#d2b48c]/30 blur-3xl" />
-      </div>
-
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
