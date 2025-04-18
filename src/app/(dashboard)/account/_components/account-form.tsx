@@ -13,13 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
+
 import { useLayout } from "@/hooks/zustand/layout";
 
 const accountFormSchema = z.object({
@@ -55,7 +49,6 @@ export function AccountForm() {
   });
 
   function onSubmit(data: AccountFormValues) {
-    console.log(data);
     setIsLoading(true);
 
     setTimeout(() => {

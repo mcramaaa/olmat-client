@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { setCookie, deleteCookie } from "cookies-next";
 import { useLayout } from "@/hooks/zustand/layout";
 import { getMeAction, loginAction } from "./auth.action";
+import LoadingBlock from "@/components/ui/LoadingBlock";
 
 type User = {
   id: string;
@@ -42,36 +43,39 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const { setIsSuccess, setError } = useLayout();
-  const [isLoading, setIsLoading] = useState(true);
+  const { setIsSuccess, setError, isLoading, setIsLoading } = useLayout();
   const router = useRouter();
 
   const getMe = useCallback(async () => {
     const res = await getMeAction();
     if (res.user) {
-      if (res.user.data.type === "Admin") {
-        setUser({
-          id: res.user.data.id,
-          name: res.user.data.name,
-          email: res.user.data.email,
-          phone: res.user.data.phone,
-          type: res.user.data.type,
-          region: res.user.data.region,
-        });
+      if (res.user.data) {
+        if (res.user.data.type === "Admin") {
+          setUser({
+            id: res.user.data.id,
+            name: res.user.data.name,
+            email: res.user.data.email,
+            phone: res.user.data.phone,
+            type: res.user.data.type,
+            region: res.user.data.region,
+          });
+        } else {
+          setUser({
+            id: res.user.data.id,
+            name: res.user.data.name,
+            email: res.user.data.email,
+            phone: res.user.data.phone,
+            type: res.user.data.type,
+            region: res.user.data.region.id,
+            schoolName: res.user.data.school.name,
+            schoolId: res.user.data.school.id,
+            degreeId: res.user.data.school.degree.id,
+            degreeName: res.user.data.school.degree.name,
+            registerPrice: res.user.data.school.degree.register_price,
+          });
+        }
       } else {
-        setUser({
-          id: res.user.data.id,
-          name: res.user.data.name,
-          email: res.user.data.email,
-          phone: res.user.data.phone,
-          type: res.user.data.type,
-          region: res.user.data.region.id,
-          schoolName: res.user.data.school.name,
-          schoolId: res.user.data.school.id,
-          degreeId: res.user.data.school.degree.id,
-          degreeName: res.user.data.school.degree.name,
-          registerPrice: res.user.data.school.degree.register_price,
-        });
+        logout();
       }
     }
   }, []);
@@ -115,6 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{ user, isLoading, login, logout, getMe, setUser }}
     >
+      {isLoading && <LoadingBlock />}
       {children}
     </AuthContext.Provider>
   );

@@ -10,7 +10,8 @@ import { SiteFooter } from "./site-footer";
 import { usePathname } from "next/navigation";
 import { protectedPaths } from "@/constant/protectPath.constant";
 
-type Theme = "light" | "dark" | "system";
+// type Theme = "light" | "dark" | "system";
+type Theme = "light";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -58,19 +59,9 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement;
 
-    root.classList.remove("light", "dark");
+    root.classList.remove("light", "light");
 
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
-
-      root.classList.add(systemTheme);
-      return;
-    }
-
-    root.classList.add(theme);
+    root.classList.add("light");
   }, [theme]);
 
   const value = {
@@ -94,7 +85,12 @@ export function ThemeProvider({
         easing="ease"
       />
       <Toaster toastOptions={{ duration: 4000 }} />
-      <div className="relative flex flex-col">
+      <div
+        className={`relative flex flex-col ${
+          isLoading && "overflow-hidden h-screen w-screen"
+        }`}
+      >
+        {/* <LoadingBlock /> */}
         {!isProtected && <SiteHeader />}
         <main className="flex-1">{children}</main>
         {!isProtected && <SiteFooter />}

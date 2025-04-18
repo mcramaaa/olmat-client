@@ -311,7 +311,7 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
 
   // Handle Submit
   async function onSubmit(data: ParticipantFormValues) {
-    setIsLoading(true);
+    setIsLoading(true, "Mohon tunggu, Sedang mengirim data...");
     setIsCountSubmit(isCountSubmit + 1);
     setIsErrMsg(undefined);
     if (checkForErrors()) {

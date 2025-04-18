@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ParticipantForm from "../_components/ParticipantForm";
-import { getProvinceAction } from "@/app/(auth)/register/account.action";
+import { getProvinceAction } from "@/app/(auth)/register/register.action";
 
 export const metadata: Metadata = {
   title: "Register Participants - Math Olympiad 2025",

@@ -51,10 +51,10 @@ export const useLayout = () => {
     });
   };
 
-  const setIsLoading = (setLoading: boolean) => {
+  const setIsLoading = (setLoading: boolean, setMessage?: string) => {
     layoutStore.setState({
       loading: setLoading,
-      // loadingCondition: condition,
+      message: setMessage ? setMessage : "Loading..",
     });
   };
 

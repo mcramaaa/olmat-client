@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { Award, Brain, Medal, Users } from "lucide-react";
 import { APPCONSTANT } from "@/constant/App.constant";
+import AppImage from "../ui/AppImage";
 
 export function AboutSection() {
   const ref = useRef(null);
@@ -62,19 +62,17 @@ export function AboutSection() {
             </motion.div>
           </div>
 
-          <div className="order-1 lg:order-2">
-            <div className="relative h-[400px] md:h-[500px]">
-              <div className="absolute inset-0 bg-white rounded-2xl shadow-xl overflow-hidden">
-                <Image
-                  src="/placeholder.svg?height=500&width=600"
-                  alt="Math Olympiad Participants"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+          <div className="order-1 lg:order-2 grid place-items-center">
+            <div className="relative w-fit">
+              <AppImage
+                src="/pamfletolm.jpg"
+                alt="Math Olympiad Participants"
+                className="w-56 overflow-hidden aspect-[3/5] rounded-2xl shadow-xl"
+                object="object-cover"
+              />
 
               {/* Floating Stats */}
-              <div className="absolute -top-5 -left-5 h-24 w-24 bg-white rounded-lg shadow-xl flex flex-col items-center justify-center">
+              <div className="absolute -top-5 -left-5 h-20 w-20 bg-white rounded-lg shadow-xl flex flex-col items-center justify-center">
                 <span className="text-2xl font-bold text-[#996515]">
                   {APPCONSTANT.regions.length}
                 </span>

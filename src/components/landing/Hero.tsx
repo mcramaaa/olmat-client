@@ -45,7 +45,7 @@ export function HeroSection() {
             <div className="relative h-[400px] md:h-[500px] w-full">
               <div className="absolute inset-0 bg-white rounded-2xl shadow-xl overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=500&width=600"
+                  src="/logo-olmat.png"
                   alt="Math Olympiad"
                   fill
                   className="object-cover"

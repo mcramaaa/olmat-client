@@ -20,8 +20,8 @@ import {
   getCityAction,
   getSchoolAction,
   getSubdistrictAction,
-  submitRegistrationAction,
-} from "../account.action";
+  submitAccountRegistrationAction,
+} from "../register.action";
 import { ReusableCombobox } from "@/components/ui/reusable-combobox";
 import { Frown } from "lucide-react";
 import { useLayout } from "@/hooks/zustand/layout";
@@ -60,8 +60,7 @@ interface IProps {
 
 export function AccountRegistrationForm(props: IProps) {
   const router = useRouter();
-  const { setIsSuccess } = useLayout();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsSuccess, setIsLoading } = useLayout();
   const [cities, setCities] = useState<{ label: string; value: string }[]>([]);
   const [subdistricts, setSubdistricts] = useState<
     { label: string; value: string }[]
@@ -196,7 +195,7 @@ export function AccountRegistrationForm(props: IProps) {
     const userEmail = form.getValues("email");
 
     try {
-      const res = await submitRegistrationAction(data);
+      const res = await submitAccountRegistrationAction(data);
 
       if (res.success) {
         setCookie("CBO_Auth", { data: res.data.data, email: userEmail });
@@ -262,7 +261,7 @@ export function AccountRegistrationForm(props: IProps) {
                 name="province"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Province</FormLabel>
+                    <FormLabel>Provinsi</FormLabel>
                     <FormControl>
                       <ReusableCombobox
                         placeholder="Pilih Provinsi"
@@ -282,7 +281,7 @@ export function AccountRegistrationForm(props: IProps) {
                 name="city"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>City</FormLabel>
+                    <FormLabel>Kota</FormLabel>
                     <FormControl>
                       <ReusableCombobox
                         placeholder="Pilih Kota"
@@ -305,7 +304,7 @@ export function AccountRegistrationForm(props: IProps) {
                 name="subdistrict"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Subdistrict</FormLabel>
+                    <FormLabel>Kecamatan</FormLabel>
                     <FormControl>
                       <ReusableCombobox
                         placeholder="Pilih Kecamatan"
@@ -326,7 +325,7 @@ export function AccountRegistrationForm(props: IProps) {
                 name="school"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>School</FormLabel>
+                    <FormLabel>Sekolah</FormLabel>
                     <FormControl>
                       <ReusableCombobox
                         placeholder="Select School"
@@ -349,7 +348,7 @@ export function AccountRegistrationForm(props: IProps) {
               name="fullName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>Nama Lengkap</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -406,7 +405,7 @@ export function AccountRegistrationForm(props: IProps) {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Kata Sandi</FormLabel>
                     <FormControl>
                       <PasswordInput
                         {...field}
@@ -424,7 +423,7 @@ export function AccountRegistrationForm(props: IProps) {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>Konfirmasi Kata Sandi</FormLabel>
                     <FormControl>
                       <PasswordInput
                         {...field}
