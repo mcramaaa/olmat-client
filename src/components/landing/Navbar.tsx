@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { APPCONSTANT } from "@/constant/App.constant";
 import { useAuth } from "@/lib/auth";
+import Image from "next/image";
 
 interface LandingNavbarProps {
   activeSection: string;
@@ -40,14 +41,19 @@ export function LandingNavbar({
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-sm py-3" : "bg-white py-5"
+        isScrolled ? "bg-white shadow-sm py-3" : " py-5"
       }`}
     >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="h-10 w-10 rounded-full bg-[#996515] flex items-center justify-center">
-              <span className="text-white font-bold text-lg">M</span>
+            <div className="relative h-10 w-10  flex items-center justify-center">
+              <Image
+                src={"/logo-olm.png"}
+                alt=""
+                className="object-contain"
+                fill
+              />
             </div>
             <div>
               <h1 className="font-bold text-xl text-[#996515]">

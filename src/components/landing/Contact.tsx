@@ -6,9 +6,20 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ReusableCombobox } from "../ui/reusable-combobox";
+import { getRegionAction } from "@/app/(auth)/register/register.action";
+import Link from "next/link";
 
 // Regional contact data
 const regions = [
@@ -140,33 +151,39 @@ const regions = [
   },
 ];
 
-export function ContactSection() {
+type CityFormValues = z.infer<typeof regionSchema>;
+
+const regionSchema = z.object({
+  city: z.string().min(1, { message: "City is required" }),
+});
+
+interface IPops {
+  cities: { label: string; value: string }[];
+}
+
+export function ContactSection({ cities }: IPops) {
   const [activeRegion, setActiveRegion] = useState("jakarta");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
+
+  const form = useForm<CityFormValues>({
+    resolver: zodResolver(regionSchema),
+    defaultValues: {
+      city: "",
+    },
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleInputChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({ ...prev, [name]: value }));
+  // };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (data: CityFormValues) => {
     // Handle form submission
-    console.log("Form submitted:", formData);
-    alert("Thank you for your message! We will get back to you soon.");
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
+    // console.log("Form submitted:", e);
+    // alert("Thank you for your message! We will get back to you soon.");
+    const res = getRegionAction(data.city);
+    console.log(res);
   };
 
   return (
@@ -194,91 +211,75 @@ export function ContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="bg-white p-8 rounded-xl shadow-md"
-          >
-            <h3 className="text-2xl font-bold mb-6 text-[#665D1E]">
-              Send Us a Message
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Your Name
-                </label>
-                <Input
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter your name"
-                  required
-                />
+          <div>
+            <div className="">
+              <h3 className="text-2xl font-bold text-[#665D1E]">
+                Cek Rayon kamu{" "}
+              </h3>
+              {/* <p className="text-sm text-foreground">
+                Coba masukkan nama kota kamu untuk mengetahui kamu termasuk
+                rayon mana
+              </p> */}
+            </div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="bg-white p-8 rounded-xl shadow-md flex flex-col gap-4"
+            >
+              <div className="w-full text-center flex-col flex gap-2">
+                <p className="text-sm">Kota kamu termasuk</p>
+                <div className="text-center bg-green-100 w-full rounded-lg drop-shadow-sm">
+                  <p className="text-lg">Rayon Surabaya</p>
+                </div>
               </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+              <Form {...form}>
+                <form
+                  className="space-y-4"
+                  onSubmit={form.handleSubmit(handleSubmit)}
                 >
-                  Email Address
-                </label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Enter your email"
-                  required
-                />
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="city"
+                      render={({ field }) => (
+                        <FormItem>
+                          {/* <FormLabel>Kota</FormLabel> */}
+                          <FormControl>
+                            <ReusableCombobox
+                              placeholder="Pilih Kota"
+                              className="text-sm"
+                              onChange={field.onChange}
+                              value={field.value}
+                              options={cities}
+                              // disabled={!selectedProvince || isLoading}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full bg-[#996515] hover:bg-[#996515]/90"
+                  >
+                    Cari Rayon
+                  </Button>
+                </form>
+              </Form>
+              <div className="">
+                <p className="text-xs ">
+                  Jika kota kamu tidak tersedia, kamu bisa hubungi panitia
+                  berikut ya{" "}
+                  <Link className="font-bold" href={""}>
+                    Pendaftaran
+                  </Link>
+                </p>
               </div>
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Subject
-                </label>
-                <Input
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  placeholder="Enter subject"
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Message
-                </label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  placeholder="Enter your message"
-                  rows={5}
-                  required
-                />
-              </div>
-              <Button
-                type="submit"
-                className="w-full bg-[#996515] hover:bg-[#996515]/90"
-              >
-                Send Message
-              </Button>
-            </form>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Regional Contacts */}
           <motion.div
