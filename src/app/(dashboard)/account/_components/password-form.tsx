@@ -15,20 +15,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useLayout } from "@/hooks/zustand/layout";
+import { updatPasswordAction } from "../account.action";
 
 const passwordFormSchema = z
   .object({
     currentPassword: z
       .string()
       .min(8, { message: "Password must be at least 8 characters." }),
-    newPassword: z
+    password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters." }),
     confirmPassword: z
       .string()
       .min(8, { message: "Password must be at least 8 characters." }),
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
@@ -36,27 +37,40 @@ const passwordFormSchema = z
 type PasswordFormValues = z.infer<typeof passwordFormSchema>;
 
 export function PasswordForm() {
-  const { setIsSuccess, isLoading, setIsLoading } = useLayout();
+  const { setIsSuccess, setError, isLoading, setIsLoading } = useLayout();
 
   const form = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordFormSchema),
     defaultValues: {
       currentPassword: "",
-      newPassword: "",
+      password: "",
       confirmPassword: "",
     },
   });
 
-  function onSubmit(data: PasswordFormValues) {
-    console.log(data);
-    setIsLoading(true);
+  async function onSubmit(data: PasswordFormValues) {
+    // setIsLoading(true);
 
-    // In a real application, you would send this data to your backend
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSuccess(true, "Password updated successfully.");
-      form.reset();
-    }, 1000);
+    const res = await updatPasswordAction(data);
+    console.log("res", res);
+
+    if (res.success) {
+      // setIsSuccess(true, "Kata Sandi kamu berhasil diperbarui");
+      console.log("uscccssss");
+    } else {
+      const errRes = res.error.response;
+      if (errRes?.errors?.currentPassword) {
+        // setError(true, "Yah.. Sepertinya kata sandi saat ini salah");
+        console.log("errr 1");
+      } else {
+        // setError(true, "Yah.. Kata Sandi gagal diperbarui");
+        console.log("errr 2");
+      }
+    }
+
+    form.resetField("confirmPassword");
+    form.resetField("password");
+    form.resetField("currentPassword");
   }
 
   return (
@@ -68,7 +82,7 @@ export function PasswordForm() {
             name="currentPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Current Password</FormLabel>
+                <FormLabel>kata sandi saat ini</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
@@ -79,10 +93,10 @@ export function PasswordForm() {
 
           <FormField
             control={form.control}
-            name="newPassword"
+            name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>New Password</FormLabel>
+                <FormLabel>Kata sandi baru</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
@@ -99,7 +113,7 @@ export function PasswordForm() {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm New Password</FormLabel>
+                <FormLabel>Konfirmasi kata sandi</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>

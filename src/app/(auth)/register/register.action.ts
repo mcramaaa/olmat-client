@@ -73,34 +73,6 @@ export async function getCityAction(provinceId: string): Promise<{
   }
 }
 
-export async function getAllCityAction(): Promise<{
-  data: any;
-  error: AxiosError | null;
-}> {
-  try {
-    const res = await api.get(`/location-api/cities`);
-    const cities = res.data.map((item: any) => ({
-      label: item.name,
-      value: item.id,
-    }));
-    return { data: cities, error: null };
-  } catch (error) {
-    return { data: [], error: error as AxiosError };
-  }
-}
-
-export async function getRegionAction(cityId: string): Promise<{
-  data: any;
-  error: AxiosError | null;
-}> {
-  try {
-    const res = await api.get(`/location-api/region/${cityId}`);
-    return { data: res.data, error: null };
-  } catch (error) {
-    return { data: [], error: error as AxiosError };
-  }
-}
-
 export async function getSubdistrictAction(cityId: string): Promise<{
   data: any;
   error: AxiosError | null;
@@ -125,15 +97,16 @@ export async function getSchoolAction(subId: string): Promise<{
   }
 }
 
-export async function getDegreeAction(): Promise<{
+export async function getRegionByCityAction(cityId: string): Promise<{
+  success: boolean;
   data: any;
   error: AxiosError | null;
 }> {
   try {
-    const res = await api.get(`/location-api/degree`);
-    return { data: res.data, error: null };
+    const res = await api.get(`/location-api/region/${cityId}`);
+    return { success: true, data: res.data, error: null };
   } catch (error) {
-    return { data: [], error: error as AxiosError };
+    return { success: false, data: [], error: error as AxiosError };
   }
 }
 
@@ -161,7 +134,6 @@ export async function submitSchoolRegistrationAction(
 export async function submitAccountRegistrationAction(
   data: z.infer<typeof accountSchema>
 ) {
-  // Server-side validation
   const validationResult = accountSchema.safeParse(data);
 
   if (!validationResult.success) {
@@ -181,7 +153,6 @@ export async function submitAccountRegistrationAction(
   try {
     const response = await api.post("/auth/user/register", payload);
 
-    // If successful, return success
     return {
       success: true,
       data: response.data,
@@ -197,5 +168,65 @@ export async function submitAccountRegistrationAction(
       payload: payload,
       errCause: axiosError.response?.data.errors || {},
     };
+  }
+}
+
+export async function getDegreeAction(): Promise<{
+  data: any;
+  error: AxiosError | null;
+}> {
+  try {
+    const res = await api.get(`/location-api/degree`);
+    return { data: res.data, error: null };
+  } catch (error) {
+    return { data: [], error: error as AxiosError };
+  }
+}
+export async function getAllCityAction(): Promise<{
+  data: any;
+  error: AxiosError | null;
+}> {
+  try {
+    const res = await api.get(`/location-api/cities`);
+    const cities = res.data.map((item: any) => ({
+      label: item.name,
+      value: item.id,
+    }));
+    return { data: cities, error: null };
+  } catch (error) {
+    return { data: [], error: error as AxiosError };
+  }
+}
+
+export async function getAllRegionAction(): Promise<{
+  success: boolean;
+  data: any;
+  error: AxiosError | null;
+}> {
+  try {
+    const res = await api.get(`/location-api/regions`);
+    const updatedRegions = res.data.map((region: any) => {
+      const targetedRayons = [
+        "Rayon Kalimantan",
+        "Rayon Papua Bali",
+        "Rayon Sulawesi",
+        "Rayon Sumatra",
+      ];
+
+      if (targetedRayons.includes(region.name)) {
+        const wilayah = region.name.replace("Rayon ", "");
+        return {
+          ...region,
+          cities: [{ name: `Seluruh Wilayah ${wilayah}` }],
+        };
+      }
+
+      return region;
+    });
+
+    return { success: true, data: updatedRegions, error: null };
+  } catch (error) {
+    const err = error as AxiosError;
+    return { success: false, data: [], error: err };
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { z } from "zod";
@@ -15,59 +16,69 @@ import {
 } from "@/components/ui/form";
 
 import { useLayout } from "@/hooks/zustand/layout";
+import { useAuth } from "@/lib/auth";
+import { useEffect } from "react";
+import { updateProfilAction } from "../account.action";
 
 const accountFormSchema = z.object({
-  fullName: z
+  name: z
     .string()
     .min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  phone: z.string().min(1, { message: "Phone number is required." }),
-  whatsapp: z.string().min(1, { message: "WhatsApp number is required." }),
-  province: z.string().min(1, { message: "Province is required." }),
-  city: z.string().min(1, { message: "City is required." }),
-  subdistrict: z.string().min(1, { message: "Subdistrict is required." }),
-  schoolName: z.string().min(1, { message: "School name is required." }),
+  phone: z.string().min(1, { message: "WhatsApp number is required." }),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
 export function AccountForm() {
-  const { setIsSuccess, isLoading, setIsLoading } = useLayout();
+  const { setIsSuccess, setError, isLoading, setIsLoading } = useLayout();
+  const { user, getMe } = useAuth();
 
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues: {
-      fullName: "John Doe",
-      email: "john@example.com",
-      phone: "+62 812 3456 7890",
-      whatsapp: "+62 812 3456 7890",
-      province: "jakarta",
-      city: "Jakarta",
-      subdistrict: "Menteng",
-      schoolName: "SMA Negeri 1 Jakarta",
+      name: user?.name || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
     },
   });
 
-  function onSubmit(data: AccountFormValues) {
-    console.log(data);
+  async function onSubmit(data: AccountFormValues) {
     setIsLoading(true);
+    const res = await updateProfilAction(data);
+    if (res.success) {
+      getMe();
+      setIsSuccess(true, "Akun kamu berhasil di perbarui");
+    } else {
+      setError(true, "Yah.. akun gagal diperbarui");
+    }
+    setIsLoading(false);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSuccess(true, "Account information updated successfully");
-    }, 1000);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //   setIsSuccess(true, "Akun kamu berhasil di perbarui");
+    // }, 1000);
   }
 
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+      });
+    }
+  }, [user]);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4">
           <FormField
             control={form.control}
-            name="fullName"
+            name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel>Nama Lengkap</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -92,10 +103,10 @@ export function AccountForm() {
             />
             <FormField
               control={form.control}
-              name="whatsapp"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>WhatsApp Number</FormLabel>
+                  <FormLabel>WhatsApp</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -103,20 +114,6 @@ export function AccountForm() {
                 </FormItem>
               )}
             />
-
-            {/* <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
           </div>
 
           {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

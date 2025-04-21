@@ -43,7 +43,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const { setIsSuccess, setError, isLoading, setIsLoading } = useLayout();
+  const { setIsSuccess, setError, isLoading, isLoadingBlock, setIsLoading } =
+    useLayout();
   const router = useRouter();
 
   const getMe = useCallback(async () => {
@@ -119,7 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{ user, isLoading, login, logout, getMe, setUser }}
     >
-      {isLoading && <LoadingBlock />}
+      {isLoadingBlock && <LoadingBlock />}
       {children}
     </AuthContext.Provider>
   );

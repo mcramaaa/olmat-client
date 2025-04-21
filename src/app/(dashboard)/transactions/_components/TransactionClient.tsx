@@ -58,7 +58,7 @@ export default function TransactionClient({
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Transaction History</CardTitle>
+          <CardTitle>Riwayat Transaksi</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4 mb-6 md:flex-row">

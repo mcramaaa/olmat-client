@@ -36,6 +36,8 @@ export function DashboardItem({ data }: IProps) {
     pendingParticipant: data.pending_participant || "",
   };
 
+  console.log(dashData.successParticipant);
+
   return (
     <>
       <div>
@@ -136,22 +138,24 @@ export function DashboardItem({ data }: IProps) {
           </Card>
         </div>
       </div>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-          <CardTitle className="text-lg font-medium">
-            Komunitas Whatsapp
-          </CardTitle>
-          <PiWhatsappLogo className="w-5 h-5 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <p>Gabung Komunitas Olimpiade Matematika UINSA</p>
-        </CardContent>
-        <CardFooter>
-          <Button asChild className="w-full" variant="outline">
-            <Link href="/transactions">Lihat Transaksi</Link>
-          </Button>
-        </CardFooter>
-      </Card>
+      {dashData.successParticipant > 0 && (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardTitle className="text-lg font-medium">
+              Komunitas Whatsapp
+            </CardTitle>
+            <PiWhatsappLogo className="w-5 h-5 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <p>Gabung Komunitas Olimpiade Matematika UINSA</p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full" variant="outline">
+              <Link href="/transactions">Lihat Transaksi</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
     </>
   );
 }

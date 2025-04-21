@@ -88,15 +88,15 @@ export default function ParticipantClient({
               <TableHeader>
                 <TableRow>
                   <TableHead className="text-center">No.</TableHead>
-                  <TableHead>Name</TableHead>
+                  <TableHead>Nama</TableHead>
                   <TableHead className="hidden text-center md:table-cell">
-                    Gender
+                    kelamin
                   </TableHead>
                   <TableHead className="hidden text-center md:table-cell">
-                    Date of Birth
+                    Tanggal lahir
                   </TableHead>
                   <TableHead className="text-center">Status</TableHead>
-                  <TableHead className="text-center">Actions</TableHead>
+                  <TableHead className="text-center">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

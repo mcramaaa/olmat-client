@@ -20,8 +20,8 @@ export default async function TransactionsPage({ searchParams }: IProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Transactions</h1>
-        <p className="text-gray-500">Manage your payment transactions</p>
+        <h1 className="text-3xl font-bold tracking-tight">Transaksi</h1>
+        <p className="text-gray-500">Kelola transaksi pembayaranmu</p>
       </div>
       <TransactionClient
         transactions={res.data || []}

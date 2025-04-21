@@ -230,7 +230,7 @@ export default function AdminSchoolSelect({
                       <FormLabel>Sekolah</FormLabel>
                       <FormControl>
                         <ReusableCombobox
-                          placeholder="Select School"
+                          placeholder="Pilih Sekolah"
                           className="text-sm"
                           onChange={(e) => {
                             field.onChange(e);

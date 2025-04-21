@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 interface ILayoutStore {
   loading: boolean;
+  loadingBlock: boolean;
   success: boolean;
   error: boolean;
   message: string;
@@ -14,6 +15,7 @@ interface ILayoutStore {
 const layoutStore = create<ILayoutStore>(() => ({
   error: false,
   loading: false,
+  loadingBlock: false,
   success: false,
   message: "",
   permissions: [],
@@ -32,6 +34,7 @@ export const useLayout = () => {
   const permissions = layoutStore((e) => e.permissions);
   const isStatus = layoutStore((e) => e.isStatus);
   const loadingCondition = layoutStore((e) => e.loadingCondition);
+  const isLoadingBlock = layoutStore((e) => e.loadingBlock);
 
   const setIsStatus = (setIsStatus: string) => {
     layoutStore.setState({
@@ -51,10 +54,15 @@ export const useLayout = () => {
     });
   };
 
-  const setIsLoading = (setLoading: boolean, setMessage?: string) => {
+  const setIsLoading = (setLoading: boolean) => {
     layoutStore.setState({
       loading: setLoading,
-      message: setMessage ? setMessage : "Loading..",
+    });
+  };
+
+  const setIsLoadingBlock = (setLoadingBox: boolean) => {
+    layoutStore.setState({
+      loadingBlock: setLoadingBox,
     });
   };
 
@@ -81,6 +89,8 @@ export const useLayout = () => {
   return {
     isLoading,
     setIsLoading,
+    isLoadingBlock,
+    setIsLoadingBlock,
     isError,
     setError,
     fillterByRef,

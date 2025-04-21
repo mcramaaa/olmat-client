@@ -42,6 +42,7 @@ import { useLayout } from "@/hooks/zustand/layout";
 import { useRouter } from "next/navigation";
 import { postParticipantAction } from "../participant.action";
 import AdminSchoolSelect from "./AdminSchoolSelect";
+import { convertRupiah } from "@/helper/common";
 
 export const participantSchema = z.object({
   id: z.number(),
@@ -73,7 +74,9 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
   const MAX_PARTICIPANTS = 11;
   const router = useRouter();
   const { user, setUser } = useAuth();
-  const { isLoading, setIsLoading, setIsSuccess, setError } = useLayout();
+  console.log("user", user);
+  const { isLoadingBlock, setIsLoadingBlock, setIsSuccess, setError } =
+    useLayout();
   const [activeParticipant, setActiveParticipant] = useState<number>(0);
   const [participantToDelete, setParticipantToDelete] = useState<number | null>(
     null
@@ -311,11 +314,11 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
 
   // Handle Submit
   async function onSubmit(data: ParticipantFormValues) {
-    setIsLoading(true, "Mohon tunggu, Sedang mengirim data...");
+    setIsLoadingBlock(true);
     setIsCountSubmit(isCountSubmit + 1);
     setIsErrMsg(undefined);
     if (checkForErrors()) {
-      setIsLoading(false);
+      setIsLoadingBlock(false);
       return;
     }
     const completeData = data.participants.map((participant, index) => {
@@ -332,11 +335,11 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
     if (res.success) {
       setIsSuccess(true, "Yay, Peserta berhasil terdaftar 🎉");
       router.push(`/transactions/${res.data.payment.invoice}`);
-      setIsLoading(false);
+      setIsLoadingBlock(false);
     } else {
       const err = res.error;
       setError(true, "Yah, Peserta gagal terdaftar 😔");
-      setIsLoading(false);
+      setIsLoadingBlock(false);
       console.error("err", err);
     }
   }
@@ -355,15 +358,21 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
             <CardHeader>
               <CardTitle>
                 <button
-                  onClick={() => setIsLoading(false)}
+                  onClick={() => setIsLoadingBlock(false)}
                   className="hover:scale-110"
                 >
                   Pendaftaran Peserta
                 </button>
               </CardTitle>
               <CardDescription>
-                Kamu dapat mendaftarkan 10 Peserta untuk mendapatkan gratis 1
-                Peserta
+                <p>
+                  Harga per peserta{" "}
+                  <span className="text-black font-bold">
+                    {user?.registerPrice && convertRupiah(user.registerPrice)}
+                  </span>
+                  . Kamu dapat mendaftarkan 10 Peserta untuk mendapatkan gratis
+                  1 Peserta.
+                </p>
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -472,7 +481,7 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
                           <FormLabel>Nama Lengkap</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Enter participant's full name"
+                              placeholder="Masukkan nama pelengkap peserta"
                               {...field}
                             />
                           </FormControl>
@@ -527,7 +536,13 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
                           <FormItem>
                             <FormLabel>Tanggal Lahir</FormLabel>
                             <FormControl>
-                              <Input type="date" {...field} />
+                              <div>
+                                <Input
+                                  className="  flex justify-between"
+                                  type="date"
+                                  {...field}
+                                />
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -543,7 +558,7 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
                             <FormControl>
                               <Input
                                 type="email"
-                                placeholder="participant@example.com"
+                                placeholder="peserta@gmail.com"
                                 {...field}
                               />
                             </FormControl>
@@ -560,7 +575,7 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
                         <FormItem>
                           <FormLabel>WhatsApp</FormLabel>
                           <FormControl>
-                            <Input placeholder="+62 8xx xxxx xxxx" {...field} />
+                            <Input placeholder="08xx xxxx xxxx" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -586,7 +601,7 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
                           placeholder={{
                             title: "Drag & drop or click to upload",
                             description:
-                              "Upload a photo of the participant. Max size 200 Kb. Formats: JPG, PNG, WebP.",
+                              "Upload Foto Peserta. Ukuran maksimal 200 Kb. Formats: JPG, PNG, WebP.",
                           }}
                         />
                       </div>
@@ -612,7 +627,7 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
                           placeholder={{
                             title: "Drag & drop or click to upload",
                             description:
-                              "Upload a attachments of the participant. Max size 200 Kb. Formats: JPG, PNG, WebP.",
+                              "Upload Attachments Peserta. Ukuran maksimal 200 Kb. Formats: JPG, PNG, WebP.",
                           }}
                         />
                       </div>
@@ -635,10 +650,10 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
               <Button
                 type="submit"
                 size="lg"
-                disabled={isLoading}
+                disabled={isLoadingBlock}
                 onClick={() => setIsCountSubmit(isCountSubmit + 1)}
               >
-                {isLoading ? (
+                {isLoadingBlock ? (
                   <>
                     <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                     Mengirim...

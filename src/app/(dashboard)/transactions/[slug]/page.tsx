@@ -25,9 +25,7 @@ export default async function TransactionPage({
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <BackButton />
-        <h1 className="text-3xl font-bold tracking-tight">
-          Transaction Details
-        </h1>
+        <h1 className="text-3xl font-bold tracking-tight">Detail Transaksi</h1>
       </div>
       <TransactionDetailClient
         participants={res.participants || []}
