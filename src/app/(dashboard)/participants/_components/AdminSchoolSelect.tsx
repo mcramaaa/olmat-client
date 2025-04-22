@@ -29,7 +29,7 @@ type AdminSchoolValues = z.infer<typeof AdminSchoolSchema>;
 
 interface IPops {
   provinceOptions: { label: string; value: string }[];
-  selectedSchool: (e: string) => void;
+  selectedSchool: (id: string, price: number) => void;
 }
 
 export default function AdminSchoolSelect({
@@ -40,7 +40,9 @@ export default function AdminSchoolSelect({
   const [subdistricts, setSubdistricts] = useState<
     { label: string; value: string }[]
   >([]);
-  const [school, setSchool] = useState<{ label: string; value: string }[]>([]);
+  const [school, setSchool] = useState<
+    { label: string; value: string; price: number }[]
+  >([]);
 
   const form = useForm<AdminSchoolValues>({
     resolver: zodResolver(AdminSchoolSchema),
@@ -126,6 +128,7 @@ export default function AdminSchoolSelect({
             .map((school: any) => ({
               label: school.name,
               value: `${school.id}`,
+              price: school.degree.register_price,
             }))
             .sort((a: any, b: any) => a.label.localeCompare(b.label));
 
@@ -234,7 +237,10 @@ export default function AdminSchoolSelect({
                           className="text-sm"
                           onChange={(e) => {
                             field.onChange(e);
-                            selectedSchool(e);
+                            const selected = school.find((s) => s.value === e);
+                            if (selected) {
+                              selectedSchool(selected.value, selected.price);
+                            }
                           }}
                           value={field.value}
                           options={school} // Ini data sekolah dari API

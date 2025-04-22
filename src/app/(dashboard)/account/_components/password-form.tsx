@@ -4,33 +4,31 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { updatePasswordAction } from "../account.action";
 import { useLayout } from "@/hooks/zustand/layout";
-import { updatPasswordAction } from "../account.action";
+import { Loader2 } from "lucide-react";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const passwordFormSchema = z
   .object({
     currentPassword: z
       .string()
-      .min(8, { message: "Password must be at least 8 characters." }),
-    password: z
-      .string()
-      .min(8, { message: "Password must be at least 8 characters." }),
+      .min(8, { message: "Kata sandi minimal 8 karakter." }),
+    password: z.string().min(8, { message: "Kata sandi minimal 8 karakter." }),
     confirmPassword: z
       .string()
-      .min(8, { message: "Password must be at least 8 characters." }),
+      .min(8, { message: "Kata sandi minimal 8 karakter." }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "Kata sandi tidak sama",
     path: ["confirmPassword"],
   });
 
@@ -49,28 +47,33 @@ export function PasswordForm() {
   });
 
   async function onSubmit(data: PasswordFormValues) {
-    // setIsLoading(true);
-
-    const res = await updatPasswordAction(data);
-    console.log("res", res);
+    setIsLoading(true);
+    const res = await updatePasswordAction({
+      password: data.password,
+      currentPassword: data.currentPassword,
+    });
 
     if (res.success) {
-      // setIsSuccess(true, "Kata Sandi kamu berhasil diperbarui");
-      console.log("uscccssss");
+      setIsSuccess(true, "Kata Sandi kamu berhasil diperbarui");
+      form.resetField("confirmPassword");
+      form.resetField("password");
+      form.resetField("currentPassword");
     } else {
-      const errRes = res.error.response;
-      if (errRes?.errors?.currentPassword) {
-        // setError(true, "Yah.. Sepertinya kata sandi saat ini salah");
-        console.log("errr 1");
-      } else {
-        // setError(true, "Yah.. Kata Sandi gagal diperbarui");
-        console.log("errr 2");
+      if (res.error.errors.currentPassword) {
+        setError(true, "Sepertinya Kata sandi saat ini salah");
+        form.setError("currentPassword", {
+          message: "Kata sandi saat ini salah",
+        });
+      }
+      if (res.error.errors.password) {
+        setError(true, "Kata sandi lama sama dengan kata sandi baru");
+        form.setError("password", {
+          message: "Kata sandi baru harus berbeda dengan sandi sebelumnya",
+        });
       }
     }
 
-    form.resetField("confirmPassword");
-    form.resetField("password");
-    form.resetField("currentPassword");
+    setIsLoading(false);
   }
 
   return (
@@ -84,7 +87,7 @@ export function PasswordForm() {
               <FormItem>
                 <FormLabel>kata sandi saat ini</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -98,11 +101,11 @@ export function PasswordForm() {
               <FormItem>
                 <FormLabel>Kata sandi baru</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <PasswordInput {...field} />
                 </FormControl>
-                <FormDescription>
+                {/* <FormDescription>
                   Password must be at least 8 characters long.
-                </FormDescription>
+                </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
@@ -115,7 +118,7 @@ export function PasswordForm() {
               <FormItem>
                 <FormLabel>Konfirmasi kata sandi</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -123,8 +126,16 @@ export function PasswordForm() {
           />
         </div>
 
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Updating..." : "Update Password"}
+        <Button type="submit" disabled={isLoading} className="flex gap-3">
+          {isLoading ? (
+            <>
+              <Loader2 className="animate-spin" />
+              Memperbarui kata sandi
+            </>
+          ) : (
+            "Perbarui kata sandi"
+          )}
+          {/* update */}
         </Button>
       </form>
     </Form>

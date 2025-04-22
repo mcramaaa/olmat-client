@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Manage your account settings",
 };
 
-export default function AccountPage() {
+export default async function AccountPage() {
   return (
     <div className="space-y-6">
       <div>

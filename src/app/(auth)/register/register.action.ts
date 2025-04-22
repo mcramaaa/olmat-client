@@ -112,13 +112,18 @@ export async function getRegionByCityAction(cityId: string): Promise<{
 
 export async function submitSchoolRegistrationAction(
   data: z.infer<typeof schoolSchema>
-) {
+): Promise<{
+  success: boolean;
+  data: any;
+  error: AxiosError | null | any;
+}> {
   const validationResult = schoolSchema.safeParse(data);
 
   if (!validationResult.success) {
     return {
       success: false,
-      errors: validationResult.error.flatten().fieldErrors,
+      data: null,
+      error: validationResult.error.flatten().fieldErrors,
     };
   }
 

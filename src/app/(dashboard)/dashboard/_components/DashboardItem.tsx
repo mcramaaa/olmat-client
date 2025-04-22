@@ -36,8 +36,6 @@ export function DashboardItem({ data }: IProps) {
     pendingParticipant: data.pending_participant || "",
   };
 
-  console.log(dashData.successParticipant);
-
   return (
     <>
       <div>

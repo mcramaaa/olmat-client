@@ -27,6 +27,7 @@ export async function updateProfilAction(
       error: validation.error.flatten().fieldErrors,
     };
   }
+
   try {
     const res = await api.patch("/auth/user/update-me", data);
     return { success: true, data: res.data, error: null };
@@ -36,24 +37,23 @@ export async function updateProfilAction(
   }
 }
 
-export async function updatPasswordAction(data: {
+export async function updatePasswordAction(data: {
   password: string;
   currentPassword: string;
 }): Promise<{
   success: boolean;
   data: any;
-  error: AxiosError | any | null;
+  error: any | null;
 }> {
   try {
     const res = await api.patch("/auth/user/update-me", {
       password: data.password,
       currentPassword: data.currentPassword,
     });
-    console.log("res", res.data);
     return { success: true, data: res.data, error: null };
   } catch (error) {
     const err = error as AxiosError;
-    console.log("err", err.response);
-    return { success: false, data: null, error: err };
+
+    return { success: false, data: null, error: err.response?.data };
   }
 }

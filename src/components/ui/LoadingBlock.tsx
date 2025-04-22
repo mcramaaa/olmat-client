@@ -6,10 +6,7 @@ import { Progress } from "@/components/ui/progress";
 
 export default function LoadingBlock() {
   const [progress, setProgress] = useState(0);
-  console.log(progress);
 
-  // Simulate progress for demonstration
-  // In a real application, you would update this based on actual loading progress
   useEffect(() => {
     const timer = setTimeout(() => {
       setProgress(0);

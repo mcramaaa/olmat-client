@@ -74,7 +74,6 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
   const MAX_PARTICIPANTS = 11;
   const router = useRouter();
   const { user, setUser } = useAuth();
-  console.log("user", user);
   const { isLoadingBlock, setIsLoadingBlock, setIsSuccess, setError } =
     useLayout();
   const [activeParticipant, setActiveParticipant] = useState<number>(0);
@@ -161,12 +160,13 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
   };
 
   // Handle select school for admin
-  const handleSelectSchoolAdmin = (e: string) => {
+  const handleSelectSchoolAdmin = (schId: string, price: number) => {
     setUser((prev) => {
       if (!prev) return prev;
       return {
         ...prev,
-        schoolId: Number(e),
+        schoolId: Number(schId),
+        registerPrice: price,
       };
     });
   };
@@ -349,7 +349,9 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
       {user?.type === "Admin" && (
         <AdminSchoolSelect
           provinceOptions={provinceOptions}
-          selectedSchool={handleSelectSchoolAdmin}
+          selectedSchool={(schId, price) =>
+            handleSelectSchoolAdmin(schId, price)
+          }
         />
       )}
       <Form {...form}>
