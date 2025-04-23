@@ -2,9 +2,10 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Award, Brain, Medal, Users } from "lucide-react";
+import { Award, Brain, Download, Medal, Users } from "lucide-react";
 import { APPCONSTANT } from "@/constant/App.constant";
 import AppImage from "../ui/AppImage";
+import { Button } from "../ui/button";
 
 export function AboutSection() {
   const ref = useRef(null);
@@ -56,9 +57,18 @@ export function AboutSection() {
                   <h3 className="text-2xl font-bold mb-4 text-[#665D1E]">
                     {data.label}
                   </h3>
-                  <p className="text-gray-700">{data.desc}</p>
+                  <p className="text-gray-700 indent-10 text-justify">
+                    {data.desc}
+                  </p>
                 </motion.div>
               ))}
+              <div className="flex justify-around">
+                <Button className="border-brand border text-brand bg-brand/5 rounded-full hover:bg-brand hover:text-white duration-500">
+                  <Download />
+                  Unduh JUKLAK JUKNIS
+                </Button>
+                {/* <Button>Pengumuman</Button> */}
+              </div>
             </motion.div>
           </div>
 
@@ -73,9 +83,7 @@ export function AboutSection() {
 
               {/* Floating Stats */}
               <div className="absolute -top-5 -left-5 h-20 w-20 bg-white rounded-lg shadow-xl flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold text-[#996515]">
-                  {APPCONSTANT.regions.length}
-                </span>
+                <span className="text-2xl font-bold text-[#996515]">18</span>
                 <span className="text-xs text-gray-600">Regions</span>
               </div>
               <div className="absolute -bottom-5 -right-5 h-24 w-24 bg-white rounded-lg shadow-xl flex flex-col items-center justify-center">

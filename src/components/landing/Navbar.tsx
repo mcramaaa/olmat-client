@@ -32,10 +32,10 @@ export function LandingNavbar({
 
   const navItems = [
     { id: "hero", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "events", label: "Events" },
+    { id: "about", label: "Tentang" },
+    { id: "events", label: "Event" },
     { id: "timeline", label: "Timeline" },
-    { id: "contact", label: "Contact" },
+    { id: "contact", label: "Kontak" },
   ];
 
   return (

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Loader2, Mail } from "lucide-react";
+import { Info, Loader2, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,6 +20,8 @@ import Link from "next/link";
 import { IRegion } from "@/interfaces/IRegion";
 import { UpperCaseFirst } from "@/helper/common";
 import { useLayout } from "@/hooks/zustand/layout";
+import { Alert, AlertDescription } from "../ui/alert";
+import { APPCONSTANT } from "@/constant/App.constant";
 
 type CityFormValues = z.infer<typeof regionSchema>;
 
@@ -72,13 +74,14 @@ export function ContactSection({ cities, regions }: IPops) {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#996515] to-[#d2b48c]">
-              Contact Us
+              Hubungi Kami
             </span>
           </h2>
           <div className="w-20 h-1 bg-[#996515] mx-auto mb-6"></div>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-            Get in touch with our regional coordinators or send us a message
-            directly.
+            Hubungi koordinator rayon di wilayahmu atau kirim pesan langsung
+            kepada panitia pusat untuk mendapatkan informasi seputar Olimpiade
+            Matematika UINSA 2025.
           </p>
         </div>
 
@@ -163,16 +166,17 @@ export function ContactSection({ cities, regions }: IPops) {
             <div className="mt-8 bg-[#996515]/10 p-6 rounded-xl">
               <h4 className="text-lg font-bold mb-2 flex items-center gap-2">
                 <Mail className="h-5 w-5 text-[#996515]" />
-                Main Contact
+                Kontak Utama
               </h4>
               <p className="text-gray-700 mb-2">
-                For general inquiries, please contact our main office:
+                Untuk Kepentingan umum, silahkan hubungi kontak berikut
               </p>
               <p className="text-gray-700">
-                <strong>Email:</strong> info@uinsamatholympiad.ac.id
+                <strong>Email:</strong> {APPCONSTANT.footer.email}
               </p>
               <p className="text-gray-700">
-                <strong>Phone:</strong> +62 31-8413300
+                <strong>WhatsApp:</strong>{" "}
+                {APPCONSTANT.footer.mainWhatsApp.replace("62", "0")}
               </p>
               <p className="text-gray-700">
                 <strong>Address:</strong> UIN Sunan Ampel Surabaya, Jl. Ahmad
@@ -189,11 +193,11 @@ export function ContactSection({ cities, regions }: IPops) {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-6 text-[#665D1E]">
-              Regional Coordinators
+              Koordinator Rayon
             </h3>
             <p className="text-gray-600 mb-6">
-              Contact our regional coordinators for specific inquiries about the
-              Olympiad in your area.
+              Hubungi koordinator sesuai wilayahmu untuk info lengkap seputar
+              OLMAT UINSA 2025.
             </p>
 
             {regions.length > 0 && (
@@ -247,6 +251,13 @@ export function ContactSection({ cities, regions }: IPops) {
                           </Link>
                         </div>
                       </div>
+                      <Alert className="bg-muted/80 border-muted mt-4 flex items-center">
+                        <AlertDescription className="flex items-center gap-3">
+                          <Info className="w-4 h-4" />
+                          {/* <span className="font-semibold">Penting</span>: */}
+                          Tekan nama untuk menghubungi melalui whatsapp
+                        </AlertDescription>
+                      </Alert>
                     </div>
                   </TabsContent>
                 ))}
