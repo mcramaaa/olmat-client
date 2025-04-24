@@ -70,7 +70,7 @@ export function AboutSection() {
             Tentang {APPCONSTANT.name}
           </h2>
           <div className="w-20 h-1 bg-brand mx-auto mb-6"></div>
-          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-700 max-w-3xl mx-auto italic">
             {APPCONSTANT.theme}
           </p>
         </div>

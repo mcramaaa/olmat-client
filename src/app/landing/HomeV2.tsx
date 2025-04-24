@@ -64,9 +64,9 @@ export default function HomeV2({ cities, regions }: IProps) {
       <main>
         <HeroSection />
         <AboutSection />
-        <PromotionSection />
         <SupportingEventsSection />
         <TimelineSection />
+        <PromotionSection />
         <ContactSection cities={cities} regions={regions} />
       </main>
 

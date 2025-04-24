@@ -34,7 +34,7 @@ export default function PromotionSection() {
     },
   };
   return (
-    <section id="promotion" className="container mx-auto px-6">
+    <section id="promotion" className="container mx-auto px-6 mb-4">
       {/* Social Media and E-Commerce Cards */}
       <div className="mt-20">
         <div className="text-center mb-10">
@@ -86,7 +86,7 @@ export default function PromotionSection() {
               whileInView="visible"
               variants={containerVariants}
               viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-3 items-center gap-12"
+              className="grid grid-cols-1 md:grid-cols-3 items-center gap-5 lg:gap-12"
             >
               {APPCONSTANT.socialEcommerce.shopee.item.map((item, i) => (
                 <motion.div
@@ -94,7 +94,7 @@ export default function PromotionSection() {
                   variants={itemVariants}
                   className="order-2 lg:order-1"
                 >
-                  <Card className="overflow-hidden group">
+                  <Card className="overflow-hidden group border-none drop-shadow-md">
                     <div className="relative aspect-square">
                       <div className="absolute left-5 top-2 px-3 gap-2 bg-brandDark/50 flex items-center z-10 text-foreground rounded-full py-1">
                         <CardTitle className=" mt-1 font-medium text-foreground/60">
@@ -114,13 +114,13 @@ export default function PromotionSection() {
                     <CardContent className="p-4 pt-2">
                       <p>{item.label}</p>
                     </CardContent>
-                    <CardFooter className="p-4 pt-0 flex justify-between">
-                      <p className="font-bold text-lg">
+                    <CardFooter className="p-4 pt-0 flex flex-col lg:flex-row justify-between">
+                      <p className="font-bold w-full mb-3 text-lg">
                         {convertRupiah(item.price)}
                       </p>
                       <Button
                         size="sm"
-                        className="bg-brand hover:bg-brandDark/20 hover:text-brand "
+                        className="bg-brand hover:bg-brandDark/20 hover:text-brand w-full lg:w-fit"
                       >
                         <ShoppingCart className="mr-2 h-4 w-4" />
                         Beli Sekarang
@@ -149,7 +149,8 @@ export default function PromotionSection() {
               whileInView="visible"
               variants={containerVariants}
               viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-3 items-center gap-12"
+              // className="grid grid-cols-1 lg:grid-cols-3 items-center gap-12"
+              className="grid grid-cols-1 md:grid-cols-3 items-center gap-5 lg:gap-12"
             >
               {APPCONSTANT.socialEcommerce.instagram.item.map((item, i) => (
                 <motion.div
@@ -158,7 +159,7 @@ export default function PromotionSection() {
                   // className="order-2 lg:order-1"
                 >
                   <Link href={item.link} target="_blank">
-                    <Card className="overflow-hidden group">
+                    <Card className="overflow-hidden group border-none drop-shadow-md">
                       <div className="relative aspect-square">
                         <div className="absolute left-5 top-2 px-3 gap-2 bg-brandDark/50 flex items-center z-10 text-foreground rounded-full py-1">
                           {/* <CardTitle className=" mt-1 font-medium text-foreground/60">
@@ -209,12 +210,13 @@ export default function PromotionSection() {
               whileInView="visible"
               variants={containerVariants}
               viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-3 items-center gap-12"
+              // className="grid grid-cols-1 lg:grid-cols-3 items-center gap-12"
+              className="grid grid-cols-1 md:grid-cols-3 items-center gap-5 lg:gap-12"
             >
               {APPCONSTANT.socialEcommerce.tiktok.item.map((item, i) => (
                 <motion.div key={i} variants={itemVariants}>
                   <Link href={item.link} target="_blank">
-                    <Card className="overflow-hidden group">
+                    <Card className="overflow-hidden group border-none drop-shadow-md">
                       <div className="relative aspect-[3/4]">
                         <div className="absolute left-5 top-2 px-3 gap-2 bg-brandDark/50 flex items-center z-10 text-foreground rounded-full py-1"></div>
                         <Image
