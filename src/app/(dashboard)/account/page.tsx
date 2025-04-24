@@ -12,14 +12,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AccountForm } from "./_components/account-form";
-import { PasswordForm } from "@/components/password-form";
+import { PasswordForm } from "@/app/(dashboard)/account/_components/password-form";
 
 export const metadata: Metadata = {
   title: "Account - Math Olympiad 2025",
   description: "Manage your account settings",
 };
 
-export default function AccountPage() {
+export default async function AccountPage() {
   return (
     <div className="space-y-6">
       <div>

@@ -36,8 +36,8 @@ export const Pagination: React.FC<PaginationProps> = ({
     <div className="flex items-center justify-between mt-4">
       {/* Items count display */}
       <div className="text-sm text-muted-foreground">
-        Showing <strong>{startItem}</strong> to <strong>{endItem}</strong> of{" "}
-        <strong>{totalItems}</strong> items
+        Menampilkan <strong>{startItem}</strong> sampai{" "}
+        <strong>{endItem}</strong> dari <strong>{totalItems}</strong> item
       </div>
 
       <div className="flex gap-5 items-center">

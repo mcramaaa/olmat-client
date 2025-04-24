@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ParticipantForm from "../_components/ParticipantForm";
 import { getProvinceAction } from "@/app/(auth)/register/register.action";
+import { APPCONSTANT } from "@/constant/App.constant";
 
 export const metadata: Metadata = {
   title: "Register Participants - Math Olympiad 2025",
@@ -19,10 +20,7 @@ export default async function RegisterParticipantsPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Pendaftaran OLMAT UINSA</h1>
-          <p className="text-gray-500">
-            Register up to 11 participants for the International Mathematics
-            Olympiad 2025
-          </p>
+          <p className="text-gray-500">{APPCONSTANT.theme}</p>
         </div>
 
         <ParticipantForm provinceOptions={prov} />

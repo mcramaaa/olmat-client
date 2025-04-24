@@ -101,7 +101,7 @@ export function DashboardSidebar({
                 <Button variant="ghost" className="justify-between w-full">
                   <div className="flex items-center">
                     <Users className="w-4 h-4 mr-2" />
-                    Participants
+                    Peserta
                   </div>
                   <ChevronDown
                     className={cn(
@@ -120,7 +120,7 @@ export function DashboardSidebar({
                     className="justify-start w-full"
                     size="sm"
                   >
-                    All Participants
+                    Semua Peserta
                   </Button>
                 </Link>
                 <Link href={ROUTES.DASHBOARD.REGISTER_PARTICIPANTS} passHref>
@@ -134,7 +134,7 @@ export function DashboardSidebar({
                     size="sm"
                   >
                     <UserPlus className="w-4 h-4 mr-2" />
-                    Register New
+                    Daftarkan Peserta
                   </Button>
                 </Link>
               </CollapsibleContent>
@@ -149,7 +149,7 @@ export function DashboardSidebar({
                 <Button variant="ghost" className="justify-between w-full">
                   <div className="flex items-center">
                     <CreditCard className="w-4 h-4 mr-2" />
-                    Transactions
+                    Transaksi
                   </div>
                   <ChevronDown
                     className={cn(
@@ -168,7 +168,7 @@ export function DashboardSidebar({
                     className="justify-start w-full"
                     size="sm"
                   >
-                    All Transactions
+                    Semua Transaksi
                   </Button>
                 </Link>
               </CollapsibleContent>

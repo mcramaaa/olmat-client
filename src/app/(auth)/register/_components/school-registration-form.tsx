@@ -52,7 +52,7 @@ interface IProps {
 
 export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
   // const router = useRouter();
-  const { isLoading, setIsLoading } = useLayout();
+  const { isLoading, setIsLoading, setIsSuccess, setError } = useLayout();
   const [cities, setCities] = useState<{ label: string; value: string }[]>([]);
   const [subdistricts, setSubdistricts] = useState<
     { label: string; value: string }[]
@@ -142,10 +142,14 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
     getSubdistrict();
   }, [selectedCity]);
 
-  function onSubmit(data: SchoolFormValues) {
+  async function onSubmit(data: SchoolFormValues) {
     setIsLoading(true);
-    const res = submitSchoolRegistrationAction(data);
-    console.log(res);
+    const res = await submitSchoolRegistrationAction(data);
+    if (res.success) {
+      setIsSuccess(true, "Pendaftaran Sekolah Terkirim");
+    } else {
+      setError(true, "Pendaftaran Sekolah Tidak Terkirim");
+    }
   }
 
   return (

@@ -130,9 +130,9 @@ export default function TransactionDetailClient({
       <div className="duration-300 md:w-3/5 lg:w-2/3">
         <Card>
           <CardHeader>
-            <CardTitle>Registered Participants</CardTitle>
+            <CardTitle>Daftar Peserta</CardTitle>
             <CardDescription>
-              Participants included in this transaction
+              Data peserta yang terdapat pada transaksi ini
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -141,9 +141,11 @@ export default function TransactionDetailClient({
                 <TableHeader>
                   <TableRow>
                     <TableHead className="text-center">No.</TableHead>
-                    <TableHead className="w-3/5">Name</TableHead>
-                    <TableHead className="w-1/5 text-center">Gender</TableHead>
-                    <TableHead className="w-1/5 text-center">Birtday</TableHead>
+                    <TableHead className="w-3/5">Nama</TableHead>
+                    <TableHead className="w-1/5 text-center">Kelamin</TableHead>
+                    <TableHead className="w-1/5 text-center">
+                      Tanggal Lahir
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

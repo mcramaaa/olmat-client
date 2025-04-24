@@ -11,12 +11,14 @@ import { SupportingEventsSection } from "@/components/landing/Event";
 import { TimelineSection } from "@/components/landing/Timeline";
 import { ContactSection } from "@/components/landing/Contact";
 import PromotionSection from "@/components/landing/Promotion";
+import { IRegion } from "@/interfaces/IRegion";
 
 interface IProps {
   cities: { label: string; value: string }[];
+  regions: IRegion[];
 }
 
-export default function HomeV2({ cities }: IProps) {
+export default function HomeV2({ cities, regions }: IProps) {
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
@@ -65,7 +67,7 @@ export default function HomeV2({ cities }: IProps) {
         <PromotionSection />
         <SupportingEventsSection />
         <TimelineSection />
-        <ContactSection cities={cities} />
+        <ContactSection cities={cities} regions={regions} />
       </main>
 
       <div className="fixed bottom-6 right-6 z-50">

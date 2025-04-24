@@ -44,8 +44,15 @@ export function ThemeProvider({
     );
 
   const [theme, setTheme] = useState<Theme>(defaultTheme);
-  const { isSuccess, isError, isLoading, isMessage, setIsSuccess, setError } =
-    useLayout();
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    isLoadingBlock,
+    isMessage,
+    setIsSuccess,
+    setError,
+  } = useLayout();
 
   useEffect(() => {
     if (isSuccess && isMessage) {
@@ -89,7 +96,7 @@ export function ThemeProvider({
       <Toaster toastOptions={{ duration: 4000 }} />
       <div
         className={`relative flex flex-col ${
-          isLoading && "overflow-hidden h-screen w-screen"
+          isLoadingBlock && "overflow-hidden h-screen w-screen"
         }`}
       >
         {/* <LoadingBlock /> */}

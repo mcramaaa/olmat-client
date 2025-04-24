@@ -69,3 +69,11 @@ export function convertGender(value: string | undefined) {
     return "Perempuan";
   }
 }
+
+export function UpperCaseFirst(name: string): string {
+  return name
+    .toLowerCase() // jadi huruf kecil semua
+    .split(" ") // pisah per kata
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // kapitalisasi tiap kata
+    .join(" "); // gabungkan lagi
+}
