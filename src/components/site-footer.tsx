@@ -3,6 +3,7 @@ import { Mail } from "lucide-react";
 import Image from "next/image";
 import { APPCONSTANT } from "@/constant/App.constant";
 import { FaWhatsapp } from "react-icons/fa6";
+import { SlLocationPin } from "react-icons/sl";
 
 export function SiteFooter() {
   return (
@@ -21,7 +22,9 @@ export function SiteFooter() {
             </div>
             <div>
               <h3 className="font-bold mb-2">{APPCONSTANT.fullName}</h3>
-              <p className="text-sm text-gray-600">{APPCONSTANT.theme}</p>
+              <p className="text-sm text-gray-600 italic">
+                {APPCONSTANT.theme}
+              </p>
             </div>
           </div>
 
@@ -63,11 +66,25 @@ export function SiteFooter() {
               <p className="flex items-center gap-2">
                 <FaWhatsapp className="w-4 h-4" />
                 <Link
-                  href={`https://api.whatsapp.com/send?phone=${APPCONSTANT.footer.mainWhatsApp}&text=Hai%20kak%20dengan%20OLMAT%20UINSA`}
+                  href={`https://api.whatsapp.com/send?phone=${APPCONSTANT.footer.mainWhatsApp.replace(
+                    "+",
+                    ""
+                  )}&text=Hai%20kak%20dengan%20OLMAT%20UINSA`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   Adam : {APPCONSTANT.footer.mainWhatsApp.replace("62", "0")}
+                </Link>
+              </p>
+              <p className="flex items-start gap-2">
+                <SlLocationPin className="text-2xl" />
+                <Link
+                  href={"https://maps.app.goo.gl/YuQGXHFWA4WiETSf7"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  UIN Sunan Ampel Surabaya, Jl. Ahmad Yani No.117, Surabaya,
+                  East Java, Indonesia
                 </Link>
               </p>
             </address>

@@ -163,7 +163,7 @@ export function ContactSection({ cities, regions }: IPops) {
                 </p>
               </div>
             </motion.div>
-            <div className="mt-8 bg-brand/10 p-6 rounded-xl">
+            <div className="mt-8 bg-brand/10 p-6 rounded-xl hidden lg:block">
               <h4 className="text-lg font-bold mb-2 flex items-center gap-2">
                 <Mail className="h-5 w-5 text-brand" />
                 Kontak Utama
@@ -171,17 +171,25 @@ export function ContactSection({ cities, regions }: IPops) {
               <p className="text-gray-700 mb-2">
                 Untuk Kepentingan umum, silahkan hubungi kontak berikut
               </p>
-              <p className="text-gray-700">
-                <strong>Email:</strong> {APPCONSTANT.footer.email}
-              </p>
-              <p className="text-gray-700">
-                <strong>WhatsApp:</strong>{" "}
-                {APPCONSTANT.footer.mainWhatsApp.replace("62", "0")}
-              </p>
-              <p className="text-gray-700">
-                <strong>Address:</strong> UIN Sunan Ampel Surabaya, Jl. Ahmad
-                Yani No.117, Surabaya, East Java, Indonesia
-              </p>
+              <div className="text-gray-700 grid grid-cols-5">
+                <p className="font-bold">Email</p>
+                <p className="col-span-4">{APPCONSTANT.footer.email}</p>
+              </div>
+              <div className="text-gray-700 grid grid-cols-5">
+                <p className="font-bold">WhatsApp</p>
+                <p className="col-span-4">
+                  <span className="font-bold">Adam </span>
+                  {APPCONSTANT.footer.mainWhatsApp.replace("62", "0")}
+                </p>
+              </div>
+              <div className="text-gray-700 grid grid-cols-5">
+                <p className="font-bold">Alamat</p>
+
+                <p className="col-span-4">
+                  UIN Sunan Ampel Surabaya, Jl. Ahmad Yani No.117, Surabaya,
+                  East Java, Indonesia
+                </p>
+              </div>
             </div>
           </div>
 
@@ -195,7 +203,7 @@ export function ContactSection({ cities, regions }: IPops) {
             <h3 className="text-2xl font-bold mb-6 text-secondBrand">
               Koordinator Rayon
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-6 text-sm md:text-base">
               Hubungi koordinator sesuai wilayahmu untuk info lengkap seputar
               OLMAT UINSA 2025.
             </p>
@@ -252,8 +260,8 @@ export function ContactSection({ cities, regions }: IPops) {
                         </div>
                       </div>
                       <Alert className="bg-muted/80 border-muted mt-4 flex items-center">
-                        <AlertDescription className="flex items-center gap-3">
-                          <Info className="w-4 h-4" />
+                        <AlertDescription className="flex items-center gap-3 text-xs md:text-base">
+                          <Info className="w-4 h-4 hidden md:block" />
                           {/* <span className="font-semibold">Penting</span>: */}
                           Tekan nama untuk menghubungi melalui whatsapp
                         </AlertDescription>

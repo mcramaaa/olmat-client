@@ -33,7 +33,7 @@ export function HeroSection() {
               <br />
               <span className="text-secondBrand">{APPCONSTANT.year}</span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-xl mx-auto lg:mx-0">
+            <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-xl mx-auto lg:mx-0 italic">
               {APPCONSTANT.theme}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
