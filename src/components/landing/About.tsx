@@ -6,6 +6,7 @@ import AppImage from "../ui/AppImage";
 import { Button } from "../ui/button";
 import { PiStudentBold } from "react-icons/pi";
 import { LuSchool } from "react-icons/lu";
+import Link from "next/link";
 
 export function AboutSection() {
   const ref = useRef(null);
@@ -15,28 +16,28 @@ export function AboutSection() {
     {
       label: "Jenjang SD/MI",
       icon: <PiStudentBold />,
-      desc: "One of Indonesias most recognized mathematics competitions with a legacy of excellence.",
+      desc: "Seru-seruan berhitung dan melatih logika sejak dini! Siap jadi juara sejak SD?.",
       countLabel: "Peserta Terdaftar",
       count: 100,
     },
     {
       label: "Jenjang SMP/MTs",
       icon: <PiStudentBold />,
-      desc: "One of Indonesias most recognized mathematics competitions with a legacy of excellence.",
+      desc: "Uji kemampuanmu memecahkan soal-soal seru dan menantang di level menengah. Saatnya naik level!",
       countLabel: "Peserta Terdaftar",
       count: 100,
     },
     {
       label: "Jenjang SMA/SMK/MA",
       icon: <PiStudentBold />,
-      desc: "One of Indonesias most recognized mathematics competitions with a legacy of excellence.",
+      desc: "Persaingan makin ketat, tapi kamu makin siap! Tunjukkan kehebatanmu di level tertinggi.",
       countLabel: "Peserta Terdaftar",
       count: 100,
     },
     {
       label: "Sekolah Terdaftar",
       icon: <LuSchool />,
-      desc: "One of Indonesias most recognized mathematics competitions with a legacy of excellence.",
+      desc: "Ratusan sekolah sudah ikut. Sekolahmu sudah terdaftar belum?",
       countLabel: "Sekolah Terdaftar",
       count: 100,
     },
@@ -94,10 +95,15 @@ export function AboutSection() {
                 </motion.div>
               ))}
               <div className="flex justify-around">
-                <Button className="border-brand border text-brand bg-brand/5 rounded-full hover:bg-brand hover:text-white duration-500">
-                  <Download />
-                  Unduh JUKLAK JUKNIS
-                </Button>
+                <Link
+                  target="_blank"
+                  href={"/pdf/JUKLAK JUKNIS OLMAT UINSA 2025.pdf"}
+                >
+                  <Button className="border-brand border text-brand bg-brand/5 rounded-full hover:bg-brand hover:text-white duration-500">
+                    <Download />
+                    Unduh JUKLAK JUKNIS
+                  </Button>
+                </Link>
                 {/* <Button>Pengumuman</Button> */}
               </div>
             </motion.div>
@@ -134,7 +140,7 @@ export function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow flex flex-col justify-between"
             >
               <div>
                 <div className="h-12 w-12 rounded-full text-2xl text-brand bg-brandDark/20 flex items-center justify-center mb-4">
