@@ -66,18 +66,18 @@ export function ContactSection({ cities, regions }: IPops) {
       {/* Background Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white to-[#f8f4e3]/30" />
-        <div className="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-[#edc9af]/10 blur-3xl" />
+        <div className="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-brandDark/10 blur-3xl" />
         <div className="absolute bottom-40 left-[15%] w-72 h-72 rounded-full bg-[#d2b48c]/10 blur-3xl" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#996515] to-[#d2b48c]">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-brand to-[#d2b48c]">
               Hubungi Kami
             </span>
           </h2>
-          <div className="w-20 h-1 bg-[#996515] mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-brand mx-auto mb-6"></div>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
             Hubungi koordinator rayon di wilayahmu atau kirim pesan langsung
             kepada panitia pusat untuk mendapatkan informasi seputar Olimpiade
@@ -89,7 +89,7 @@ export function ContactSection({ cities, regions }: IPops) {
           {/* Contact Form */}
           <div>
             <div className="">
-              <h3 className="text-2xl font-bold text-[#665D1E]">
+              <h3 className="text-2xl font-bold text-secondBrand">
                 Cek Rayon kamu{" "}
               </h3>
               {/* <p className="text-sm text-foreground">
@@ -140,7 +140,7 @@ export function ContactSection({ cities, regions }: IPops) {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-[#996515] hover:bg-[#996515]/90"
+                    className="w-full bg-brand hover:bg-brand/90"
                   >
                     {isLoading ? (
                       <div className="flex items-center mb-4">
@@ -163,9 +163,9 @@ export function ContactSection({ cities, regions }: IPops) {
                 </p>
               </div>
             </motion.div>
-            <div className="mt-8 bg-[#996515]/10 p-6 rounded-xl">
+            <div className="mt-8 bg-brand/10 p-6 rounded-xl">
               <h4 className="text-lg font-bold mb-2 flex items-center gap-2">
-                <Mail className="h-5 w-5 text-[#996515]" />
+                <Mail className="h-5 w-5 text-brand" />
                 Kontak Utama
               </h4>
               <p className="text-gray-700 mb-2">
@@ -192,7 +192,7 @@ export function ContactSection({ cities, regions }: IPops) {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold mb-6 text-[#665D1E]">
+            <h3 className="text-2xl font-bold mb-6 text-secondBrand">
               Koordinator Rayon
             </h3>
             <p className="text-gray-600 mb-6">
@@ -213,7 +213,7 @@ export function ContactSection({ cities, regions }: IPops) {
                     <TabsTrigger
                       key={region.id}
                       value={region.id}
-                      className="data-[state=active]:bg-[#996515] data-[state=active]:text-white"
+                      className="data-[state=active]:bg-brand data-[state=active]:text-white"
                     >
                       {region.name}
                     </TabsTrigger>
@@ -241,8 +241,8 @@ export function ContactSection({ cities, regions }: IPops) {
                             target="_blank"
                             className="flex items-center gap-3 w-fit hover:scale-105 duration-300 hover:bg-slate-100 rounded-full pr-3"
                           >
-                            <div className="p-2 rounded-full bg-[#996515]/10 flex items-center justify-center">
-                              <FaWhatsapp className="text-xl text-[#996515]" />
+                            <div className="p-2 rounded-full bg-brand/10 flex items-center justify-center">
+                              <FaWhatsapp className="text-xl text-brand" />
                             </div>
                             <span>
                               {region.captain} :{" "}

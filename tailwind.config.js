@@ -20,6 +20,7 @@ module.exports = {
       colors: {
         brand: "#996515",
         secondBrand: "#665D1E",
+        brandDark: "#edc9af",
 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

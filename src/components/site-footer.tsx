@@ -26,17 +26,29 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h3 className="font-bold mb-4">Sosial Media</h3>
-            <div className="flex space-x-5">
-              {APPCONSTANT.footer.socialMedia.map((item, i) => (
-                <Link
-                  key={i}
-                  href={item.link}
-                  className="text-gray-600 hover:text-gray-900 hover:scale-110 duration-300"
-                >
-                  <p className="w-4 h-4 text-2xl text-black">{item.icon}</p>
-                </Link>
-              ))}
+            <div>
+              <h3 className="font-bold mb-4">Sosial Media & E-Commerce</h3>
+              <div className="flex space-x-5">
+                {APPCONSTANT.footer.socialMedia.map((item, i) => (
+                  <Link
+                    key={i}
+                    href={item.link}
+                    className="text-gray-600 hover:text-gray-900 hover:scale-110 duration-300"
+                  >
+                    <p className="w-4 h-4 text-2xl text-black">{item.icon}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div className="mt-5">
+              <Link
+                href={APPCONSTANT.footer.shopee.link}
+                className="text-gray-600 hover:text-gray-900 hover:scale-110 duration-300"
+              >
+                <p className="w-4 h-4 text-2xl text-black">
+                  {APPCONSTANT.footer.shopee.icon}
+                </p>
+              </Link>
             </div>
           </div>
           <div>

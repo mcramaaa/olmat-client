@@ -30,10 +30,10 @@ export function SupportingEventsSection() {
     <section id="events" className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#996515]">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand">
             Acara Pendukung
           </h2>
-          <div className="w-20 h-1 bg-[#996515] mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-brand mx-auto mb-6"></div>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
             Selain kompetisi utama, OLMAT UINSA menghadirkan beragam acara seru
             yang menambah wawasan dan semangat kebersamaan. Jangan lewatkan
@@ -46,14 +46,12 @@ export function SupportingEventsSection() {
           className="w-full"
         >
           <div className="flex justify-center mb-8">
-            <TabsList
-              className={`grid grid-cols-${APPCONSTANT.supportEvent.length} w-full max-w-md`}
-            >
+            <TabsList className={`grid grid-cols-3 w-full max-w-md`}>
               {APPCONSTANT.supportEvent.map((item, i) => (
                 <TabsTrigger
                   key={i}
                   value={item.name}
-                  className="data-[state=active]:bg-[#996515] data-[state=active]:text-white"
+                  className="data-[state=active]:bg-brand data-[state=active]:text-white"
                 >
                   {item.name}
                 </TabsTrigger>
@@ -75,11 +73,11 @@ export function SupportingEventsSection() {
                   className="order-2 lg:order-1"
                 >
                   <div className="space-y-6">
-                    {/* <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#996515]/10 text-[#996515] text-sm font-medium mb-2">
+                    {/* <div className="inline-flex items-center px-3 py-1 rounded-full bg-brand/10 text-brand text-sm font-medium mb-2">
                       <Brush className="h-4 w-4 mr-2" />
                       Creative Competition
                     </div> */}
-                    <h3 className="text-3xl font-bold text-[#665D1E]">
+                    <h3 className="text-3xl font-bold text-secondBrand">
                       {item.name}
                     </h3>
                     <p className="text-gray-700">{item.desc}</p>
@@ -98,7 +96,7 @@ export function SupportingEventsSection() {
                     </div>
                     <div>
                       <Link className="" href={item.registerLink || ""}>
-                        <Button className="bg-[#996515] hover:bg-[#996515]/90 mt-4 rounded-full">
+                        <Button className="bg-brand hover:bg-brand/90 mt-4 rounded-full">
                           Daftar <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </Link>

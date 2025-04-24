@@ -1,5 +1,7 @@
 import { Facebook, Instagram } from "lucide-react";
+import { SiInstagram, SiShopee, SiTiktok } from "react-icons/si";
 import { PiTiktokLogo } from "react-icons/pi";
+import { TbBrandShopee } from "react-icons/tb";
 
 export const APPCONSTANT = {
   name: "OLMAT UINSA",
@@ -14,6 +16,93 @@ export const APPCONSTANT = {
         desc: "Olimpiade Matematika (Olmat) merupakan acara tahunan yang diselenggarakan oleh Program Studi Pendidikan Matematika UIN Sunan Ampel Surabaya. Kegiatan ini ditujukan untuk siswa-siswi dari seluruh Indonesia dalam tiga jenjang pendidikan, yaitu Sekolah Dasar (SD/MI), Sekolah Menengah Pertama (SMP/MTs), dan Sekolah Menengah Atas/Kejuruan (SMA/SMK/MA). Olmat hadir sebagai wadah bagi para pelajar untuk berkompetisi secara sehat, meningkatkan semangat belajar, serta mengembangkan minat dan prestasi di bidang matematika.",
       },
     ],
+  },
+
+  socialEcommerce: {
+    shopee: {
+      name: "Shopee",
+      icon: <SiShopee />,
+      desc: "Buku Olmat Uinsa",
+      username: "",
+      item: [
+        {
+          tumbnail: "/comingSoon.png",
+          label: "Buku Olmat Jenjang SD",
+          price: 30000,
+          link: "#",
+        },
+        {
+          tumbnail: "/comingSoon.png",
+          label: "Buku Olmat Jenjang SMP",
+          price: 40000,
+          link: "#",
+        },
+        {
+          tumbnail: "/comingSoon.png",
+          label: "Buku Olmat Jenjang SMA",
+          price: 50000,
+          link: "#",
+        },
+      ],
+    },
+    instagram: {
+      name: "Instagram",
+      icon: <SiInstagram />,
+      desc: "Konten Trending Instagram",
+      username: "@olmatuinsa",
+      item: [
+        {
+          tumbnail: "/comingSoon.png",
+          caption: "ini Captionya loh",
+          like: "200K",
+          view: "400k",
+          link: "#",
+        },
+        {
+          tumbnail: "/comingSoon.png",
+          caption: "ini Captionya loh",
+          like: "200K",
+          view: "400k",
+          link: "#",
+        },
+        {
+          tumbnail: "/comingSoon.png",
+          caption: "ini Captionya loh",
+          like: "200K",
+          view: "400k",
+          link: "#",
+        },
+      ],
+    },
+    tiktok: {
+      name: "Tiktok",
+      icon: <SiTiktok />,
+      desc: "Konten Trending Tiktok",
+      username: "@olmatuinsa",
+      item: [
+        {
+          tumbnail: "/comingSoon.png",
+          caption: "ini Captionya loh",
+          like: "200K",
+          view: "400k",
+          link: "#",
+        },
+        {
+          tumbnail: "/comingSoon.png",
+          caption: "ini Captionya loh",
+          like: "200K",
+          view: "400k",
+          link: "#",
+        },
+        {
+          tumbnail: "/comingSoon.png",
+          caption: "ini Captionya loh",
+          like: "200K",
+          view: "400k",
+          link: "#",
+        },
+      ],
+    },
   },
 
   supportEvent: [
@@ -105,26 +194,6 @@ export const APPCONSTANT = {
         "Final diadakan secara luring (offline) di Fakultas Tarbiyah dan Keguruan UINSA Surabaya. Tahapan Tes tulis & Presentasi",
     },
   ],
-  // regions: [
-  //   { region: "Bandung", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Banyumas", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Cirebon", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Jabodetabek", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Jember", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Kalimantan", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Kediri", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Lamongan", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Madiun", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Madura", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Malang", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Probolinggo", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Ponorogo", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Semarang", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Sulawesi", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Sumatra", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Surabaya", name: "Aziz", phone: "6281330129266" },
-  //   { region: "Yogyakarta", name: "Aziz", phone: "6281330129266" },
-  // ],
 
   footer: {
     mainWhatsApp: "6289520537559",
@@ -147,5 +216,9 @@ export const APPCONSTANT = {
         link: "#",
       },
     ],
+    shopee: {
+      icon: <TbBrandShopee />,
+      link: "#",
+    },
   },
 };

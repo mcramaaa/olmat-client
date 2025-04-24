@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
@@ -41,7 +39,7 @@ export function LandingNavbar({
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-sm py-3" : " py-5"
+        isScrolled ? "bg-white shadow-md py-3" : " py-5"
       }`}
     >
       <div className="container mx-auto px-6">
@@ -56,10 +54,10 @@ export function LandingNavbar({
               />
             </div>
             <div>
-              <h1 className="font-bold text-xl text-[#996515]">
+              <h1 className="font-bold text-xl text-brand">
                 {APPCONSTANT.name}
               </h1>
-              <p className="text-xs -mt-1 text-[#996515]/80">
+              <p className="text-xs -mt-1 text-brand/80">
                 {APPCONSTANT.fullName}
               </p>
             </div>
@@ -73,15 +71,15 @@ export function LandingNavbar({
                 onClick={() => onNavClick(item.id)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeSection === item.id
-                    ? "text-[#996515] bg-[#996515]/10"
-                    : "text-gray-600 hover:text-[#996515] hover:bg-[#996515]/5"
+                    ? "text-brand bg-brand/10"
+                    : "text-gray-600 hover:text-brand hover:bg-brand/5"
                 }`}
               >
                 {item.label}
               </button>
             ))}
             <Link href="/login">
-              <Button className="ml-4 bg-[#996515] hover:bg-[#996515]/90">
+              <Button className="ml-4 bg-brand hover:bg-brand/90">
                 {user ? "Dashboard" : "Masuk"}
               </Button>
             </Link>
@@ -89,7 +87,7 @@ export function LandingNavbar({
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-[#996515] hover:bg-[#996515]/5"
+            className="md:hidden p-2 rounded-md text-gray-600 hover:text-brand hover:bg-brand/5"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -115,15 +113,15 @@ export function LandingNavbar({
                   }}
                   className={`px-4 py-3 rounded-md text-sm font-medium transition-colors ${
                     activeSection === item.id
-                      ? "text-[#996515] bg-[#996515]/10"
-                      : "text-gray-600 hover:text-[#996515] hover:bg-[#996515]/5"
+                      ? "text-brand bg-brand/10"
+                      : "text-gray-600 hover:text-brand hover:bg-brand/5"
                   }`}
                 >
                   {item.label}
                 </button>
               ))}
               <Link href="/login" className="mt-2">
-                <Button className="w-full bg-[#996515] hover:bg-[#996515]/90">
+                <Button className="w-full bg-brand hover:bg-brand/90">
                   {user ? "Dashboard" : "Masuk"}
                 </Button>
               </Link>

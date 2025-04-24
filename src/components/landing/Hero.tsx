@@ -29,15 +29,15 @@ export function HeroSection() {
             className="text-center lg:text-left"
           >
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              <span className="text-[#996515]">{APPCONSTANT.name}</span>
+              <span className="text-brand">{APPCONSTANT.name}</span>
               <br />
-              <span className="text-[#665D1E]">{APPCONSTANT.year}</span>
+              <span className="text-secondBrand">{APPCONSTANT.year}</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-xl mx-auto lg:mx-0">
               {APPCONSTANT.theme}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button size="lg" className="bg-[#996515] hover:bg-[#996515]/90">
+              <Button size="lg" className="bg-brand hover:bg-brand/90">
                 Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
@@ -64,7 +64,7 @@ export function HeroSection() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Number.POSITIVE_INFINITY, duration: 3 }}
-              className="absolute -top-10 -right-5 h-20 w-20 bg-[#edc9af] rounded-full flex items-center justify-center shadow-lg"
+              className="absolute -top-10 -right-5 h-20 w-20 bg-brandDark rounded-full flex items-center justify-center shadow-lg"
             >
               <span className="text-white font-bold text-xl">2025</span>
             </motion.div>
@@ -86,9 +86,9 @@ export function HeroSection() {
         transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
       >
-        <ChevronsDown className=" w-6 text-[#996515]" />
+        <ChevronsDown className=" w-6 text-brand" />
         <ChevronsDown className=" w-6 text-black" />
-        <ChevronsDown className=" w-6 text-[#996515]" />
+        <ChevronsDown className=" w-6 text-brand" />
       </motion.div> */}
       <div className="absolute w-full z-10 -bottom-1.5 flex justify-center">
         <Countdown eventDate="2025-09-27T07:00:00+07:00" />

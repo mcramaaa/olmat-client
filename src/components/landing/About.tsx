@@ -1,15 +1,46 @@
-"use client";
-
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Award, Brain, Download, Medal, Users } from "lucide-react";
+import { Download } from "lucide-react";
 import { APPCONSTANT } from "@/constant/App.constant";
 import AppImage from "../ui/AppImage";
 import { Button } from "../ui/button";
+import { PiStudentBold } from "react-icons/pi";
+import { LuSchool } from "react-icons/lu";
 
 export function AboutSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
+
+  const dataParticipant = [
+    {
+      label: "Jenjang SD/MI",
+      icon: <PiStudentBold />,
+      desc: "One of Indonesias most recognized mathematics competitions with a legacy of excellence.",
+      countLabel: "Peserta Terdaftar",
+      count: 100,
+    },
+    {
+      label: "Jenjang SMP/MTs",
+      icon: <PiStudentBold />,
+      desc: "One of Indonesias most recognized mathematics competitions with a legacy of excellence.",
+      countLabel: "Peserta Terdaftar",
+      count: 100,
+    },
+    {
+      label: "Jenjang SMA/SMK/MA",
+      icon: <PiStudentBold />,
+      desc: "One of Indonesias most recognized mathematics competitions with a legacy of excellence.",
+      countLabel: "Peserta Terdaftar",
+      count: 100,
+    },
+    {
+      label: "Sekolah Terdaftar",
+      icon: <LuSchool />,
+      desc: "One of Indonesias most recognized mathematics competitions with a legacy of excellence.",
+      countLabel: "Sekolah Terdaftar",
+      count: 100,
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,10 +65,10 @@ export function AboutSection() {
     <section id="about" className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#996515]">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand">
             Tentang {APPCONSTANT.name}
           </h2>
-          <div className="w-20 h-1 bg-[#996515] mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-brand mx-auto mb-6"></div>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
             {APPCONSTANT.theme}
           </p>
@@ -54,7 +85,7 @@ export function AboutSection() {
             >
               {APPCONSTANT.about.item.map((data, i) => (
                 <motion.div key={i} variants={itemVariants}>
-                  <h3 className="text-2xl font-bold mb-4 text-[#665D1E]">
+                  <h3 className="text-2xl font-bold mb-4 text-secondBrand">
                     {data.label}
                   </h3>
                   <p className="text-gray-700 indent-10 text-justify">
@@ -83,11 +114,11 @@ export function AboutSection() {
 
               {/* Floating Stats */}
               <div className="absolute -top-5 -left-5 h-20 w-20 bg-white rounded-lg shadow-xl flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold text-[#996515]">18</span>
+                <span className="text-2xl font-bold text-brand">18</span>
                 <span className="text-xs text-gray-600">Regions</span>
               </div>
               <div className="absolute -bottom-5 -right-5 h-24 w-24 bg-white rounded-lg shadow-xl flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold text-[#996515]">5K+</span>
+                <span className="text-2xl font-bold text-brand">5K+</span>
                 <span className="text-xs text-gray-600">Participants</span>
               </div>
             </div>
@@ -95,73 +126,29 @@ export function AboutSection() {
         </div>
 
         {/* Key Features */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
-          >
-            <div className="h-12 w-12 rounded-full bg-[#edc9af]/20 flex items-center justify-center mb-4">
-              <Medal className="h-6 w-6 text-[#996515]" />
-            </div>
-            <h3 className="text-lg font-bold mb-2">Prestigious Competition</h3>
-            <p className="text-gray-600 text-sm">
-              One of Indonesias most recognized mathematics competitions with a
-              legacy of excellence.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
-          >
-            <div className="h-12 w-12 rounded-full bg-[#edc9af]/20 flex items-center justify-center mb-4">
-              <Brain className="h-6 w-6 text-[#996515]" />
-            </div>
-            <h3 className="text-lg font-bold mb-2">Challenging Problems</h3>
-            <p className="text-gray-600 text-sm">
-              Carefully crafted problems that test mathematical knowledge,
-              creativity, and critical thinking.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
-          >
-            <div className="h-12 w-12 rounded-full bg-[#edc9af]/20 flex items-center justify-center mb-4">
-              <Users className="h-6 w-6 text-[#996515]" />
-            </div>
-            <h3 className="text-lg font-bold mb-2">Nationwide Participation</h3>
-            <p className="text-gray-600 text-sm">
-              Bringing together students from 18 major regions across Indonesia.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
-          >
-            <div className="h-12 w-12 rounded-full bg-[#edc9af]/20 flex items-center justify-center mb-4">
-              <Award className="h-6 w-6 text-[#996515]" />
-            </div>
-            <h3 className="text-lg font-bold mb-2">Valuable Prizes</h3>
-            <p className="text-gray-600 text-sm">
-              Scholarships, cash prizes, and recognition for top performers at
-              regional and national levels.
-            </p>
-          </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-6">
+          {dataParticipant.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
+            >
+              <div>
+                <div className="h-12 w-12 rounded-full text-2xl text-brand bg-brandDark/20 flex items-center justify-center mb-4">
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-bold mb-2">{item.label}</h3>
+                <p className="text-gray-600 text-sm">{item.desc}</p>
+              </div>
+              <div className="flex justify-between p-2 rounded-lg bg-brandDark/20 mt-3 text-brand">
+                <p className="font-medium">{item.countLabel}</p>
+                <p className="font-bold">{item.count}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
