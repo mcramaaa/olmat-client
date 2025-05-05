@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    domains: ["localhost", "192.168.1.11", "api-prod.olmatuinsa.online"],
+    domains: ["localhost", "192.168.1.11", "api.olmat.web.id"],
   },
   /* config options here */
 };
