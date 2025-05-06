@@ -50,7 +50,7 @@ export default function PromotionSection() {
 
         <Tabs defaultValue="Shopee" className="w-full">
           <div className=" flex justify-center mb-8">
-            <TabsList className="grid grid-cols-3 w-full max-w-md">
+            <TabsList className="grid grid-cols-2 w-full max-w-md">
               <TabsTrigger
                 className="data-[state=active]:bg-brand data-[state=active]:text-white"
                 value="Shopee"
@@ -59,15 +59,9 @@ export default function PromotionSection() {
               </TabsTrigger>
               <TabsTrigger
                 className="data-[state=active]:bg-brand data-[state=active]:text-white"
-                value="Instagram"
+                value="sosmed"
               >
-                Instagram
-              </TabsTrigger>
-              <TabsTrigger
-                className="data-[state=active]:bg-brand data-[state=active]:text-white"
-                value="Tiktok"
-              >
-                Tiktok
+                Sosial Media
               </TabsTrigger>
             </TabsList>
           </div>
@@ -134,16 +128,16 @@ export default function PromotionSection() {
             </motion.div>
           </TabsContent>
 
-          <TabsContent value="Instagram">
+          <TabsContent value="sosmed">
             <div className="mb-7">
               <div className="flex gap-4 items-center font-bold text-xl">
                 <p className="text-orange-500 text-xl p-2 bg-brandDark/40 rounded-full">
-                  {APPCONSTANT.socialEcommerce.instagram.icon}
+                  {APPCONSTANT.socialEcommerce.socialMedia.icon}
                 </p>
-                {APPCONSTANT.socialEcommerce.instagram.name}
+                {APPCONSTANT.socialEcommerce.socialMedia.name}
               </div>
               <p className="mt-4">
-                {APPCONSTANT.socialEcommerce.instagram.desc}
+                {APPCONSTANT.socialEcommerce.socialMedia.desc}
               </p>
             </div>
             <motion.div
@@ -154,19 +148,14 @@ export default function PromotionSection() {
               // className="grid grid-cols-1 lg:grid-cols-3 items-center gap-12"
               className="grid grid-cols-1 md:grid-cols-3 items-center gap-5 lg:gap-12"
             >
-              {APPCONSTANT.socialEcommerce.instagram.item.map((item, i) => (
-                <motion.div
-                  key={i}
-                  variants={itemVariants}
-                  // className="order-2 lg:order-1"
-                >
+              {APPCONSTANT.socialEcommerce.socialMedia.item.map((item, i) => (
+                <motion.div key={i} variants={itemVariants}>
                   <Link href={item.link} target="_blank">
                     <Card className="overflow-hidden group border-none drop-shadow-md">
                       <div className="relative aspect-square">
-                        <div className="absolute left-5 top-2 px-3 gap-2 bg-brandDark/50 flex items-center z-10 text-foreground rounded-full py-1">
-                          {/* <CardTitle className=" mt-1 font-medium text-foreground/60">
-                            {APPCONSTANT.socialEcommerce.instagram.username}
-                          </CardTitle> */}
+                        <div className="absolute left-5 top-2 px-3 gap-2 bg-white text-brand flex items-center z-10 text-foreground rounded-full">
+                          {item.icon}
+                          {item.key}
                         </div>
                         <Image
                           src={item.tumbnail}
@@ -186,9 +175,9 @@ export default function PromotionSection() {
                             </p>
                           </div>
                         </CardContent>
-                        <CardFooter className="absolute -bottom-3 pt-3 text-sm bg-gradient-to-b from-white/0 to-white z-0 w-full">
+                        {/* <CardFooter className="absolute -bottom-3 pt-10 text-sm bg-gradient-to-b from-white/0 to-white z-0 w-full">
                           {item.caption}
-                        </CardFooter>
+                        </CardFooter> */}
                       </div>
                     </Card>
                   </Link>
@@ -197,7 +186,7 @@ export default function PromotionSection() {
             </motion.div>
           </TabsContent>
 
-          <TabsContent value="Tiktok">
+          {/* <TabsContent value="Tiktok">
             <div className="mb-7">
               <div className="flex gap-4 items-center font-bold text-xl">
                 <p className="text-black text-xl p-2 bg-brandDark/40 rounded-full">
@@ -247,7 +236,7 @@ export default function PromotionSection() {
                 </motion.div>
               ))}
             </motion.div>
-          </TabsContent>
+          </TabsContent> */}
         </Tabs>
       </div>
     </section>

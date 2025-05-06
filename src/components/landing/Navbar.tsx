@@ -9,10 +9,16 @@ import Image from "next/image";
 interface LandingNavbarProps {
   activeSection: string;
   onNavClick: (sectionId: string) => void;
+  start: string | null;
+  end: string | null;
+  now: string;
 }
 
 export function LandingNavbar({
   activeSection,
+  start,
+  end,
+  now,
   onNavClick,
 }: LandingNavbarProps) {
   const { user } = useAuth();
@@ -49,6 +55,7 @@ export function LandingNavbar({
               <Image
                 src={"/logo-olm.png"}
                 alt=""
+                sizes="1"
                 className="object-contain"
                 fill
               />
@@ -78,11 +85,13 @@ export function LandingNavbar({
                 {item.label}
               </button>
             ))}
-            <Link href="/login">
-              <Button className="ml-4 bg-brand hover:bg-brand/90">
-                {user ? "Dashboard" : "Masuk"}
-              </Button>
-            </Link>
+            {start && end && now > start && now < end && (
+              <Link href="/login">
+                <Button className="ml-4 bg-brand hover:bg-brand/90">
+                  {user ? "Dashboard" : "Masuk"}
+                </Button>
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}

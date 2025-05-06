@@ -12,6 +12,7 @@ import { TimelineSection } from "@/components/landing/Timeline";
 import { ContactSection } from "@/components/landing/Contact";
 import PromotionSection from "@/components/landing/Promotion";
 import { IRegion } from "@/interfaces/IRegion";
+import { useAuth } from "@/lib/auth";
 
 interface IProps {
   cities: { label: string; value: string }[];
@@ -20,6 +21,11 @@ interface IProps {
 
 export default function HomeV2({ cities, regions }: IProps) {
   const [activeSection, setActiveSection] = useState("hero");
+  const { event } = useAuth();
+
+  const start = event?.start ? new Date(event.start).toISOString() : null;
+  const end = event?.end ? new Date(event.end).toISOString() : null;
+  const now = new Date().toISOString();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,12 +63,15 @@ export default function HomeV2({ cities, regions }: IProps) {
   return (
     <div className="min-h-screen bg-background overflow-hidden">
       <LandingNavbar
+        start={start}
+        end={end}
+        now={now}
         activeSection={activeSection}
         onNavClick={scrollToSection}
       />
 
       <main>
-        <HeroSection />
+        <HeroSection start={start} end={end} now={now} />
         <AboutSection />
         <SupportingEventsSection />
         <TimelineSection />

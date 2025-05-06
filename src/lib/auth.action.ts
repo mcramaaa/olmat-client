@@ -45,3 +45,12 @@ export async function loginAction(email: string, password: string) {
     return { success: false, data: null, error: err.response?.data };
   }
 }
+
+export async function eventSettingAction() {
+  try {
+    const res = await api.get("/event-setting");
+    return { success: true, data: res.data, err: null };
+  } catch (error) {
+    return { success: true, data: null, err: error as AxiosError };
+  }
+}

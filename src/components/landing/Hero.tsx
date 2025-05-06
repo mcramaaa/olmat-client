@@ -5,7 +5,13 @@ import { ArrowRight } from "lucide-react";
 import { APPCONSTANT } from "@/constant/App.constant";
 import Countdown from "../Countdown";
 
-export function HeroSection() {
+interface IProps {
+  start: string | null;
+  end: string | null;
+  now: string;
+}
+
+export function HeroSection({ start, end, now }: IProps) {
   return (
     <section
       id="hero"
@@ -37,9 +43,11 @@ export function HeroSection() {
               {APPCONSTANT.theme}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button size="lg" className="bg-brand hover:bg-brand/90">
-                Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              {start && end && now > start && now < end && (
+                <Button size="lg" className="bg-brand hover:bg-brand/90">
+                  Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              )}
             </div>
           </motion.div>
 
@@ -53,6 +61,7 @@ export function HeroSection() {
               <div className="absolute inset-0 overflow-hidden">
                 <Image
                   src="/maskot.png"
+                  sizes="1"
                   alt="Math Olympiad"
                   fill
                   className="object-contain"

@@ -114,6 +114,7 @@ export function SupportingEventsSection() {
                         src={`${item.img}`}
                         alt="Mathematical Design Contest"
                         fill
+                        sizes="1"
                         className="object-cover"
                       />
                     </div>

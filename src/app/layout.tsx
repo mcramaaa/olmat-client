@@ -5,8 +5,9 @@ import { ThemeProvider } from "../components/theme-provider";
 import { AuthProvider } from "@/lib/auth";
 
 export const metadata = {
-  title: "Math Olympiad 2025",
-  description: "International Mathematics Olympiad 2025 Registration",
+  title: "OLMAT UINSA 2025",
+  description:
+    "Numbers beyond time Reviving the greatness of abbasiyah mathematics in the modern world",
 };
 
 export default function RootLayout({

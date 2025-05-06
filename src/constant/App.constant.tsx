@@ -1,7 +1,9 @@
-import { Facebook, Instagram } from "lucide-react";
-import { SiInstagram, SiShopee, SiTiktok } from "react-icons/si";
+import { Facebook, Instagram, ThumbsUp } from "lucide-react";
+import { SiShopee } from "react-icons/si";
 import { PiTiktokLogo } from "react-icons/pi";
 import { TbBrandShopee } from "react-icons/tb";
+import { FaInstagram } from "react-icons/fa6";
+// FaTiktok
 
 export const APPCONSTANT = {
   name: "OLMAT UINSA",
@@ -45,62 +47,54 @@ export const APPCONSTANT = {
         },
       ],
     },
-    instagram: {
-      name: "Instagram",
-      icon: <SiInstagram />,
-      desc: "Konten Trending Instagram",
-      username: "@olmatuinsa",
+    socialMedia: {
+      icon: <ThumbsUp className="h-5 w-5" />,
+      name: "Social Media",
+      desc: "Ikuti akun Sosial Media kami untuk mendapatkan info terbaru seputar Olimpiade Matematika UINSA!",
+      username: "",
       item: [
         {
-          tumbnail: "/comingSoon.png",
-          caption: "ini Captionya loh",
-          like: "200K",
-          view: "400k",
-          link: "#",
+          icon: <FaInstagram className="text-red-500" />,
+          key: "Instagram",
+          tumbnail: "/social/comingOut.png",
+          caption: "Persiapan Olimpiade Matematika UINSA 2024",
+          like: 245,
+          view: 417,
+          link: "https://www.instagram.com/reel/DJNQostTynO/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
+          embedUrl: "https://www.instagram.com/p/DJNQostTynO/embed/",
         },
         {
-          tumbnail: "/comingSoon.png",
-          caption: "ini Captionya loh",
-          like: "200K",
-          view: "400k",
-          link: "#",
+          icon: <FaInstagram className="text-red-500" />,
+          key: "Instagram",
+          tumbnail: "/social/teaserIg.png",
+          caption: "Tips dan Trik Menghadapi Olimpiade Matematika",
+          like: 158,
+          view: 318,
+          link: "https://www.instagram.com/reel/DJMzNzBPJue/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
+          embedUrl: "https://www.instagram.com/p/DJMzNzBPJue/embed/",
         },
-        {
-          tumbnail: "/comingSoon.png",
-          caption: "ini Captionya loh",
-          like: "200K",
-          view: "400k",
-          link: "#",
-        },
-      ],
-    },
-    tiktok: {
-      name: "Tiktok",
-      icon: <SiTiktok />,
-      desc: "Konten Trending Tiktok",
-      username: "@olmatuinsa",
-      item: [
-        {
-          tumbnail: "/comingSoon.png",
-          caption: "ini Captionya loh",
-          like: "200K",
-          view: "400k",
-          link: "#",
-        },
-        {
-          tumbnail: "/comingSoon.png",
-          caption: "ini Captionya loh",
-          like: "200K",
-          view: "400k",
-          link: "#",
-        },
-        {
-          tumbnail: "/comingSoon.png",
-          caption: "ini Captionya loh",
-          like: "200K",
-          view: "400k",
-          link: "#",
-        },
+        // {
+        //   icon: <FaTiktok />,
+        //   key: "Tiktok",
+        //   tumbnail: "/images/tiktok/video-1.jpg",
+        //   caption:
+        //     "Persiapan Olimpiade Matematika UINSA 2024 #olmatuinsa #matematika",
+        //   like: 1245,
+        //   view: 15200,
+        //   link: "https://www.tiktok.com/@olmatuinsa/video/7501128312756899090?is_from_webapp=1&sender_device=pc&web_id=7419597193205958162",
+        //   embedUrl: "https://www.tiktok.com/embed/v2/7501128312756899090",
+        // },
+        // {
+        //   icon: <FaTiktok />,
+        //   key: "Tiktok",
+        //   tumbnail: "/images/tiktok/video-2.jpg",
+        //   caption:
+        //     "Tips Jitu Menghadapi Soal Olimpiade Matematika #olmatuinsa #tipsmatematika",
+        //   like: 987,
+        //   view: 12400,
+        //   link: "https://www.tiktok.com/@olmatuinsa/video/7501131059292081416?is_from_webapp=1&sender_device=pc&web_id=7419597193205958162",
+        //   embedUrl: "https://www.tiktok.com/embed/v2/7501131059292081416",
+        // },
       ],
     },
   },

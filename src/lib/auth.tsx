@@ -13,8 +13,9 @@ import {
 import { useRouter } from "next/navigation";
 import { setCookie, deleteCookie } from "cookies-next";
 import { useLayout } from "@/hooks/zustand/layout";
-import { getMeAction, loginAction } from "./auth.action";
+import { eventSettingAction, getMeAction, loginAction } from "./auth.action";
 import LoadingBlock from "@/components/ui/LoadingBlock";
+import { IEventSetting } from "@/interfaces/IEventSetting";
 
 type User = {
   id: string;
@@ -32,6 +33,7 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
+  event: IEventSetting | undefined;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -43,12 +45,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [event, setEvent] = useState<IEventSetting>();
   const { setIsSuccess, setError, isLoading, isLoadingBlock, setIsLoading } =
     useLayout();
   const router = useRouter();
 
   const getMe = useCallback(async () => {
-    const res = await getMeAction();
+    const [eventSetting, res] = await Promise.all([
+      eventSettingAction(),
+      getMeAction(),
+    ]);
+    setEvent(eventSetting.data);
     if (res.user) {
       if (res.user.data) {
         if (res.user.data.type === "Admin") {
@@ -118,7 +125,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, login, logout, getMe, setUser }}
+      value={{ user, isLoading, event, login, logout, getMe, setUser }}
     >
       {isLoadingBlock && <LoadingBlock />}
       {children}
