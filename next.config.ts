@@ -11,12 +11,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "api.olmat.web.id",
-        pathname: "/imgs/**",
-      },
-      {
-        protocol: "https",
-        hostname: "api.olmat.web.id",
-        pathname: "/attachments/**",
+        pathname: "/**", // support semua path
       },
     ],
   },
