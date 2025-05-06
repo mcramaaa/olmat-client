@@ -7,9 +7,19 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    domains: ["localhost", "192.168.1.11", "api.olmat.web.id"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.olmat.web.id",
+        pathname: "/imgs/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.olmat.web.id",
+        pathname: "/attachments/**",
+      },
+    ],
   },
-  /* config options here */
 };
 
 export default nextConfig;
