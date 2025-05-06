@@ -28,19 +28,19 @@ export const APPCONSTANT = {
         {
           tumbnail: "/comingSoon.png",
           label: "Buku Olmat Jenjang SD",
-          price: 30000,
+          price: 0,
           link: "#",
         },
         {
           tumbnail: "/comingSoon.png",
           label: "Buku Olmat Jenjang SMP",
-          price: 40000,
+          price: 0,
           link: "#",
         },
         {
           tumbnail: "/comingSoon.png",
           label: "Buku Olmat Jenjang SMA",
-          price: 50000,
+          price: 0,
           link: "#",
         },
       ],
@@ -113,11 +113,11 @@ export const APPCONSTANT = {
       options: [
         {
           label: "Narasumber",
-          value: "Mch Rama",
+          value: "Coming Soon",
         },
         {
           label: "Pembawa Acara",
-          value: "Mch Rama",
+          value: "Coming Soon",
         },
       ],
       registerLink: "#",
@@ -133,7 +133,7 @@ export const APPCONSTANT = {
         },
         {
           label: "Tema Pidato",
-          value: "Perlunya Wawasan Pada Pemuda",
+          value: "The Beauty of Mathematics in Everyday Life",
         },
       ],
       registerlink: "#",
@@ -143,13 +143,13 @@ export const APPCONSTANT = {
       img: "/comingSoon.png",
       desc: "Bukan hanya otak, tapi juga kerjasama tim yang diuji! Turnamen Mobile Legends hadir untuk kamu yang ingin menunjukkan strategi dan kekompakan dalam dunia e-sports. Siapkan tim terbaikmu dan rebut gelar juara dalam pertandingan yang seru dan kompetitif!",
       options: [
+        // {
+        //   label: "Peserta",
+        //   value: "SD/MI, SMP/MTs, SMA/MA/SMK",
+        // },
         {
-          label: "Peserta",
-          value: "SD/MI, SMP/MTs, SMA/MA/SMK",
-        },
-        {
-          label: "Tingkat Acara",
-          value: "Nasional",
+          label: "Wilayah",
+          value: "Surabaya dan sekitarnya",
         },
       ],
       registerlink: "#",

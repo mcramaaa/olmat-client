@@ -116,7 +116,9 @@ export default function PromotionSection() {
                     </CardContent>
                     <CardFooter className="p-4 pt-0 flex flex-col lg:flex-row justify-between">
                       <p className="font-bold w-full mb-3 text-lg">
-                        {convertRupiah(item.price)}
+                        {item.price === 0
+                          ? "Coming Soon"
+                          : convertRupiah(item.price)}
                       </p>
                       <Button
                         size="sm"
