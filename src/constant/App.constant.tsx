@@ -114,7 +114,7 @@ export const APPCONSTANT = {
           value: "Coming Soon",
         },
       ],
-      registerLink: "#",
+      registerLink: "",
     },
     {
       name: "Lomba Pidato",
@@ -130,7 +130,7 @@ export const APPCONSTANT = {
           value: "The Beauty of Mathematics in Everyday Life",
         },
       ],
-      registerlink: "#",
+      registerLink: "",
     },
     {
       name: "Mobile Legends",
@@ -146,7 +146,7 @@ export const APPCONSTANT = {
           value: "Surabaya dan sekitarnya",
         },
       ],
-      registerlink: "#",
+      registerLink: "",
     },
   ],
 

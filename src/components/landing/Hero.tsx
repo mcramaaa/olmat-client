@@ -4,14 +4,18 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { APPCONSTANT } from "@/constant/App.constant";
 import Countdown from "../Countdown";
+import Link from "next/link";
+import { ROUTES } from "@/routes/router";
+import { TUser } from "@/lib/auth";
 
 interface IProps {
+  user: TUser | null;
   start: string | null;
   end: string | null;
   now: string;
 }
 
-export function HeroSection({ start, end, now }: IProps) {
+export function HeroSection({ user, start, end, now }: IProps) {
   return (
     <section
       id="hero"
@@ -44,9 +48,15 @@ export function HeroSection({ start, end, now }: IProps) {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               {start && end && now > start && now < end && (
-                <Button size="lg" className="bg-brand hover:bg-brand/90">
-                  Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+                <Link
+                  href={
+                    user ? ROUTES.DASHBOARD.REGISTER_PARTICIPANTS : ROUTES.LOGIN
+                  }
+                >
+                  <Button size="lg" className="bg-brand hover:bg-brand/90">
+                    Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
               )}
             </div>
           </motion.div>

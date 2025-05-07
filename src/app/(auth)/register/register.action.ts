@@ -41,11 +41,11 @@ const schoolSchema = z.object({
   phone: z
     .string()
     .min(1, { message: "WhatsApp number is required" })
-    .regex(/^08\d+$/, "Nomor WhatsApp harus dimulai dengan 08"),
+    .regex(/^0\d+$/, "Nomor WhatsApp harus dimulai dengan 0"),
   whatsapp: z
     .string()
     .min(1, { message: "WhatsApp number is required" })
-    .regex(/^08\d+$/, "Nomor WhatsApp harus dimulai dengan 08"),
+    .regex(/^0\d+$/, "Nomor WhatsApp harus dimulai dengan 0"),
 });
 
 // Your existing API call functions

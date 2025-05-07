@@ -196,7 +196,7 @@ export default function ParticipantDetailClient({ participant }: IProps) {
                         name={participant.name}
                         id={participant.id || ""}
                         school={participant.school.name}
-                        region={participant.region || ""}
+                        region={participant.school.city.region.name || ""}
                         imgUrl={participant.img}
                       />
                     </div>

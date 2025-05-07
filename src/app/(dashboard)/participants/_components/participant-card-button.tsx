@@ -74,19 +74,19 @@ export function ParticipantCardButton({
       // Add participant details
       doc.setFont("helvetica", "bold");
       doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0); // Black text
+      doc.setTextColor(255, 255, 255); // Black text
 
       // Add participant name
-      doc.text(name || "", 30, 115, { align: "left" });
+      doc.text(name || "", 31, 115, { align: "left" });
 
       // Add participant ID
-      doc.text(id || "", 30, 138, { align: "left" });
+      doc.text(id || "", 31, 139, { align: "left" });
 
       // Add school name
-      doc.text(school || "", 30, 162.5, { align: "left" });
+      doc.text(school || "", 31, 162.5, { align: "left" });
 
       // Add rayon
-      doc.text(region || "", 30, 186.4, { align: "left" });
+      doc.text(region || "", 31, 186.4, { align: "left" });
 
       // Save the PDF
       doc.save(`Kartu Peserta-${id}-${name}.pdf`);

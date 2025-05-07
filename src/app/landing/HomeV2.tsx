@@ -21,7 +21,7 @@ interface IProps {
 
 export default function HomeV2({ cities, regions }: IProps) {
   const [activeSection, setActiveSection] = useState("hero");
-  const { event } = useAuth();
+  const { user, event } = useAuth();
 
   const start = event?.start ? new Date(event.start).toISOString() : null;
   const end = event?.end ? new Date(event.end).toISOString() : null;
@@ -71,7 +71,7 @@ export default function HomeV2({ cities, regions }: IProps) {
       />
 
       <main>
-        <HeroSection start={start} end={end} now={now} />
+        <HeroSection user={user} start={start} end={end} now={now} />
         <AboutSection />
         <SupportingEventsSection />
         <TimelineSection />

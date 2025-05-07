@@ -17,7 +17,7 @@ import { eventSettingAction, getMeAction, loginAction } from "./auth.action";
 import LoadingBlock from "@/components/ui/LoadingBlock";
 import { IEventSetting } from "@/interfaces/IEventSetting";
 
-type User = {
+export type TUser = {
   id: string;
   name: string;
   phone: string;
@@ -32,19 +32,19 @@ type User = {
 };
 
 type AuthContextType = {
-  user: User | null;
+  user: TUser | null;
   event: IEventSetting | undefined;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   getMe: () => void;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setUser: React.Dispatch<React.SetStateAction<TUser | null>>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<TUser | null>(null);
   const [event, setEvent] = useState<IEventSetting>();
   const { setIsSuccess, setError, isLoading, isLoadingBlock, setIsLoading } =
     useLayout();

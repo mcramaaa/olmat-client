@@ -24,6 +24,8 @@ import {
   submitSchoolRegistrationAction,
 } from "../register.action";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/routes/router";
 
 const schoolSchema = z.object({
   province_id: z.string().min(1, { message: "Province is required" }),
@@ -36,11 +38,11 @@ const schoolSchema = z.object({
   phone: z
     .string()
     .min(1, { message: "WhatsApp number is required" })
-    .regex(/^08\d+$/, "Nomor WhatsApp harus dimulai dengan 08"),
+    .regex(/^0\d+$/, "Nomor WhatsApp harus dimulai dengan 0"),
   whatsapp: z
     .string()
     .min(1, { message: "WhatsApp number is required" })
-    .regex(/^08\d+$/, "Nomor WhatsApp harus dimulai dengan 08"),
+    .regex(/^0\d+$/, "Nomor WhatsApp harus dimulai dengan 0"),
 });
 
 type SchoolFormValues = z.infer<typeof schoolSchema>;
@@ -51,7 +53,7 @@ interface IProps {
 }
 
 export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
-  // const router = useRouter();
+  const router = useRouter();
   const { isLoading, setIsLoading, setIsSuccess, setError } = useLayout();
   const [cities, setCities] = useState<{ label: string; value: string }[]>([]);
   const [subdistricts, setSubdistricts] = useState<
@@ -107,6 +109,7 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
         }
       } catch (error) {
         console.error("Error fetching cities:", error);
+        throw error;
         // setCities([]);
       }
     }
@@ -135,7 +138,9 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
         }
       } catch (error) {
         console.error("Error fetching subdistricts:", error);
+
         setSubdistricts([]);
+        throw error;
       }
     }
 
@@ -147,8 +152,12 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
     const res = await submitSchoolRegistrationAction(data);
     if (res.success) {
       setIsSuccess(true, "Pendaftaran Sekolah Terkirim");
+      router.push(ROUTES.REGISTER);
+      setIsLoading(false);
     } else {
       setError(true, "Pendaftaran Sekolah Tidak Terkirim");
+      setIsLoading(false);
+      throw res.error;
     }
   }
 
