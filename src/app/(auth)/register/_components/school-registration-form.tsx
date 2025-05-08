@@ -152,7 +152,7 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
     const res = await submitSchoolRegistrationAction(data);
     if (res.success) {
       setIsSuccess(true, "Pendaftaran Sekolah Terkirim");
-      router.push(ROUTES.REGISTER);
+      router.push(ROUTES.REGISTER + "?sec=account");
       setIsLoading(false);
     } else {
       setError(true, "Pendaftaran Sekolah Tidak Terkirim");
@@ -219,7 +219,7 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
                     <FormLabel>Kecamatan</FormLabel>
                     <FormControl>
                       <ReusableCombobox
-                        placeholder="Pilih Kota"
+                        placeholder="Pilih Kecamatan"
                         className="text-sm"
                         onChange={field.onChange}
                         value={field.value}
@@ -308,7 +308,7 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
                     <FormItem>
                       <FormLabel>No Telepon Sekolah</FormLabel>
                       <FormControl>
-                        <Input placeholder="+62 xxx xxx xxx" {...field} />
+                        <Input placeholder="0xxx xxx xxx" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -322,7 +322,7 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
                     <FormItem>
                       <FormLabel>Nomor Whatsapp pendaftar</FormLabel>
                       <FormControl>
-                        <Input placeholder="+62 8xx xxxx xxxx" {...field} />
+                        <Input placeholder="0xxx xxxx xxxx" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

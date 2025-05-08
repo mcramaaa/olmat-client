@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About - Math Olympiad 2025",
-  description: "About the International Mathematics Olympiad 2025",
+  title: "OLMAT UINSA – Olimpiade Matematika Nasional UIN Sunan Ampel Surabaya",
+  description:
+    "Ikuti OLMAT UINSA 2025 – Olimpiade Matematika Nasional dari UIN Sunan Ampel Surabaya. Daftar online, cek jadwal, dan raih prestasi terbaikmu!",
 };
 
 export default function AboutPage() {

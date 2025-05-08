@@ -82,7 +82,8 @@ export default function HomeV2({ cities, regions }: IProps) {
       <div className="fixed bottom-6 right-6 z-50">
         <Link href="/login">
           <Button className="rounded-full shadow-lg">
-            Login <ArrowRight className="ml-2 h-4 w-4" />
+            {user ? "Dashboard" : "Masuk"}{" "}
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
       </div>
