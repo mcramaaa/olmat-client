@@ -17,9 +17,20 @@ import { useAuth } from "@/lib/auth";
 interface IProps {
   cities: { label: string; value: string }[];
   regions: IRegion[];
+  participanCountData: {
+    totalActive: number;
+    sma: number;
+    smp: number;
+    sd: number;
+    school: number;
+  };
 }
 
-export default function HomeV2({ cities, regions }: IProps) {
+export default function HomeV2({
+  cities,
+  regions,
+  participanCountData,
+}: IProps) {
   const [activeSection, setActiveSection] = useState("hero");
   const { user, event } = useAuth();
 
@@ -72,7 +83,7 @@ export default function HomeV2({ cities, regions }: IProps) {
 
       <main>
         <HeroSection user={user} start={start} end={end} now={now} />
-        <AboutSection />
+        <AboutSection participanCountData={participanCountData} />
         <SupportingEventsSection />
         <TimelineSection />
         <PromotionSection />

@@ -8,7 +8,16 @@ import { PiStudentBold } from "react-icons/pi";
 import { LuSchool } from "react-icons/lu";
 import Link from "next/link";
 
-export function AboutSection() {
+interface IProps {
+  participanCountData: {
+    totalActive: number;
+    sma: number;
+    smp: number;
+    sd: number;
+    school: number;
+  };
+}
+export function AboutSection({ participanCountData }: IProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
 
@@ -18,21 +27,21 @@ export function AboutSection() {
       icon: <PiStudentBold />,
       desc: "Seru-seruan berhitung dan melatih logika sejak dini! Siap jadi juara sejak SD?.",
       countLabel: "Peserta Terdaftar",
-      count: 99,
+      count: participanCountData.sd | 0,
     },
     {
       label: "Jenjang SMP/MTs",
       icon: <PiStudentBold />,
       desc: "Uji kemampuanmu memecahkan soal-soal seru dan menantang di level menengah. Saatnya naik level!",
       countLabel: "Peserta Terdaftar",
-      count: 100,
+      count: participanCountData.smp | 0,
     },
     {
       label: "Jenjang SMA/SMK/MA",
       icon: <PiStudentBold />,
       desc: "Persaingan makin ketat, tapi kamu makin siap! Tunjukkan kehebatanmu di level tertinggi.",
       countLabel: "Peserta Terdaftar",
-      count: 101,
+      count: participanCountData.sma | 0,
     },
     {
       label: "Sekolah Terdaftar",

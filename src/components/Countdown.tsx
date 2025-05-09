@@ -2,15 +2,22 @@
 import React, { useState, useEffect } from "react";
 
 interface IProps {
-  eventDate: string;
-  className?: string;
+  start: string | null;
+  end: string | null;
+  now: string;
 }
 
-export default function Countdown(props: IProps) {
-  const { eventDate } = props;
+export default function Countdown({ start, now, end }: IProps) {
+  const [eventDate, seteventDate] = useState<Date | string>(`${end}`);
+
+  const nowDate = new Date(now);
+  const startDate = start ? new Date(start) : null;
+  const endDate = end ? new Date(end) : null;
+
   const targetDate = new Date(
     new Date(eventDate).toLocaleString("en-US", { timeZone: "Asia/Jakarta" })
   );
+
   const [timeLeft, setTimeLeft] = useState({
     months: 0,
     days: 0,
@@ -19,6 +26,16 @@ export default function Countdown(props: IProps) {
     seconds: 0,
   });
   const [showMonths, setShowMonths] = useState(false);
+
+  useEffect(() => {
+    if (!startDate || !now) return;
+
+    if (nowDate < startDate) {
+      seteventDate(startDate);
+    } else if (endDate && nowDate >= startDate && nowDate < endDate) {
+      seteventDate(endDate);
+    }
+  }, [start, end, now]);
 
   useEffect(() => {
     // Validasi tanggal target
@@ -57,23 +74,26 @@ export default function Countdown(props: IProps) {
       }
     }, 1000);
 
-    return () => clearInterval(interval); // Bersihkan interval saat komponen unmount
+    return () => clearInterval(interval);
   }, [eventDate]);
 
-  // Function to format numbers with leading zeros
   const formatNumber = (num: number): string => {
     return num < 10 ? `0${num}` : `${num}`;
   };
 
   return (
-    // <div className="relative -mb-16 z-10">
-    // <div
-    //   className={`absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-3xl ${className}`}
-    // >
     <div className=" md:px-10 backdrop-blur-sm  bg-white/10 rounded-2xl shadow-lg w-full max-w-5xl py-5 translate-y-1/2">
       <div>
         <p className="text-sm text-center font-dancing text-brand">
-          Penutupan pendaftaran
+          {startDate &&
+            endDate &&
+            nowDate < startDate &&
+            "Pembukaan Pendaftaran"}
+          {startDate &&
+            endDate &&
+            nowDate > startDate &&
+            nowDate < endDate &&
+            "Penutupan Pendaftaran"}
         </p>
         <p className="text-xl text-center font-dancing font-bold text-secondBrand">
           Olimpiade Matematika UINSA

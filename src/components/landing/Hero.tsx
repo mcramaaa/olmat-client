@@ -110,7 +110,7 @@ export function HeroSection({ user, start, end, now }: IProps) {
         <ChevronsDown className=" w-6 text-brand" />
       </motion.div> */}
       <div className="absolute w-full z-10 -bottom-1.5 flex justify-center">
-        <Countdown eventDate="2025-09-27T07:00:00+07:00" />
+        <Countdown now={now} start={start} end={end} />
       </div>
       <div className="absolute w-full bg-gradient-to-t from-white to-white/0 h-32 bottom-0 "></div>
     </section>
