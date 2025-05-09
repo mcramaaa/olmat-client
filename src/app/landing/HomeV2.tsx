@@ -18,7 +18,7 @@ interface IProps {
   cities: { label: string; value: string }[];
   regions: IRegion[];
   participanCountData: {
-    totalActive: number;
+    total_active: number;
     sma: number;
     smp: number;
     sd: number;

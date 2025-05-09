@@ -10,7 +10,7 @@ import Link from "next/link";
 
 interface IProps {
   participanCountData: {
-    totalActive: number;
+    total_active: number;
     sma: number;
     smp: number;
     sd: number;
@@ -27,21 +27,21 @@ export function AboutSection({ participanCountData }: IProps) {
       icon: <PiStudentBold />,
       desc: "Seru-seruan berhitung dan melatih logika sejak dini! Siap jadi juara sejak SD?.",
       countLabel: "Peserta Terdaftar",
-      count: participanCountData.sd | 0,
+      count: participanCountData.sd,
     },
     {
       label: "Jenjang SMP/MTs",
       icon: <PiStudentBold />,
       desc: "Uji kemampuanmu memecahkan soal-soal seru dan menantang di level menengah. Saatnya naik level!",
       countLabel: "Peserta Terdaftar",
-      count: participanCountData.smp | 0,
+      count: participanCountData.smp,
     },
     {
       label: "Jenjang SMA/SMK/MA",
       icon: <PiStudentBold />,
       desc: "Persaingan makin ketat, tapi kamu makin siap! Tunjukkan kehebatanmu di level tertinggi.",
       countLabel: "Peserta Terdaftar",
-      count: participanCountData.sma | 0,
+      count: participanCountData.sma,
     },
     {
       label: "Sekolah Terdaftar",
