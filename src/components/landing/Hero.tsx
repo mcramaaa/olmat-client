@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { APPCONSTANT } from "@/constant/App.constant";
 import Countdown from "../Countdown";
@@ -52,10 +51,10 @@ export function HeroSection({ user, start, end, now }: IProps) {
                   href={
                     user ? ROUTES.DASHBOARD.REGISTER_PARTICIPANTS : ROUTES.LOGIN
                   }
+                  className="bg-brand hover:bg-brand/90 rounded-lg flex py-2 px-3 items-center text-white"
                 >
-                  <Button size="lg" className="bg-brand hover:bg-brand/90">
-                    Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
+                  Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
+                  {/* </Button> */}
                 </Link>
               )}
             </div>
