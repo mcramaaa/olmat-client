@@ -33,21 +33,21 @@ export const Pagination: React.FC<PaginationProps> = ({
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
-    <div className="flex items-center justify-between mt-4">
+    <div className="flex items-center flex-wrap md:flex-nowrap gap-3 w-full justify-between mt-4">
       {/* Items count display */}
       <div className="text-sm text-muted-foreground">
         Menampilkan <strong>{startItem}</strong> sampai{" "}
         <strong>{endItem}</strong> dari <strong>{totalItems}</strong> item
       </div>
 
-      <div className="flex gap-5 items-center">
+      <div className="flex gap-y-3 flex-wrap items-center w-full justify-between md:w-fit">
         {/* Items per page selector */}
         {onItemsPerPageChange && (
           <Select
             value={String(itemsPerPage)}
             onValueChange={(value) => onItemsPerPageChange(Number(value))}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className=" w-fit">
               <SelectValue placeholder="Items per page" />
             </SelectTrigger>
             <SelectContent>

@@ -121,7 +121,7 @@ export function AboutSection({ participanCountData }: IProps) {
           <div className="order-1 lg:order-2 grid place-items-center">
             <div className="relative w-fit">
               <AppImage
-                src="/pamfletolm.jpg"
+                src="/pamfletolm.webp"
                 alt="Math Olympiad Participants"
                 className="w-56 overflow-hidden aspect-[3/5] rounded-2xl shadow-xl"
                 object="object-cover"

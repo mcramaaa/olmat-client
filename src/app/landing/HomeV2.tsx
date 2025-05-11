@@ -13,6 +13,7 @@ import { ContactSection } from "@/components/landing/Contact";
 import PromotionSection from "@/components/landing/Promotion";
 import { IRegion } from "@/interfaces/IRegion";
 import { useAuth } from "@/lib/auth";
+import { IEventSetting } from "@/interfaces/IEventSetting";
 
 interface IProps {
   cities: { label: string; value: string }[];
@@ -24,18 +25,20 @@ interface IProps {
     sd: number;
     school: number;
   };
+  event: IEventSetting;
 }
 
 export default function HomeV2({
   cities,
   regions,
   participanCountData,
+  event,
 }: IProps) {
   const [activeSection, setActiveSection] = useState("hero");
-  const { user, event } = useAuth();
+  const { user } = useAuth();
 
-  const start = event?.start ? new Date(event.start).toISOString() : null;
-  const end = event?.end ? new Date(event.end).toISOString() : null;
+  const start = event?.start ? new Date(event.start).toISOString() : "";
+  const end = event?.end ? new Date(event.end).toISOString() : "";
   const now = new Date().toISOString();
 
   useEffect(() => {
@@ -74,9 +77,6 @@ export default function HomeV2({
   return (
     <div className="min-h-screen bg-background overflow-hidden">
       <LandingNavbar
-        start={start}
-        end={end}
-        now={now}
         activeSection={activeSection}
         onNavClick={scrollToSection}
       />

@@ -9,12 +9,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { IDashboard } from "@/interfaces/IDashboard";
-import { useAuth } from "@/lib/auth";
 import { ROUTES } from "@/routes/router";
 import { CreditCard, LayoutDashboard, UserCheck, Users } from "lucide-react";
 import { PiWhatsappLogo } from "react-icons/pi";
 import Link from "next/link";
 import React from "react";
+import { useAuth } from "@/lib/auth";
 
 interface IProps {
   data: any;
@@ -149,7 +149,12 @@ export function DashboardItem({ data }: IProps) {
           </CardContent>
           <CardFooter>
             <Button asChild className="w-full" variant="outline">
-              <Link href="/transactions">Lihat Transaksi</Link>
+              <Link
+                href="https://chat.whatsapp.com/IMEJiar6iZ0KEeijbMD0yJ"
+                target="_blank"
+              >
+                Gabung Sekarang
+              </Link>
             </Button>
           </CardFooter>
         </Card>

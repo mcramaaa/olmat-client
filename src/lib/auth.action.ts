@@ -10,29 +10,15 @@ export async function getMeAction() {
     const token = (await cookieStore).get("CBO_Token")?.value;
 
     if (!token) {
-      return { user: null, error: "No token found" };
+      return { success: false, user: null, error: "No token found" };
     }
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST_API}/auth/user/me`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-      }
-    );
+    const response = await api.get("/auth/user/me");
 
-    if (!response.ok) {
-      return { user: null, error: `Server responded with ${response.status}` };
-    }
-
-    const data = await response.json();
-    return { user: data, error: null };
+    return { success: true, user: response.data, error: null };
   } catch (error) {
     console.error("Error in getMeAction:", error);
-    return { user: null, error: error };
+    return { success: false, user: null, error: error };
   }
 }
 

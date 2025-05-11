@@ -1,0 +1,31 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy olmat-client
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOSTNAME }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            export NVM_DIR=~/.nvm
+            export PATH="$HOME/.node-V20.19/bin:$PATH"
+            # corepack enable
+            cd mine/olmat/olmat-client
+            git reset --hard
+            git pull
+            yarn install
+            yarn build
+            docker compose up -d --build olmat-client
+            docker ps -a
+            docker system prune -a -f
+            df -h
