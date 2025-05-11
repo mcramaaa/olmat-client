@@ -24,9 +24,14 @@ export default async function RegisterParticipantsPage() {
     value: item.id,
   }));
   const now = new Date().toISOString();
-  const startDate = new Date(resEvent.data.start).toISOString();
-  const endDate = new Date(resEvent.data.end).toISOString();
-  const isOpen = now >= startDate && now <= endDate;
+  const startDate = resEvent.data?.start
+    ? new Date(resEvent.data.start).toISOString()
+    : "";
+  const endDate = resEvent.data?.end
+    ? new Date(resEvent.data.end).toISOString()
+    : "";
+
+  const isOpen = startDate && endDate && now >= startDate && now <= endDate;
 
   return (
     <div className="pb-12 md:px-6">
@@ -62,11 +67,11 @@ export default async function RegisterParticipantsPage() {
                           Pendaftaran Olimpiade Matematika UINSA akan dibuka
                           mulai{" "}
                           <span className="font-bold ">
-                            {convertDate(resEvent.data.start)}
+                            {convertDate(startDate)}
                           </span>{" "}
                           hingga{" "}
                           <span className="font-bold ">
-                            {convertDate(resEvent.data.end)}
+                            {convertDate(endDate)}
                           </span>
                           . Jangan lupa catat tanggalnya, ya!
                         </p>

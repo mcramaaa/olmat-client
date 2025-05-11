@@ -52,10 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const getMe = useCallback(async () => {
     const res = await getMeAction();
-    if (!res.success || !res.user) {
-      console.log("force logout");
-      logout();
-    }
+    console.log("res", res);
     if (res.user) {
       if (res.user.data) {
         if (res.user.data.type === "Admin") {
@@ -85,6 +82,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         logout();
       }
+    } else {
+      logout();
     }
   }, []);
   useEffect(() => {

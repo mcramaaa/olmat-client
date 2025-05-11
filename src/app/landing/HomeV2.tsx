@@ -37,8 +37,8 @@ export default function HomeV2({
   const [activeSection, setActiveSection] = useState("hero");
   const { user } = useAuth();
 
-  const start = new Date(event.start).toISOString();
-  const end = new Date(event.end).toISOString();
+  const start = event?.start ? new Date(event.start).toISOString() : "";
+  const end = event?.end ? new Date(event.end).toISOString() : "";
   const now = new Date().toISOString();
 
   useEffect(() => {
