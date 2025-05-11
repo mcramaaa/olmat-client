@@ -46,7 +46,10 @@ export function SupportingEventsSection() {
           className="w-full"
         >
           <div className="flex justify-center mb-8">
-            <TabsList className={`grid grid-cols-3 w-full max-w-md`}>
+            <TabsList
+              className="grid w-full max-w-md h-full items-center justify-center
+             grid-cols-1 md:grid-cols-3 gap-2"
+            >
               {APPCONSTANT.supportEvent.map((item, i) => (
                 <TabsTrigger
                   key={i}
