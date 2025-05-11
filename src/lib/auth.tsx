@@ -45,7 +45,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<TUser | null>(null);
-  // const [event, setEvent] = useState<IEventSetting>();
   const { setIsSuccess, setError, isLoading, isLoadingBlock, setIsLoading } =
     useLayout();
   const router = useRouter();
@@ -82,8 +81,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         logout();
       }
-    } else {
-      logout();
     }
   }, []);
   useEffect(() => {
