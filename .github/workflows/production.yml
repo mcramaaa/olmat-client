@@ -19,7 +19,7 @@ jobs:
           script: |
             export NVM_DIR=~/.nvm
             export PATH="$HOME/.node-V20.19/bin:$PATH"
-            corepack enable
+            # corepack enable
             cd mine/olmat/olmat-client
             git reset --hard
             git pull
