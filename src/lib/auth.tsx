@@ -51,7 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const getMe = useCallback(async () => {
     const res = await getMeAction();
-    console.log("res", res);
     if (res.user) {
       if (res.user.data) {
         if (res.user.data.type === "Admin") {

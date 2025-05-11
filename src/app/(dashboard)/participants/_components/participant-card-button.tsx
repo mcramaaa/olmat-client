@@ -44,7 +44,7 @@ export function ParticipantCardButton({
 
       // For the ID card template, assuming it's in your public folder
       // If it's also on your backend, adjust the path accordingly
-      const idCardTemplate = "/idcard.png";
+      const idCardTemplate = "/idcard.webp";
 
       // Load both images
       const [participantImageDataUrl, idCardTemplateDataUrl] =

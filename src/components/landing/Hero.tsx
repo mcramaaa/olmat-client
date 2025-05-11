@@ -68,9 +68,9 @@ export function HeroSection({ user, start, end, now }: IProps) {
             <div className="relative h-[400px] md:h-[500px] w-full">
               <div className="absolute inset-0 overflow-hidden">
                 <Image
-                  src="/maskot.png"
+                  src="/maskot.webp"
                   sizes="1"
-                  alt="Math Olympiad"
+                  alt="olmat uinsa"
                   fill
                   className="object-contain"
                 />

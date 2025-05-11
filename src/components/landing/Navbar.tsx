@@ -47,9 +47,10 @@ export function LandingNavbar({
           <Link href="/" className="flex items-center gap-2">
             <div className="relative h-10 w-10  flex items-center justify-center">
               <Image
-                src={"/logo-olm.png"}
+                src={"/logo-olm.webp"}
                 alt=""
                 sizes="1"
+                priority
                 className="object-contain"
                 fill
               />

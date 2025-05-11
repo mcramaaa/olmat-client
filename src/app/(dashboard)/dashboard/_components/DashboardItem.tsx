@@ -60,7 +60,7 @@ export function DashboardItem({ data }: IProps) {
               <p className="text-sm text-muted-foreground">
                 {user?.type === "Admin"
                   ? user?.region?.name || ""
-                  : user?.school.name || ""}
+                  : user?.schoolName || ""}
               </p>
             </CardContent>
             <CardFooter>
