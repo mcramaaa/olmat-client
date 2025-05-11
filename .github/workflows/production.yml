@@ -18,7 +18,8 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
+            export PATH="$HOME/.node-V20.19/bin:$PATH"
+            corepack enable
             cd mine/olmat/olmat-client
             git reset --hard
             git pull
