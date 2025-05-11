@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import ParticipantForm from "../_components/ParticipantForm";
 import { getProvinceAction } from "@/app/(auth)/register/register.action";
 import { APPCONSTANT } from "@/constant/App.constant";
+import { eventSettingAction } from "@/lib/auth.action";
+import { convertDate } from "@/helper/common";
+import { Card, CardContent } from "@/components/ui/card";
+import { InfoIcon } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export const metadata: Metadata = {
   title: "Register Participants - Math Olympiad 2025",
@@ -10,20 +15,103 @@ export const metadata: Metadata = {
 };
 
 export default async function RegisterParticipantsPage() {
-  const resProv = await getProvinceAction();
+  const [resProv, resEvent] = await Promise.all([
+    getProvinceAction(),
+    eventSettingAction(),
+  ]);
   const prov = resProv.data.map((item: any) => ({
     label: item.name,
     value: item.id,
   }));
-  return (
-    <div className="pb-12  md:px-6">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Pendaftaran OLMAT UINSA</h1>
-          <p className="text-gray-500">{APPCONSTANT.theme}</p>
-        </div>
+  const now = new Date().toISOString();
+  const startDate = new Date(resEvent.data.start).toISOString();
+  const endDate = new Date(resEvent.data.end).toISOString();
+  const isOpen = now >= startDate && now <= endDate;
 
-        <ParticipantForm provinceOptions={prov} />
+  return (
+    <div className="pb-12 md:px-6">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {isOpen ? (
+          <>
+            <div className="space-y-2 text-center">
+              <h1 className="text-3xl font-bold">Pendaftaran OLMAT UINSA</h1>
+              <p className="text-gray-500">{APPCONSTANT.theme}</p>
+            </div>
+
+            <ParticipantForm provinceOptions={prov} />
+          </>
+        ) : (
+          <Card className="border-none shadow-md overflow-hidden">
+            <div className="p-4 bg-gray-100">
+              <h2 className="text-xl font-bold">
+                {now < startDate
+                  ? "Pendaftaran Belum Dibuka"
+                  : "Pendaftaran Telah Ditutup"}
+              </h2>
+            </div>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                {now < startDate ? (
+                  <>
+                    <div className="flex items-start">
+                      <div>
+                        <h3 className="font-semibold text-lg">
+                          Hai, Sahabat Matematika! 👋
+                        </h3>
+                        <p className="text-gray-600 mt-1 text-sm">
+                          Pendaftaran Olimpiade Matematika UINSA akan dibuka
+                          mulai{" "}
+                          <span className="font-bold ">
+                            {convertDate(resEvent.data.start)}
+                          </span>{" "}
+                          hingga{" "}
+                          <span className="font-bold ">
+                            {convertDate(resEvent.data.end)}
+                          </span>
+                          . Jangan lupa catat tanggalnya, ya!
+                        </p>
+                      </div>
+                    </div>
+
+                    <Alert className=" bg-blue-50 border-blue-200">
+                      <InfoIcon className="h-4 w-4 text-amber-600" />
+                      <AlertTitle>Persiapkan dirimu!</AlertTitle>
+                      <AlertDescription>
+                        Siapkan dokumen dan informasi yang diperlukan sebelum
+                        pendaftaran dibuka untuk mempercepat proses pendaftaran.
+                      </AlertDescription>
+                    </Alert>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-start">
+                      <div>
+                        <h3 className="font-semibold text-lg">
+                          Terima Kasih! 🙌
+                        </h3>
+                        <p className="text-gray-600 mt-1">
+                          Terima kasih atas antusiasme dan partisipasi kalian
+                          dalam pendaftaran OLMAT UINSA! Sampai jumpa di
+                          kesempatan berikutnya dan semoga sukses! ✨
+                        </p>
+                      </div>
+                    </div>
+
+                    <Alert className="bg-blue-50 border-blue-200">
+                      <InfoIcon className="h-4 w-4 text-blue-600" />
+                      <AlertTitle>Informasi Selanjutnya</AlertTitle>
+                      <AlertDescription>
+                        Pantau email dan media sosial resmi OLMAT UINSA untuk
+                        informasi terbaru mengenai jadwal dan pelaksanaan
+                        kompetisi.
+                      </AlertDescription>
+                    </Alert>
+                  </>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

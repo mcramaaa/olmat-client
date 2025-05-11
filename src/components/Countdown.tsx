@@ -82,7 +82,7 @@ export default function Countdown({ start, now, end }: IProps) {
   };
 
   return (
-    <div className=" md:px-10 backdrop-blur-sm  bg-white/10 rounded-2xl shadow-lg w-full max-w-5xl py-5 translate-y-1/2">
+    <div className=" md:px-10 backdrop-blur-sm  bg-white/20 rounded-2xl shadow-lg w-full max-w-5xl py-5 md:translate-y-1/2">
       <div>
         <p className="text-sm text-center font-dancing text-brand">
           {startDate &&

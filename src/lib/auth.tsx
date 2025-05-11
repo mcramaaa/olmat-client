@@ -13,9 +13,8 @@ import {
 import { useRouter } from "next/navigation";
 import { setCookie, deleteCookie } from "cookies-next";
 import { useLayout } from "@/hooks/zustand/layout";
-import { eventSettingAction, getMeAction, loginAction } from "./auth.action";
+import { getMeAction, loginAction } from "./auth.action";
 import LoadingBlock from "@/components/ui/LoadingBlock";
-import { IEventSetting } from "@/interfaces/IEventSetting";
 
 export type TUser = {
   id: string;
@@ -29,11 +28,12 @@ export type TUser = {
   degreeId?: number;
   degreeName?: string;
   registerPrice?: number;
+  school?: any;
 };
 
 type AuthContextType = {
   user: TUser | null;
-  event: IEventSetting | undefined;
+  // event: IEventSetting | undefined;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -45,17 +45,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<TUser | null>(null);
-  const [event, setEvent] = useState<IEventSetting>();
+  // const [event, setEvent] = useState<IEventSetting>();
   const { setIsSuccess, setError, isLoading, isLoadingBlock, setIsLoading } =
     useLayout();
   const router = useRouter();
 
+  console.log("firstRender");
+
   const getMe = useCallback(async () => {
-    const [eventSetting, res] = await Promise.all([
-      eventSettingAction(),
-      getMeAction(),
-    ]);
-    setEvent(eventSetting.data);
+    const res = await getMeAction();
+    console.log("coki", res);
+    if (!res.success || !res.user) {
+      logout();
+    }
     if (res.user) {
       if (res.user.data) {
         if (res.user.data.type === "Admin") {
@@ -89,6 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
   useEffect(() => {
     getMe();
+    console.log("first", 1);
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -113,19 +116,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
-    // Remove token from cookies
     deleteCookie("CBO_Token");
-
-    // Clear user from state
     setUser(null);
-
-    // Redirect to login
     router.push("/login");
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, event, login, logout, getMe, setUser }}
+      value={{ user, isLoading, login, logout, getMe, setUser }}
     >
       {isLoadingBlock && <LoadingBlock />}
       {children}

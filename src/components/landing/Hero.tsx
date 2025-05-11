@@ -18,7 +18,7 @@ export function HeroSection({ user, start, end, now }: IProps) {
   return (
     <section
       id="hero"
-      className="relative flex justify-center items-center min-h-screen pb-36 pt-20 lg:pt-6 mb-20"
+      className="relative flex justify-center items-center min-h-screen pb-36 pt-20 lg:pt-6 mb-28"
     >
       <Image src={"/bg.webp"} fill alt="" className="object-cover opacity-20" />
       <motion.div
@@ -107,7 +107,7 @@ export function HeroSection({ user, start, end, now }: IProps) {
         <ChevronsDown className=" w-6 text-black" />
         <ChevronsDown className=" w-6 text-brand" />
       </motion.div> */}
-      <div className="absolute w-full z-10 -bottom-11 flex justify-center ">
+      <div className="absolute w-full z-10 -bottom-20 md:-bottom-3 flex justify-center ">
         <Countdown now={now} start={start} end={end} />
       </div>
       <div className="absolute w-full bg-gradient-to-t from-white to-white/0 h-32 bottom-0 "></div>

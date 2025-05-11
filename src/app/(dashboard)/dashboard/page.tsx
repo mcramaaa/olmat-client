@@ -13,10 +13,10 @@ import { FastForward } from "lucide-react";
 import { ROUTES } from "@/routes/router";
 
 export default async function DashboardPage() {
-  const { data, error } = await getDashboardAction();
+  const [resDash] = await Promise.all([getDashboardAction()]);
 
   // Handle potential errors
-  if (error) {
+  if (resDash.error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[500px] space-y-4">
         <h2 className="text-2xl font-bold text-red-600">
@@ -59,7 +59,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <DashboardItem data={data || {}} />
+      <DashboardItem data={resDash.data || {}} />
 
       <h2 className="flex items-center gap-2 mt-10 text-2xl font-bold tracking-tight">
         <FastForward />

@@ -9,12 +9,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { IDashboard } from "@/interfaces/IDashboard";
-import { useAuth } from "@/lib/auth";
 import { ROUTES } from "@/routes/router";
 import { CreditCard, LayoutDashboard, UserCheck, Users } from "lucide-react";
 import { PiWhatsappLogo } from "react-icons/pi";
 import Link from "next/link";
 import React from "react";
+import { useAuth } from "@/lib/auth";
 
 interface IProps {
   data: any;
@@ -36,6 +36,7 @@ export function DashboardItem({ data }: IProps) {
     pendingParticipant: data.pending_participant || "",
   };
 
+  console.log(user);
   return (
     <>
       <div>
@@ -60,7 +61,7 @@ export function DashboardItem({ data }: IProps) {
               <p className="text-sm text-muted-foreground">
                 {user?.type === "Admin"
                   ? user?.region?.name || ""
-                  : user?.schoolName || ""}
+                  : user?.school.name || ""}
               </p>
             </CardContent>
             <CardFooter>
