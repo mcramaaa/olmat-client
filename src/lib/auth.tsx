@@ -50,12 +50,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     useLayout();
   const router = useRouter();
 
-  console.log("firstRender");
-
   const getMe = useCallback(async () => {
     const res = await getMeAction();
-    console.log("coki", res);
     if (!res.success || !res.user) {
+      console.log("force logout");
       logout();
     }
     if (res.user) {
@@ -91,7 +89,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
   useEffect(() => {
     getMe();
-    console.log("first", 1);
   }, []);
 
   const login = async (email: string, password: string) => {

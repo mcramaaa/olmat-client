@@ -14,7 +14,6 @@ export async function getMeAction() {
     }
 
     const response = await api.get("/auth/user/me");
-    console.log(response.data);
 
     return { success: true, user: response.data, error: null };
   } catch (error) {
