@@ -5,13 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Receipt } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useLayout } from "@/hooks/zustand/layout";
+import { IPayment } from "@/interfaces/IPayments";
+import { convertBirth, convertRupiah } from "@/helper/common";
 
 interface DownloadReceiptButtonProps {
+  transction: IPayment;
+  participants: { name: string; birth: Date }[];
   paymentId: string;
   disabled?: boolean;
 }
 
 export function DownloadReceiptButton({
+  transction,
+  participants,
   paymentId,
   disabled = false,
 }: DownloadReceiptButtonProps) {
@@ -29,96 +35,88 @@ export function DownloadReceiptButton({
         format: "a5",
       });
 
-      // Set font
-      doc.setFont("helvetica");
-
-      // Add logo
-      // In a real app, you would use a proper logo image
-      // For now, we'll just add text as a placeholder
-      doc.setFontSize(24);
-      doc.setTextColor(0, 0, 0);
-      doc.text("Math Olympiad 2025", 74, 20, { align: "center" });
-
-      // Add receipt title
-      doc.setFontSize(16);
-      doc.text("PAYMENT RECEIPT", 74, 30, { align: "center" });
-
-      // Add horizontal line
-      doc.setDrawColor(0);
-      doc.setLineWidth(0.5);
-      doc.line(20, 35, 128, 35);
-
-      // Add receipt details
-      doc.setFontSize(10);
-      doc.text("Receipt Number:", 20, 45);
-      doc.text(paymentId, 70, 45);
-
-      doc.text("Date:", 20, 52);
-      doc.text(new Date().toLocaleDateString(), 70, 52);
-
-      doc.text("Payment Method:", 20, 59);
-      doc.text("QRIS", 70, 59);
-
-      // Add another horizontal line
-      doc.line(20, 65, 128, 65);
-
-      // Add payment details
-      doc.setFontSize(12);
-      doc.text("Payment Details", 20, 72);
-
-      doc.setFontSize(10);
-      doc.text("Total Participants:", 20, 80);
-      doc.text("3", 100, 80, { align: "right" });
-
-      doc.text("Price per Participant:", 20, 87);
-      doc.text("Rp 250,000", 100, 87, { align: "right" });
-
-      doc.text("Subtotal:", 20, 94);
-      doc.text("Rp 750,000", 100, 94, { align: "right" });
-
-      doc.text("Admin Fee:", 20, 101);
-      doc.text("Rp 5,000", 100, 101, { align: "right" });
-
-      // Add final horizontal line
-      doc.line(20, 105, 128, 105);
-
-      // Add total
-      doc.setFontSize(12);
-      doc.setFont("helvetica", "bold");
-      doc.text("Total Payment:", 20, 112);
-      doc.text("Rp 755,000", 100, 112, { align: "right" });
-
-      // Add footer
-      doc.setFontSize(8);
-      doc.setFont("helvetica", "normal");
-      doc.text(
-        "This is an official receipt for the Math Olympiad 2025.",
-        74,
-        130,
-        { align: "center" }
-      );
-      doc.text("Thank you for your participation!", 74, 135, {
-        align: "center",
+      // Add background image (template)
+      doc.addImage({
+        imageData: "/receipt.webp",
+        x: 0,
+        y: 0,
+        width: 148,
+        height: 210,
       });
 
+      // Set font
+
+      // ID Pembayaran
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10);
+      doc.text(transction.invoice || paymentId, 30, 36); // Sesuaikan posisi x, y
+
+      // Tanggal
+      const createdDate = new Date(transction.createdAt).toLocaleDateString(
+        "id-ID",
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }
+      );
+      doc.setFont("helvetica", "bold");
+      doc.text(createdDate, 30, 40.5); // Sesuaikan posisi x, y
+
+      // Tabel: Asal Sekolah, Harga, Jumlah Peserta, Total
+      let yPosition = 55;
+
+      if (participants && participants.length > 0) {
+        participants.forEach((participant) => {
+          // Name column
+          doc.text(participant.name, 10, yPosition, { align: "left" });
+
+          // Birth date column
+          const birthDate = convertBirth(participant.birth);
+          doc.text(birthDate, 112, yPosition);
+
+          yPosition += 7; // Move down for next participant
+
+          // // Add more rows if needed
+          // if (index < participants.length - 1) {
+          //   // Draw horizontal line between participants
+          //   doc.setLineWidth(0.1);
+          //   doc.line(30, yPosition - 7, 180, yPosition - 7);
+          // }
+        });
+      }
+
+      const ytotalPosition = 170;
+      doc.setFont("helvetica", "bold");
+      doc.text(convertRupiah(transction?.amount) || "", 110, ytotalPosition, {
+        align: "left",
+      });
+      doc.text(
+        `${transction.participantAmount} Peserta` || "",
+        110,
+        ytotalPosition + 4.8,
+        {
+          align: "left",
+        }
+      );
+      doc.text(convertRupiah(transction.fee) || "", 110, ytotalPosition + 9.6, {
+        align: "left",
+      });
+      doc.text(
+        convertRupiah(transction.totalAmount) || "",
+        110,
+        ytotalPosition + 15.7,
+        {
+          align: "left",
+        }
+      );
       // Save the PDF
-      doc.save(`receipt-${paymentId}.pdf`);
+      doc.save(`receipt-${transction.invoice || paymentId}.pdf`);
 
       setIsSuccess(true, "Receipt downloaded successfully.");
-      // toast({
-      //   title: "Receipt downloaded",
-      //   description: "Your receipt has been downloaded successfully.",
-      // });
     } catch (error) {
       setError(true, "Error downloading receipt. Please try again.");
-
       throw error;
-      // toast({
-      //   title: "Download failed",
-      //   description:
-      //     "There was an error downloading your receipt. Please try again.",
-      //   variant: "destructive",
-      // });
     } finally {
       setIsLoading(false);
     }

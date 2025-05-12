@@ -46,6 +46,13 @@ export default function TransactionClient({
   const router = useRouter();
   const encodedCurrentUrl = useEncodedUrl();
 
+  function changeStatus(status: string, expiredAt: Date | string) {
+    if (status === "pending" && new Date() > new Date(expiredAt)) {
+      return "expired";
+    }
+    return status;
+  }
+
   const handlePageChange = (page: number) => {
     router.push(`${path}?page=${page}&limit=${params.limit}`);
   };
@@ -119,14 +126,23 @@ export default function TransactionClient({
                     <TableCell className="flex justify-center items-center">
                       <div
                         className={`inline-flex items-center rounded-full mt-1 px-2.5 py-0.5 text-xs font-medium ${
-                          transaction.status === "paid"
+                          changeStatus(
+                            transaction.status,
+                            transaction.expiredAt
+                          ) === "paid"
                             ? "bg-green-100 text-green-800"
-                            : transaction.status === "pending"
+                            : changeStatus(
+                                transaction.status,
+                                transaction.expiredAt
+                              ) === "pending"
                             ? "bg-yellow-100 text-yellow-800"
                             : "bg-red-100 text-red-800"
                         }`}
                       >
-                        {transaction.status}
+                        {changeStatus(
+                          transaction.status,
+                          transaction.expiredAt
+                        )}
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
