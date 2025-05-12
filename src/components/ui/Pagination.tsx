@@ -40,7 +40,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         <strong>{endItem}</strong> dari <strong>{totalItems}</strong> item
       </div>
 
-      <div className="flex gap-y-3 flex-wrap items-center w-full justify-between md:w-fit">
+      <div className="flex flex-wrap items-center w-full justify-between md:w-fit gap-4">
         {/* Items per page selector */}
         {onItemsPerPageChange && (
           <Select

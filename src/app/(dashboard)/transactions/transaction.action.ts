@@ -76,3 +76,24 @@ export async function getInvAction(invoice: string) {
     };
   }
 }
+
+export async function regenerateQrAction(id: number) {
+  try {
+    const res = await api.post(`/participant/regenerate-payment`, {
+      oldPaymentId: id,
+      paymentCode: "QRIS",
+    });
+    return {
+      success: true,
+      data: res.data,
+      error: null,
+    };
+  } catch (error) {
+    const err = error as AxiosError;
+    return {
+      success: false,
+      data: null,
+      error: err,
+    };
+  }
+}
