@@ -129,7 +129,7 @@ export function DownloadReceiptButton({
       className="w-full"
     >
       <Receipt className="w-4 h-4 mr-2" />
-      {isLoading ? "Generating Receipt..." : "Download Receipt"}
+      {isLoading ? "Generating Receipt..." : "Download Invoice"}
     </Button>
   );
 }
