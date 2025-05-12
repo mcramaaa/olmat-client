@@ -9,12 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BadgeCheck, Frown } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { PaymentQRCode } from "../_components/payment-qr-code";
 import {
   convertBirth,
   convertDate,
-  convertDateTime,
   convertGender,
   convertRupiah,
 } from "@/helper/common";
@@ -27,7 +26,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import RegenerateQrButton from "../_components/RegenerateQrButton";
 
 export const metadata: Metadata = {
   title: "Transaction Details - Math Olympiad 2025",
@@ -49,11 +47,11 @@ export default async function TransactionPage({
   const transaction = res.data;
   const participants = res.participants || [];
 
-  const statusNow =
-    transaction?.status === "pending" &&
-    new Date() > new Date(transaction?.expiredAt)
-      ? "expired"
-      : transaction?.status;
+  // const statusNow =
+  //   transaction?.status === "pending" &&
+  //   new Date() > new Date(transaction?.expiredAt)
+  //     ? "expired"
+  //     : transaction?.status;
 
   return (
     <div className="space-y-6">
@@ -71,14 +69,14 @@ export default async function TransactionPage({
               </CardTitle>
               <div
                 className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                  statusNow === "paid"
+                  transaction?.status === "paid"
                     ? "bg-green-100 text-green-800"
-                    : statusNow === "pending"
+                    : transaction?.status === "pending"
                     ? "bg-yellow-100 text-yellow-800"
                     : "bg-red-100 text-red-800"
                 }`}
               >
-                {statusNow === "expired" ? "Expired" : statusNow}
+                {transaction?.status}
               </div>
             </CardHeader>
             <CardContent className="flex flex-col items-center pb-0">
@@ -96,20 +94,6 @@ export default async function TransactionPage({
                     </p>
                   </div>
                 </div>
-              ) : transaction?.status === "pending" &&
-                new Date() > new Date(transaction?.expiredAt) ? (
-                <div className="flex justify-center w-full mx-auto mb-4 ">
-                  <div className="p-4 text-center space-y-6">
-                    <Frown className="w-16 h-16 mx-auto text-red-500" />
-                    <h3 className="mb-4 font-semibold text-center text-red-600">
-                      Oops, batas waktu pembayaran sudah lewat.
-                    </h3>
-                    <p className="mb-2">
-                      Tenang, kamu masih bisa meminta QR baru kok.
-                    </p>
-                    <RegenerateQrButton id={transaction.id} />
-                  </div>
-                </div>
               ) : (
                 <>
                   <h3 className="mb-4 font-semibold text-center">
@@ -122,18 +106,11 @@ export default async function TransactionPage({
                   </div>
 
                   <div className="text-center text-md text-muted-foreground">
-                    <p>Selesaikan pembayaran sebelum</p>
-                    <p className="text-black">
-                      {convertDateTime(transaction?.expiredAt)}
-                    </p>
+                    <p>Ayo segera selesaikan pembayaran kamu</p>
                   </div>
                 </>
               )}
             </CardContent>
-
-            {/* <CardContent className="flex flex-col items-center pb-0">
-            
-          </CardContent> */}
             <CardContent className="pb-0 my-4">
               <div className="py-2 border-y">
                 <div className="flex items-center justify-between w-full">
@@ -243,3 +220,19 @@ export default async function TransactionPage({
     </div>
   );
 }
+
+// : transaction?.status === "pending" &&
+//   new Date() > new Date(transaction?.expiredAt) ? (
+//   <div className="flex justify-center w-full mx-auto mb-4 ">
+//     <div className="p-4 text-center space-y-6">
+//       <Frown className="w-16 h-16 mx-auto text-red-500" />
+//       <h3 className="mb-4 font-semibold text-center text-red-600">
+//         Oops, batas waktu pembayaran sudah lewat.
+//       </h3>
+//       <p className="mb-2">
+//         Tenang, kamu masih bisa meminta QR baru kok.
+//       </p>
+//       <RegenerateQrButton id={transaction.id} />
+//     </div>
+//   </div>
+// )

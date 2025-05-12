@@ -62,6 +62,12 @@ export default function ParticipantDetailClient({ participant }: IProps) {
               <div className="space-y-4">
                 <div>
                   <h3 className="text-sm font-medium text-muted-foreground">
+                    No Peserta
+                  </h3>
+                  <p>{participant.keplekId}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground">
                     Jenis Kelamin
                   </h3>
                   <p>{convertGender(participant.gender)}</p>
@@ -194,7 +200,7 @@ export default function ParticipantDetailClient({ participant }: IProps) {
                       <ParticipantCardButton
                         disabled={participant.status !== "active"}
                         name={participant.name}
-                        id={participant.id || ""}
+                        id={participant.keplekId || ""}
                         school={participant.school.name}
                         region={participant.school.city.region.name || ""}
                         imgUrl={participant.img}

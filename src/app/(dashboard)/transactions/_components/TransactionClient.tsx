@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { convertDateTime, convertRupiah } from "@/helper/common";
+import { convertRupiah } from "@/helper/common";
 import { useEncodedUrl } from "@/hooks/useEncodeUrl";
 import { IMetaData } from "@/interfaces/IMetaData";
 import { IPayment } from "@/interfaces/IPayments";
@@ -46,12 +46,12 @@ export default function TransactionClient({
   const router = useRouter();
   const encodedCurrentUrl = useEncodedUrl();
 
-  function changeStatus(status: string, expiredAt: Date | string) {
-    if (status === "pending" && new Date() > new Date(expiredAt)) {
-      return "expired";
-    }
-    return status;
-  }
+  // function changeStatus(status: string, expiredAt: Date | string) {
+  //   if (status === "pending" && new Date() > new Date(expiredAt)) {
+  //     return "expired";
+  //   }
+  //   return status;
+  // }
 
   const handlePageChange = (page: number) => {
     router.push(`${path}?page=${page}&limit=${params.limit}`);
@@ -97,9 +97,9 @@ export default function TransactionClient({
                 <TableRow>
                   <TableHead className="text-center">No.</TableHead>
                   <TableHead>Invoice</TableHead>
-                  <TableHead className="text-center">
+                  {/* <TableHead className="text-center">
                     Batas Pembayaran
-                  </TableHead>
+                  </TableHead> */}
                   <TableHead className="text-center">Jumlah Peserta</TableHead>
                   <TableHead className="hidden md:table-cell text-center">
                     Total Harga
@@ -114,9 +114,9 @@ export default function TransactionClient({
                   <TableRow key={i}>
                     <TableCell className="text-center">{i + 1}</TableCell>
                     <TableCell>{transaction.invoice}</TableCell>
-                    <TableCell className="font-medium text-center">
+                    {/* <TableCell className="font-medium text-center">
                       {convertDateTime(transaction.expiredAt)}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell className="hidden text-center md:table-cell">
                       {transaction.participantAmount} Peserta
                     </TableCell>
@@ -126,23 +126,14 @@ export default function TransactionClient({
                     <TableCell className="flex justify-center items-center">
                       <div
                         className={`inline-flex items-center rounded-full mt-1 px-2.5 py-0.5 text-xs font-medium ${
-                          changeStatus(
-                            transaction.status,
-                            transaction.expiredAt
-                          ) === "paid"
+                          transaction.status === "paid"
                             ? "bg-green-100 text-green-800"
-                            : changeStatus(
-                                transaction.status,
-                                transaction.expiredAt
-                              ) === "pending"
+                            : transaction.status === "pending"
                             ? "bg-yellow-100 text-yellow-800"
                             : "bg-red-100 text-red-800"
                         }`}
                       >
-                        {changeStatus(
-                          transaction.status,
-                          transaction.expiredAt
-                        )}
+                        {transaction.status}
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
