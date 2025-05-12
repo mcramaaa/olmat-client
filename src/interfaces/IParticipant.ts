@@ -2,6 +2,7 @@ import { ISchool } from "./ISchool";
 
 export interface IParticipant {
   id?: string;
+  keplekId?: string;
   payment_id?: number;
   school_id?: number;
   school_name?: string;
