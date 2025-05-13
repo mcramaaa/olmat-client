@@ -35,7 +35,6 @@ export function convertDate(value: string | Date | undefined | null): string {
 }
 
 export function convertDateTime(value: any | undefined) {
-  console.log("value", value);
   if (!value) return "Invalid Date";
 
   const date = new Date(value);
