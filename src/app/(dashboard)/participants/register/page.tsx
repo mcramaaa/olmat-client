@@ -37,6 +37,28 @@ export default async function RegisterParticipantsPage() {
 
   const isOpen = startWib && endWib && nowWib >= startWib && nowWib <= endWib;
 
+  // function formatDateTime(isoDate: Date) {
+  //   if (!isoDate) return "-";
+
+  //   const date = new Date(isoDate);
+
+  //   // Format untuk hari dan tanggal
+  //   const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+  //     weekday: "long",
+  //     day: "numeric",
+  //     month: "long",
+  //     year: "numeric",
+  //   });
+
+  //   // Format untuk waktu
+  //   const timeFormatter = new Intl.DateTimeFormat("id-ID", {
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //     hour12: false,
+  //   });
+
+  //   return `${dateFormatter.format(date)}, ${timeFormatter.format(date)} WIB`;
+  // }
   function convertToWIBString(isoString: string) {
     const dateUTC = new Date(isoString);
     const dateWIB = new Date(dateUTC.getTime() + 7 * 60 * 60 * 1000);
@@ -112,11 +134,14 @@ export default async function RegisterParticipantsPage() {
                           <span className="font-bold ">
                             {startDate &&
                               convertToWIBString(startDate.toISOString())}
+                            {/* {startDate && formatDateTime(startWib)}, */}
                           </span>{" "}
                           hingga{" "}
                           <span className="font-bold ">
                             {endDate &&
                               convertToWIBString(endDate.toISOString())}
+
+                            {/* {endWib && formatDateTime(endWib)}, */}
                           </span>
                           . Jangan lupa catat tanggalnya, ya!
                         </p>
