@@ -6,7 +6,11 @@ import { Receipt } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useLayout } from "@/hooks/zustand/layout";
 import { IPayment } from "@/interfaces/IPayments";
-import { convertBirth, convertDateTime, convertRupiah } from "@/helper/common";
+import {
+  convertDateServer,
+  convertDateTimeServer,
+  convertRupiah,
+} from "@/helper/common";
 
 interface DownloadReceiptButtonProps {
   transction: IPayment;
@@ -53,7 +57,7 @@ export function DownloadReceiptButton({
 
       // Tanggal
       doc.setFont("helvetica", "bold");
-      doc.text(convertDateTime(transction.createdAt), 30, 40.5); // Sesuaikan posisi x, y
+      doc.text(convertDateTimeServer(transction.createdAt), 30, 40.5); // Sesuaikan posisi x, y
 
       // Tabel: Asal Sekolah, Harga, Jumlah Peserta, Total
       let yPosition = 55;
@@ -64,7 +68,7 @@ export function DownloadReceiptButton({
           doc.text(participant.name, 10, yPosition, { align: "left" });
 
           // Birth date column
-          const birthDate = convertBirth(participant.birth);
+          const birthDate = convertDateServer(participant.birth.toISOString());
           doc.text(birthDate, 112, yPosition);
 
           yPosition += 7; // Move down for next participant

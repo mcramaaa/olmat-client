@@ -34,6 +34,65 @@ export function convertDate(value: string | Date | undefined | null): string {
   return `${day}, ${formattedDate}`;
 }
 
+export function convertDateServer(isoString: string) {
+  const dateUTC = new Date(isoString);
+  const dateWIB = new Date(dateUTC.getTime() + 7 * 60 * 60 * 1000);
+
+  const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const months = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  const day = days[dateWIB.getDay()];
+  const date = dateWIB.getDate();
+  const month = months[dateWIB.getMonth()];
+  const year = dateWIB.getFullYear();
+
+  return `${day}, ${date} ${month} ${year}`;
+}
+
+export function convertDateTimeServer(isoString: string) {
+  const dateUTC = new Date(isoString);
+  const dateWIB = new Date(dateUTC.getTime() + 7 * 60 * 60 * 1000);
+
+  const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const months = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  const day = days[dateWIB.getDay()];
+  const date = dateWIB.getDate();
+  const month = months[dateWIB.getMonth()];
+  const year = dateWIB.getFullYear();
+
+  const hours = String(dateWIB.getHours()).padStart(2, "0");
+  const minutes = String(dateWIB.getMinutes()).padStart(2, "0");
+
+  return `${day}, ${date} ${month} ${year} Pukul ${hours}:${minutes} WIB`;
+}
+
 export function convertDateTime(value: any | undefined) {
   if (!value) return "Invalid Date";
 
