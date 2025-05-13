@@ -6,6 +6,7 @@ import { eventSettingAction } from "@/lib/auth.action";
 import { Card, CardContent } from "@/components/ui/card";
 import { InfoIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { convertDateTime } from "@/helper/common";
 
 export const metadata: Metadata = {
   title: "Register Participants - Math Olympiad 2025",
@@ -94,11 +95,11 @@ export default async function RegisterParticipantsPage() {
                           Pendaftaran Olimpiade Matematika UINSA akan dibuka
                           mulai{" "}
                           <span className="font-bold ">
-                            {startDate && formatDateTime(startDate)}
+                            {startDate && convertDateTime(startDate)}
                           </span>{" "}
                           hingga{" "}
                           <span className="font-bold ">
-                            {endDate && formatDateTime(endDate)}
+                            {endDate && convertDateTime(endDate)}
                           </span>
                           . Jangan lupa catat tanggalnya, ya!
                         </p>
