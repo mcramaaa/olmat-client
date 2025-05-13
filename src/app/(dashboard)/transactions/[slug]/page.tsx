@@ -13,7 +13,7 @@ import { BadgeCheck } from "lucide-react";
 import { PaymentQRCode } from "../_components/payment-qr-code";
 import {
   convertBirth,
-  convertDate,
+  convertDateTime,
   convertGender,
   convertRupiah,
 } from "@/helper/common";
@@ -124,7 +124,7 @@ export default async function TransactionPage({
                     Tanggal
                   </h3>
                   <p className="text-sm font-medium">
-                    {convertDate(transaction?.createdAt)}
+                    {convertDateTime(transaction?.createdAt)}
                   </p>
                 </div>
               </div>

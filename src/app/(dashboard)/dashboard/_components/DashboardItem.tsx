@@ -17,23 +17,27 @@ import React from "react";
 import { useAuth } from "@/lib/auth";
 
 interface IProps {
-  data: any;
+  resDash: any;
 }
 
-export function DashboardItem({ data }: IProps) {
-  const { user } = useAuth();
+export function DashboardItem({ resDash }: IProps) {
+  const { user, logout } = useAuth();
+  if (resDash.error) {
+    console.error("Error loading dashboard:", resDash.error);
+    logout();
+  }
   const dashData: IDashboard = {
     eventSetting: {
-      name: data.event_setting.name || "",
-      amount: data.event_setting.amount || "",
-      free: data.event_setting.free || "",
-      start: data.event_setting.start || "",
-      end: data.event_setting.end || "",
+      name: resDash.data.event_setting.name || "",
+      amount: resDash.data.event_setting.amount || "",
+      free: resDash.data.event_setting.free || "",
+      start: resDash.data.event_setting.start || "",
+      end: resDash.data.event_setting.end || "",
     },
-    successPayment: data.success_payment || "",
-    allPayment: data.all_payment || "",
-    successParticipant: data.success_participant || "",
-    pendingParticipant: data.pending_participant || "",
+    successPayment: resDash.data.success_payment || "",
+    allPayment: resDash.data.all_payment || "",
+    successParticipant: resDash.data.success_participant || "",
+    pendingParticipant: resDash.data.pending_participant || "",
   };
 
   return (

@@ -152,7 +152,7 @@ export const APPCONSTANT = {
 
   timelineEvents: [
     {
-      date: "12 Mei 2025",
+      date: "14 Mei 2025",
       title: "Pembukaan Pendaftaran",
       description:
         "Pendaftaran OLMAT UINSA 2025 resmi dibuka untuk jenjang MI/SD, MTs/SMP, dan MA/SMA/SMK. Proses pendaftaran dilakukan melalui website resmi​",
@@ -161,7 +161,7 @@ export const APPCONSTANT = {
       date: "23 Agustus 2025",
       title: "Try Out Gratis",
       description:
-        "Pendaftar yang melakukan registrasi antara 12 Mei – 17 Agustus 2025 berhak mengikuti Try Out Gratis pada 23 Agustus 2025.",
+        "Pendaftar yang melakukan registrasi antara 14 Mei – 17 Agustus 2025 berhak mengikuti Try Out Gratis pada 23 Agustus 2025.",
     },
     {
       date: "6 September 2025",
