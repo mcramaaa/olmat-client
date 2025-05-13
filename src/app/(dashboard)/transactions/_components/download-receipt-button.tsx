@@ -68,7 +68,9 @@ export function DownloadReceiptButton({
           doc.text(participant.name, 10, yPosition, { align: "left" });
 
           // Birth date column
-          const birthDate = convertDateServer(participant.birth.toISOString());
+          const birthDate = convertDateServer(
+            new Date(participant.birth).toISOString()
+          );
           doc.text(birthDate, 112, yPosition);
 
           yPosition += 7; // Move down for next participant

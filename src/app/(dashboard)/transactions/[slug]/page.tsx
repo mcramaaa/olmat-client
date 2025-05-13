@@ -207,7 +207,9 @@ export default async function TransactionPage({
                         </TableCell>
 
                         <TableCell className="text-center">
-                          {convertDateServer(participant.birth.toISOString())}
+                          {convertDateServer(
+                            new Date(participant.birth).toISOString()
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}
