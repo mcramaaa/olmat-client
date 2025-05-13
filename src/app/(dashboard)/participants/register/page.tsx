@@ -38,28 +38,28 @@ export default async function RegisterParticipantsPage() {
 
   const isOpen = startWib && endWib && nowWib >= startWib && nowWib <= endWib;
 
-  function formatDateTime(isoDate: Date) {
-    if (!isoDate) return "-";
+  // function formatDateTime(isoDate: Date) {
+  //   if (!isoDate) return "-";
 
-    const date = new Date(isoDate);
+  //   const date = new Date(isoDate);
 
-    // Format untuk hari dan tanggal
-    const dateFormatter = new Intl.DateTimeFormat("id-ID", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+  //   // Format untuk hari dan tanggal
+  //   const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+  //     weekday: "long",
+  //     day: "numeric",
+  //     month: "long",
+  //     year: "numeric",
+  //   });
 
-    // Format untuk waktu
-    const timeFormatter = new Intl.DateTimeFormat("id-ID", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
+  //   // Format untuk waktu
+  //   const timeFormatter = new Intl.DateTimeFormat("id-ID", {
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //     hour12: false,
+  //   });
 
-    return `${dateFormatter.format(date)}, ${timeFormatter.format(date)} WIB`;
-  }
+  //   return `${dateFormatter.format(date)}, ${timeFormatter.format(date)} WIB`;
+  // }
 
   return (
     <div className="pb-12 md:px-6">
