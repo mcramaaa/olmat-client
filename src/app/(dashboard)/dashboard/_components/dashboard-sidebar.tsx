@@ -28,6 +28,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { ROUTES } from "@/routes/router";
+import Image from "next/image";
 
 export function DashboardSidebar({
   className,
@@ -191,23 +192,32 @@ export function DashboardSidebar({
       <div className="">
         <Button
           variant="ghost"
-          className="justify-start w-full text-red-500 hover:bg-red-50 hover:text-red-600 py-6 border-y"
+          className="justify-start w-full text-red-500 hover:bg-red-50 hover:text-red-600 rounded-none py-6 border-y"
           onClick={logout}
         >
           <LogOut className="w-4 h-4 mr-2" />
           Logout
         </Button>
-        <div className=" mt-5 text-center text-xs text-gray-600">
-          <p>
-            © 2025 Olmat Uinsa created by{" "}
+        <div className="mt-8 text-center text-xs text-gray-600 flex justify-center w-full items-center">
+          <p className="flex flex-wrap items-center gap-1 justify-center">
+            © 2025 OLMAT UINSA created by{" "}
             <Link
-              href={"https://mcrama.vercel.app/"}
+              href="https://mcrama.vercel.app/"
               target="_blank"
-              className="font-bold"
+              rel="noopener noreferrer"
+              className="font-bold inline-flex items-center gap-2 py-1 rounded"
             >
-              Mc Rama
+              <span className="relative w-5 h-5 inline-block">
+                <Image
+                  src="/cathabot.webp"
+                  alt="Cathabot Logo"
+                  fill
+                  sizes="1"
+                />
+              </span>
+              <span>Cathabot.id</span>
             </Link>
-            . All rights reserved.
+            All rights reserved.
           </p>
         </div>
       </div>

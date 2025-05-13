@@ -9,33 +9,52 @@ export function convertRupiah(value: number | undefined | 0) {
   return null;
 }
 
-export function convertDate(value: any | undefined) {
+export function convertDate(value: string | Date | undefined | null): string {
+  if (!value) return "Tanggal Tidak Valid";
+
   const date = new Date(value);
   if (isNaN(date.getTime())) {
-    return "Invalid Date";
+    return "Tanggal Tidak Valid";
   }
 
-  const day = date.toLocaleString("id-ID", { weekday: "long" }); // Get the day name
+  // Tambahkan 7 jam ke waktu UTC
+  date.setHours(date.getHours() + 7);
+
+  const day = date.toLocaleString("id-ID", {
+    weekday: "long",
+    timeZone: "Asia/Jakarta",
+  });
   const formattedDate = date.toLocaleString("id-ID", {
     day: "2-digit",
     month: "long",
     year: "numeric",
+    timeZone: "Asia/Jakarta",
   });
 
   return `${day}, ${formattedDate}`;
 }
 
 export function convertDateTime(value: any | undefined) {
+  console.log("value", value);
+  if (!value) return "Invalid Date";
+
   const date = new Date(value);
   if (isNaN(date.getTime())) {
     return "Invalid Date";
   }
 
-  const day = date.toLocaleString("id-ID", { weekday: "long" }); // Get the day name
+  // Tambahkan 7 jam ke waktu UTC
+  date.setHours(date.getHours() + 7);
+
+  const day = date.toLocaleString("id-ID", {
+    weekday: "long",
+    timeZone: "Asia/Jakarta",
+  });
   const formattedDate = date.toLocaleString("id-ID", {
     day: "2-digit",
     month: "long",
     year: "numeric",
+    timeZone: "Asia/Jakarta",
   });
   const time = date.toLocaleString("id-ID", {
     hour: "2-digit",
@@ -47,19 +66,25 @@ export function convertDateTime(value: any | undefined) {
   return `${day}, ${formattedDate} - ${time} WIB`;
 }
 
-export function convertBirth(value: any | undefined) {
+export function convertBirth(value: string | Date | undefined | null): string {
+  if (!value) return "Tanggal Tidak Valid";
+
   const date = new Date(value);
   if (isNaN(date.getTime())) {
-    return "Invalid Date";
+    return "Tanggal Tidak Valid";
   }
+
+  // Tambahkan 7 jam ke waktu UTC
+  date.setHours(date.getHours() + 7);
 
   const formattedDate = date.toLocaleString("id-ID", {
     day: "2-digit",
     month: "long",
     year: "numeric",
+    timeZone: "Asia/Jakarta",
   });
 
-  return `${formattedDate} `;
+  return formattedDate; // Hapus spasi ekstra
 }
 
 export function convertGender(value: string | undefined) {

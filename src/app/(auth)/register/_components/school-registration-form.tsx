@@ -152,7 +152,9 @@ export function SchoolRegistrationForm({ provinces, degrees }: IProps) {
     const res = await submitSchoolRegistrationAction(data);
     if (res.success) {
       setIsSuccess(true, "Pendaftaran Sekolah Terkirim");
+      form.reset();
       router.push(ROUTES.REGISTER + "?sec=account");
+      window.location.reload();
       setIsLoading(false);
     } else {
       setError(true, "Pendaftaran Sekolah Tidak Terkirim");

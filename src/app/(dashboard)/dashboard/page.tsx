@@ -15,21 +15,6 @@ import { ROUTES } from "@/routes/router";
 export default async function DashboardPage() {
   const [resDash] = await Promise.all([getDashboardAction()]);
 
-  // Handle potential errors
-  if (resDash.error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[500px] space-y-4">
-        <h2 className="text-2xl font-bold text-red-600">
-          Error Loading Dashboard
-        </h2>
-        <p className="text-muted-foreground">Unable to fetch dashboard data</p>
-        <Button variant="outline">
-          <Link href="/">Return to Home</Link>
-        </Button>
-      </div>
-    );
-  }
-
   const quickAccess = [
     {
       title: "Data Peserta",
@@ -59,7 +44,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <DashboardItem data={resDash.data || {}} />
+      <DashboardItem resDash={resDash} />
 
       <h2 className="flex items-center gap-2 mt-10 text-2xl font-bold tracking-tight">
         <FastForward />
