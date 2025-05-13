@@ -6,7 +6,7 @@ import { Receipt } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useLayout } from "@/hooks/zustand/layout";
 import { IPayment } from "@/interfaces/IPayments";
-import { convertBirth, convertRupiah } from "@/helper/common";
+import { convertBirth, convertDateTime, convertRupiah } from "@/helper/common";
 
 interface DownloadReceiptButtonProps {
   transction: IPayment;
@@ -52,16 +52,8 @@ export function DownloadReceiptButton({
       doc.text(transction.invoice || paymentId, 30, 36); // Sesuaikan posisi x, y
 
       // Tanggal
-      const createdDate = new Date(transction.createdAt).toLocaleDateString(
-        "id-ID",
-        {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        }
-      );
       doc.setFont("helvetica", "bold");
-      doc.text(createdDate, 30, 40.5); // Sesuaikan posisi x, y
+      doc.text(convertDateTime(transction.createdAt), 30, 40.5); // Sesuaikan posisi x, y
 
       // Tabel: Asal Sekolah, Harga, Jumlah Peserta, Total
       let yPosition = 55;

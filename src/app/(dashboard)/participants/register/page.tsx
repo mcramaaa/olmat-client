@@ -3,7 +3,6 @@ import ParticipantForm from "../_components/ParticipantForm";
 import { getProvinceAction } from "@/app/(auth)/register/register.action";
 import { APPCONSTANT } from "@/constant/App.constant";
 import { eventSettingAction } from "@/lib/auth.action";
-import { convertDate } from "@/helper/common";
 import { Card, CardContent } from "@/components/ui/card";
 import { InfoIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -23,15 +22,43 @@ export default async function RegisterParticipantsPage() {
     label: item.name,
     value: item.id,
   }));
-  const now = new Date().toISOString();
-  const startDate = resEvent.data?.start
-    ? new Date(resEvent.data.start).toISOString()
-    : "";
-  const endDate = resEvent.data?.end
-    ? new Date(resEvent.data.end).toISOString()
-    : "";
+  const nowUtc = new Date();
+  const nowWib = new Date(nowUtc.getTime() + 7 * 60 * 60 * 1000);
 
-  const isOpen = startDate && endDate && now >= startDate && now <= endDate;
+  const startDate = resEvent.data?.start ? new Date(resEvent.data.start) : null;
+  const endDate = resEvent.data?.end ? new Date(resEvent.data.end) : null;
+
+  const startWib = startDate
+    ? new Date(startDate.getTime() + 7 * 60 * 60 * 1000)
+    : null;
+  const endWib = endDate
+    ? new Date(endDate.getTime() + 7 * 60 * 60 * 1000)
+    : null;
+
+  const isOpen = startWib && endWib && nowWib >= startWib && nowWib <= endWib;
+
+  function formatDateTime(isoDate: Date) {
+    if (!isoDate) return "-";
+
+    const date = new Date(isoDate);
+
+    // Format untuk hari dan tanggal
+    const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+
+    // Format untuk waktu
+    const timeFormatter = new Intl.DateTimeFormat("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    return `${dateFormatter.format(date)}, ${timeFormatter.format(date)} WIB`;
+  }
 
   return (
     <div className="pb-12 md:px-6">
@@ -49,14 +76,14 @@ export default async function RegisterParticipantsPage() {
           <Card className="border-none shadow-md overflow-hidden">
             <div className="p-4 bg-gray-100">
               <h2 className="text-xl font-bold">
-                {now < startDate
+                {startWib && nowWib < startWib
                   ? "Pendaftaran Belum Dibuka"
                   : "Pendaftaran Telah Ditutup"}
               </h2>
             </div>
             <CardContent className="p-6">
               <div className="space-y-4">
-                {now < startDate ? (
+                {startWib && nowWib < startWib ? (
                   <>
                     <div className="flex items-start">
                       <div>
@@ -67,11 +94,11 @@ export default async function RegisterParticipantsPage() {
                           Pendaftaran Olimpiade Matematika UINSA akan dibuka
                           mulai{" "}
                           <span className="font-bold ">
-                            {convertDate(startDate)}
+                            {startDate && formatDateTime(startDate)}
                           </span>{" "}
                           hingga{" "}
                           <span className="font-bold ">
-                            {convertDate(endDate)}
+                            {endDate && formatDateTime(endDate)}
                           </span>
                           . Jangan lupa catat tanggalnya, ya!
                         </p>
