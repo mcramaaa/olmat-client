@@ -13,7 +13,7 @@ import { ROUTES } from "@/routes/router";
 import { CreditCard, LayoutDashboard, UserCheck, Users } from "lucide-react";
 import { PiWhatsappLogo } from "react-icons/pi";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 
 interface IProps {
@@ -22,22 +22,26 @@ interface IProps {
 
 export function DashboardItem({ resDash }: IProps) {
   const { user, logout } = useAuth();
-  if (resDash.error) {
-    console.error("Error loading dashboard:", resDash.error);
-    logout();
-  }
+
+  useEffect(() => {
+    if (resDash?.error) {
+      console.error("Error loading dashboard:", resDash.error);
+      logout();
+    }
+  }, [resDash, logout]);
+
   const dashData: IDashboard = {
     eventSetting: {
-      name: resDash.data.event_setting.name || "",
-      amount: resDash.data.event_setting.amount || "",
-      free: resDash.data.event_setting.free || "",
-      start: resDash.data.event_setting.start || "",
-      end: resDash.data.event_setting.end || "",
+      name: resDash?.data?.event_setting?.name || "",
+      amount: resDash?.data?.event_setting?.amount || "",
+      free: resDash?.data?.event_setting?.free || "",
+      start: resDash?.data?.event_setting?.start || "",
+      end: resDash?.data?.event_setting?.end || "",
     },
-    successPayment: resDash.data.success_payment || "",
-    allPayment: resDash.data.all_payment || "",
-    successParticipant: resDash.data.success_participant || "",
-    pendingParticipant: resDash.data.pending_participant || "",
+    successPayment: resDash?.data?.success_payment || "0",
+    allPayment: resDash?.data?.all_payment || "0",
+    successParticipant: resDash?.data?.success_participant || "0",
+    pendingParticipant: resDash?.data?.pending_participant || "0",
   };
 
   return (
@@ -48,7 +52,10 @@ export function DashboardItem({ resDash }: IProps) {
           Dashboard
         </h1>
         <p className="text-gray-500">
-          Hi, <span className="font-medium text-slate-800">{user?.name}</span>{" "}
+          Hi,{" "}
+          <span className="font-medium text-slate-800">
+            {user?.name || "User"}
+          </span>{" "}
           Selamat datang di dashboard OLMAT UINSA.
         </p>
       </div>
@@ -60,7 +67,7 @@ export function DashboardItem({ resDash }: IProps) {
               <UserCheck className="w-6 h-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{user?.name || ""}</div>
+              <div className="text-3xl font-bold">{user?.name || "User"}</div>
               <p className="text-sm text-muted-foreground">
                 {user?.type === "Admin"
                   ? user?.region?.name || ""
@@ -99,7 +106,7 @@ export function DashboardItem({ resDash }: IProps) {
             <CardFooter>
               <Button asChild className="w-full">
                 <Link href="/participants/register">
-                  {+dashData.successParticipant !== 0
+                  {Number(dashData.successParticipant) !== 0
                     ? "Daftarkan Peserta Lagi"
                     : "Mulai daftarkan peserta"}
                 </Link>
@@ -140,7 +147,7 @@ export function DashboardItem({ resDash }: IProps) {
           </Card>
         </div>
       </div>
-      {dashData.successParticipant > 0 && (
+      {Number(dashData.successParticipant) > 0 && (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-lg font-medium">
