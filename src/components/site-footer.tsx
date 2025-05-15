@@ -13,7 +13,7 @@ export function SiteFooter() {
           <div className="md:col-span-2 flex flex-col md:flex-row gap-5 items-start">
             <div className="relative aspect-square w-20 md:w-14">
               <Image
-                src={"/logo-olm.png"}
+                src={"/logo-olm.webp"}
                 alt="logo-olmat"
                 fill
                 sizes="1"
@@ -92,19 +92,48 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          <p>
+          <p className="flex flex-wrap items-center gap-1 justify-center">
             © 2025 OLMAT UINSA created by{" "}
             <Link
-              href={"https://mcrama.vercel.app/"}
+              href="https://mcrama.vercel.app/"
               target="_blank"
-              className="font-bold"
+              rel="noopener noreferrer"
+              className="font-bold inline-flex items-center gap-2 py-1 rounded"
             >
-              Mc Rama
+              <span className="relative w-5 h-5 inline-block">
+                <Image
+                  src="/cathabot.webp"
+                  alt="Cathabot Logo"
+                  fill
+                  sizes="1"
+                />
+              </span>
+              <span>Cathabot.id</span>
             </Link>
-            . All rights reserved.
+            All rights reserved.
           </p>
         </div>
       </div>
     </footer>
   );
+}
+
+{
+  /* <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600 flex justify-center w-full items-center">
+  <p className="flex flex-wrap items-center gap-1">
+    © 2025 OLMAT UINSA created by{" "}
+    <Link
+      href="https://mcrama.vercel.app/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-bold inline-flex items-center gap-2 py-1 rounded"
+    >
+      <span className="relative w-5 h-5 inline-block">
+        <Image src="/cathabot.webp" alt="Cathabot Logo" fill />
+      </span>
+      <span>Cathabot.id</span>
+    </Link>
+    All rights reserved.
+  </p>
+</div>; */
 }

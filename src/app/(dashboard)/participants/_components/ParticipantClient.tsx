@@ -2,14 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import { Input } from "@/components/ui/input";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/table";
 import type { IMetaData } from "@/interfaces/IMetaData";
 import type { IParticipant } from "@/interfaces/IParticipant";
-import { Eye, Filter, Search } from "lucide-react";
+import { Eye } from "lucide-react";
 import Link from "next/link";
 import { convertBirth, convertGender } from "@/helper/common";
 import { Pagination } from "@/components/ui/Pagination";
@@ -60,7 +60,7 @@ export default function ParticipantClient({
           <CardTitle>List Peserta</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-4 mb-6 md:flex-row">
+          {/* <div className="flex flex-col gap-4 mb-6 md:flex-row">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input placeholder="Cari peserta..." className="pl-8" />
@@ -81,7 +81,7 @@ export default function ParticipantClient({
                 <Filter className="w-4 h-4" />
               </Button>
             </div>
-          </div>
+          </div> */}
 
           <div className="overflow-hidden border rounded-md">
             <Table>

@@ -5,8 +5,9 @@ import { ThemeProvider } from "../components/theme-provider";
 import { AuthProvider } from "@/lib/auth";
 
 export const metadata = {
-  title: "Math Olympiad 2025",
-  description: "International Mathematics Olympiad 2025 Registration",
+  title: "OLMAT UINSA – Olimpiade Matematika Nasional UIN Sunan Ampel Surabaya",
+  description:
+    "Ikuti OLMAT UINSA 2025 – Olimpiade Matematika Nasional dari UIN Sunan Ampel Surabaya. Daftar online, cek jadwal, dan raih prestasi terbaikmu!",
 };
 
 export default function RootLayout({

@@ -46,7 +46,10 @@ export function SupportingEventsSection() {
           className="w-full"
         >
           <div className="flex justify-center mb-8">
-            <TabsList className={`grid grid-cols-3 w-full max-w-md`}>
+            <TabsList
+              className="grid w-full max-w-md h-full items-center justify-center
+             grid-cols-1 md:grid-cols-3 gap-2"
+            >
               {APPCONSTANT.supportEvent.map((item, i) => (
                 <TabsTrigger
                   key={i}
@@ -95,11 +98,20 @@ export function SupportingEventsSection() {
                       ))}
                     </div>
                     <div>
-                      <Link className="" href={item.registerLink || ""}>
-                        <Button className="bg-brand hover:bg-brand/90 mt-4 rounded-full">
-                          Daftar <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
+                      <Button
+                        disabled={item.registerLink === ""}
+                        className="bg-brand hover:bg-brand/90 mt-4 rounded-full"
+                      >
+                        <Link className="" href={item.registerLink || ""}>
+                          {item.registerLink !== "" ? (
+                            <>
+                              Daftar <ArrowRight className="ml-2 h-4 w-4" />
+                            </>
+                          ) : (
+                            <>Comming Soon</>
+                          )}
+                        </Link>
+                      </Button>
                     </div>
                   </div>
                 </motion.div>
@@ -114,6 +126,7 @@ export function SupportingEventsSection() {
                         src={`${item.img}`}
                         alt="Mathematical Design Contest"
                         fill
+                        sizes="1"
                         className="object-cover"
                       />
                     </div>

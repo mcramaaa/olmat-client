@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/routes/router";
 import { useAuth } from "@/lib/auth";
+import { APPCONSTANT } from "@/constant/App.constant";
 
 export function SiteHeader() {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 w-full bg-white border-b">
       <div className="container flex items-center justify-between h-16 p-4 lg:px-6">
         <Link href="/" className="flex items-center space-x-2">
-          <span className="text-lg font-bold">Math Olympiad 2025</span>
+          <span className="text-lg font-bold">{APPCONSTANT.name}</span>
         </Link>
 
         {/* Mobile menu button */}

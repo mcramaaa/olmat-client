@@ -12,14 +12,34 @@ import { TimelineSection } from "@/components/landing/Timeline";
 import { ContactSection } from "@/components/landing/Contact";
 import PromotionSection from "@/components/landing/Promotion";
 import { IRegion } from "@/interfaces/IRegion";
+import { useAuth } from "@/lib/auth";
+import { IEventSetting } from "@/interfaces/IEventSetting";
 
 interface IProps {
   cities: { label: string; value: string }[];
   regions: IRegion[];
+  participanCountData: {
+    total_active: number;
+    sma: number;
+    smp: number;
+    sd: number;
+    school: number;
+  };
+  event: IEventSetting;
 }
 
-export default function HomeV2({ cities, regions }: IProps) {
+export default function HomeV2({
+  cities,
+  regions,
+  participanCountData,
+  event,
+}: IProps) {
   const [activeSection, setActiveSection] = useState("hero");
+  const { user } = useAuth();
+
+  const start = event?.start ? new Date(event.start).toISOString() : "";
+  const end = event?.end ? new Date(event.end).toISOString() : "";
+  const now = new Date().toISOString();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,8 +82,8 @@ export default function HomeV2({ cities, regions }: IProps) {
       />
 
       <main>
-        <HeroSection />
-        <AboutSection />
+        <HeroSection user={user} start={start} end={end} now={now} />
+        <AboutSection participanCountData={participanCountData} />
         <SupportingEventsSection />
         <TimelineSection />
         <PromotionSection />
@@ -73,7 +93,8 @@ export default function HomeV2({ cities, regions }: IProps) {
       <div className="fixed bottom-6 right-6 z-50">
         <Link href="/login">
           <Button className="rounded-full shadow-lg">
-            Login <ArrowRight className="ml-2 h-4 w-4" />
+            {user ? "Dashboard" : "Masuk"}{" "}
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
       </div>

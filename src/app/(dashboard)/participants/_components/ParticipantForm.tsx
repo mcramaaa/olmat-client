@@ -603,7 +603,7 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
                           placeholder={{
                             title: "Drag & drop or click to upload",
                             description:
-                              "Upload Foto Peserta. Ukuran maksimal 200 Kb. Formats: JPG, PNG, WebP.",
+                              "Upload Foto Formal Peserta. Ukuran maksimal 200 Kb. Formats: JPG, PNG, WebP.",
                           }}
                         />
                       </div>
@@ -629,7 +629,7 @@ export default function ParticipantForm({ provinceOptions }: IPops) {
                           placeholder={{
                             title: "Drag & drop or click to upload",
                             description:
-                              "Upload Attachments Peserta. Ukuran maksimal 200 Kb. Formats: JPG, PNG, WebP.",
+                              "Upload Foto Kartu Pelajar / Surat Pendukung Peserta. Ukuran maksimal 200 Kb. Formats: JPG, PNG, WebP.",
                           }}
                         />
                       </div>

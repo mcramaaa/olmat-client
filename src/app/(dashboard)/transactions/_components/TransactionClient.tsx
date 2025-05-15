@@ -2,15 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Pagination } from "@/components/ui/Pagination";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -19,11 +19,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { convertDateTime, convertRupiah } from "@/helper/common";
+import { convertRupiah } from "@/helper/common";
 import { useEncodedUrl } from "@/hooks/useEncodeUrl";
 import { IMetaData } from "@/interfaces/IMetaData";
 import { IPayment } from "@/interfaces/IPayments";
-import { Filter, Search } from "lucide-react";
+// import { Filter, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
@@ -46,6 +46,13 @@ export default function TransactionClient({
   const router = useRouter();
   const encodedCurrentUrl = useEncodedUrl();
 
+  // function changeStatus(status: string, expiredAt: Date | string) {
+  //   if (status === "pending" && new Date() > new Date(expiredAt)) {
+  //     return "expired";
+  //   }
+  //   return status;
+  // }
+
   const handlePageChange = (page: number) => {
     router.push(`${path}?page=${page}&limit=${params.limit}`);
   };
@@ -61,7 +68,7 @@ export default function TransactionClient({
           <CardTitle>Riwayat Transaksi</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-4 mb-6 md:flex-row">
+          {/* <div className="flex flex-col gap-4 mb-6 md:flex-row">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input placeholder="Search transactions..." className="pl-8" />
@@ -82,7 +89,7 @@ export default function TransactionClient({
                 <Filter className="w-4 h-4" />
               </Button>
             </div>
-          </div>
+          </div> */}
 
           <div className="border rounded-md">
             <Table>
@@ -90,9 +97,9 @@ export default function TransactionClient({
                 <TableRow>
                   <TableHead className="text-center">No.</TableHead>
                   <TableHead>Invoice</TableHead>
-                  <TableHead className="text-center">
+                  {/* <TableHead className="text-center">
                     Batas Pembayaran
-                  </TableHead>
+                  </TableHead> */}
                   <TableHead className="text-center">Jumlah Peserta</TableHead>
                   <TableHead className="hidden md:table-cell text-center">
                     Total Harga
@@ -107,9 +114,9 @@ export default function TransactionClient({
                   <TableRow key={i}>
                     <TableCell className="text-center">{i + 1}</TableCell>
                     <TableCell>{transaction.invoice}</TableCell>
-                    <TableCell className="font-medium text-center">
+                    {/* <TableCell className="font-medium text-center">
                       {convertDateTime(transaction.expiredAt)}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell className="hidden text-center md:table-cell">
                       {transaction.participantAmount} Peserta
                     </TableCell>

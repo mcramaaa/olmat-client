@@ -16,7 +16,7 @@ import { useLayout } from "@/hooks/zustand/layout";
 import { getMeAction, loginAction } from "./auth.action";
 import LoadingBlock from "@/components/ui/LoadingBlock";
 
-type User = {
+export type TUser = {
   id: string;
   name: string;
   phone: string;
@@ -28,21 +28,23 @@ type User = {
   degreeId?: number;
   degreeName?: string;
   registerPrice?: number;
+  school?: any;
 };
 
 type AuthContextType = {
-  user: User | null;
+  user: TUser | null;
+  // event: IEventSetting | undefined;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   getMe: () => void;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setUser: React.Dispatch<React.SetStateAction<TUser | null>>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<TUser | null>(null);
   const { setIsSuccess, setError, isLoading, isLoadingBlock, setIsLoading } =
     useLayout();
   const router = useRouter();
@@ -106,13 +108,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
-    // Remove token from cookies
     deleteCookie("CBO_Token");
-
-    // Clear user from state
     setUser(null);
-
-    // Redirect to login
     router.push("/login");
   };
 

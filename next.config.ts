@@ -7,9 +7,20 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    domains: ["localhost", "192.168.1.11", "api-prod.olmatuinsa.online"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8000",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.olmat.web.id",
+        pathname: "/**",
+      },
+    ],
   },
-  /* config options here */
 };
 
 export default nextConfig;

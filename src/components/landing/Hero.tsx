@@ -1,15 +1,24 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { APPCONSTANT } from "@/constant/App.constant";
 import Countdown from "../Countdown";
+import Link from "next/link";
+import { ROUTES } from "@/routes/router";
+import { TUser } from "@/lib/auth";
 
-export function HeroSection() {
+interface IProps {
+  user: TUser | null;
+  start: string | null;
+  end: string | null;
+  now: string;
+}
+
+export function HeroSection({ user, start, end, now }: IProps) {
   return (
     <section
       id="hero"
-      className="relative flex justify-center items-center min-h-screen pb-36 pt-20 lg:pt-6 mb-20"
+      className="relative flex justify-center items-center min-h-screen pb-36 pt-20 lg:pt-6 mb-28"
     >
       <Image src={"/bg.webp"} fill alt="" className="object-cover opacity-20" />
       <motion.div
@@ -20,7 +29,7 @@ export function HeroSection() {
       >
         <p>Olimpiade Matematika</p>
       </motion.div>
-      <div className=" container mx-auto px-6 relative z-10 ">
+      <div className=" container mx-auto px-6 relative z-10 min-h-screen md:min-h-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -36,10 +45,17 @@ export function HeroSection() {
             <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-xl mx-auto lg:mx-0 italic">
               {APPCONSTANT.theme}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button size="lg" className="bg-brand hover:bg-brand/90">
-                Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full items-center ">
+              {start && end && now > start && now < end && (
+                <Link
+                  href={
+                    user ? ROUTES.DASHBOARD.REGISTER_PARTICIPANTS : ROUTES.LOGIN
+                  }
+                  className="bg-brand hover:bg-brand/90 rounded-lg flex py-2 px-3 items-center text-white w-fit"
+                >
+                  Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              )}
             </div>
           </motion.div>
 
@@ -52,8 +68,9 @@ export function HeroSection() {
             <div className="relative h-[400px] md:h-[500px] w-full">
               <div className="absolute inset-0 overflow-hidden">
                 <Image
-                  src="/maskot.png"
-                  alt="Math Olympiad"
+                  src="/maskot.webp"
+                  sizes="1"
+                  alt="olmat uinsa"
                   fill
                   className="object-contain"
                 />
@@ -90,8 +107,8 @@ export function HeroSection() {
         <ChevronsDown className=" w-6 text-black" />
         <ChevronsDown className=" w-6 text-brand" />
       </motion.div> */}
-      <div className="absolute w-full z-10 -bottom-1.5 flex justify-center">
-        <Countdown eventDate="2025-09-27T07:00:00+07:00" />
+      <div className="absolute w-full z-10 -bottom-20 md:-bottom-3 flex justify-center ">
+        <Countdown now={now} start={start} end={end} />
       </div>
       <div className="absolute w-full bg-gradient-to-t from-white to-white/0 h-32 bottom-0 "></div>
     </section>

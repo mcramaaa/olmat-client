@@ -8,7 +8,16 @@ import { PiStudentBold } from "react-icons/pi";
 import { LuSchool } from "react-icons/lu";
 import Link from "next/link";
 
-export function AboutSection() {
+interface IProps {
+  participanCountData: {
+    total_active: number;
+    sma: number;
+    smp: number;
+    sd: number;
+    school: number;
+  };
+}
+export function AboutSection({ participanCountData }: IProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
 
@@ -18,28 +27,28 @@ export function AboutSection() {
       icon: <PiStudentBold />,
       desc: "Seru-seruan berhitung dan melatih logika sejak dini! Siap jadi juara sejak SD?.",
       countLabel: "Peserta Terdaftar",
-      count: 100,
+      count: participanCountData.sd,
     },
     {
       label: "Jenjang SMP/MTs",
       icon: <PiStudentBold />,
       desc: "Uji kemampuanmu memecahkan soal-soal seru dan menantang di level menengah. Saatnya naik level!",
       countLabel: "Peserta Terdaftar",
-      count: 100,
+      count: participanCountData.smp,
     },
     {
       label: "Jenjang SMA/SMK/MA",
       icon: <PiStudentBold />,
       desc: "Persaingan makin ketat, tapi kamu makin siap! Tunjukkan kehebatanmu di level tertinggi.",
       countLabel: "Peserta Terdaftar",
-      count: 100,
+      count: participanCountData.sma,
     },
     {
       label: "Sekolah Terdaftar",
       icon: <LuSchool />,
       desc: "Ratusan sekolah sudah ikut. Sekolahmu sudah terdaftar belum?",
       countLabel: "Sekolah Terdaftar",
-      count: 100,
+      count: 9000,
     },
   ];
 
@@ -112,7 +121,7 @@ export function AboutSection() {
           <div className="order-1 lg:order-2 grid place-items-center">
             <div className="relative w-fit">
               <AppImage
-                src="/pamfletolm.jpg"
+                src="/pamfletolm.webp"
                 alt="Math Olympiad Participants"
                 className="w-56 overflow-hidden aspect-[3/5] rounded-2xl shadow-xl"
                 object="object-cover"
@@ -132,30 +141,34 @@ export function AboutSection() {
         </div>
 
         {/* Key Features */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-6">
-          {dataParticipant.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow flex flex-col justify-between"
-            >
-              <div>
-                <div className="h-12 w-12 rounded-full text-2xl text-brand bg-brandDark/20 flex items-center justify-center mb-4">
-                  {item.icon}
+        {dataParticipant.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-6">
+            {dataParticipant.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow flex flex-col justify-between"
+              >
+                <div>
+                  <div className="h-12 w-12 rounded-full text-2xl text-brand bg-brandDark/20 flex items-center justify-center mb-4">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-lg font-bold mb-2">{item.label}</h3>
+                  <p className="text-gray-600 text-sm">{item.desc}</p>
                 </div>
-                <h3 className="text-lg font-bold mb-2">{item.label}</h3>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
-              </div>
-              <div className="flex justify-between p-2 rounded-lg bg-brandDark/20 mt-3 text-brand">
-                <p className="font-medium">{item.countLabel}</p>
-                <p className="font-bold">{item.count}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                {item.count > 100 && (
+                  <div className="flex justify-between p-2 rounded-lg bg-brandDark/20 mt-3 text-brand">
+                    <p className="font-medium">{item.countLabel}</p>
+                    <p className="font-bold">{item.count}+</p>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
