@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/lib/auth";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -57,6 +57,13 @@ export function LoginForm() {
 
   return (
     <Card>
+      <CardHeader className="">
+        <div className="bg-slate-100 p-3 rounded-lg">
+          <p className="uppercase font-bold text-center">Akun demo</p>
+          <p>email : user@user.com</p>
+          <div>password : qweqweqwe</div>
+        </div>
+      </CardHeader>
       <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
