@@ -1,6 +1,11 @@
 # 🧮 OLMAT Client
 
+## Eng
 OLMAT Client is a participant-facing registration system for the OLMAT (Olimpiade Matematika). This web application enables users (students/schools) to register for the event, manage their profiles, view announcements, and track the status of their registrations.
+
+## Id
+OLMAT Client adalah sistem pendaftaran untuk peserta Olimpiade Matematika (OLMAT). Aplikasi web ini memungkinkan pengguna (siswa/sekolah) untuk mendaftar acara, mengelola profil, melihat pengumuman, dan melacak status pendaftaran mereka.
+
 
 ## 🚀 Live Demo
 
